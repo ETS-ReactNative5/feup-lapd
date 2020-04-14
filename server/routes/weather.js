@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 const { getForecast } = require("../modules/openweathermap");
 
-/* GET home page. */
+/* GET weather page. */
 router.get("/", async function(req, res) {
 
   if(!validateWeatherRequest(res, req.query)) return;

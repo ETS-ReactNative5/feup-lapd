@@ -2,17 +2,17 @@ var express = require("express");
 var router = express.Router();
 const { getRestaurants } = require("../modules/zomato");
 
-/* GET home page. */
+/* GET restaurants page. */
 router.get("/", async function(req, res) {
 
   if(!validateRestaurantsRequest(res, req.query)) return;
 
-  getRestaurants(req.query.city, req.query.offset, req.query.sort, req.query.order)
+  getRestaurants(req.query.city, parseInt(req.query.offset), req.query.sort, req.query.order)
     .then((response) => {
-      res.send(response.data)
+      res.send(response.data);
     })
     .catch((err) => {
-      console.log(err)
+      console.log(err);
       res.status(500).send({
         message: 'An error occured while searching for restaurants',
         error: err

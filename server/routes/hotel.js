@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 const { getHotels } = require("../modules/amadeus");
 
-/* GET home page. */
+/* GET hotels page. */
 router.get("/", async function(req, res) {
   // TODO: Get parameters from url
   getHotels("OPO")
