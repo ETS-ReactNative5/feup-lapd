@@ -38,12 +38,17 @@ const getToken = async () => {
   return localStorage.getItem("amadeus_token");
 };
 
-exports.getHotels = async (cityCode) => {
+exports.getHotels = async (cityCode, radius, sort, ratings, priceRange) => {
   const data = {
     cityCode: cityCode,
-    radius: 30, // max is 300
-    radiusUnit: "KM"
+    radius: radius,             // max is 300
+    radiusUnit: "KM",
+    currency: "EUR"
   }
+
+  if(sort) data['sort'] = sort                      // PRICE or DISTANCE
+  if(ratings) data['ratings'] = ratings             // 1, 2, 3, 4 or 5
+  if(priceRange) data['priceRange'] = priceRange    // min-max
 
   return await axios({
     method: "GET",
