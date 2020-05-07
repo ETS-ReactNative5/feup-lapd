@@ -25,5 +25,9 @@ module.exports = {
     shops_id: "4d4b7105d754a06378d81259",
     client_id: process.env.FOURSQUARE_CLIENT_ID,
     client_secret: process.env.FOURSQUARE_CLIENT_SECRET
+  },
+  mapquest: {
+    url: "http://open.mapquestapi.com/geocoding/v1/address",
+    key: process.env.MAPQUEST_KEY
   }
 }

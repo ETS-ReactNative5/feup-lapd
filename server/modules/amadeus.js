@@ -38,9 +38,10 @@ const getToken = async () => {
   return localStorage.getItem("amadeus_token");
 };
 
-exports.getHotels = async (cityCode, radius, sort, ratings, priceRange) => {
+exports.getHotels = async (latitude, longitude, radius, sort, ratings, priceRange) => {
   const data = {
-    cityCode: cityCode,
+    latitude: latitude,
+    longitude: longitude,
     radius: radius,             // max is 300
     radiusUnit: "KM",
     currency: "EUR"

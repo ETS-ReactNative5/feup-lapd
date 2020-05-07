@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const { getHotels } = require("../modules/amadeus");
+const { getLatLon } = require("../modules/mapquest");
 
 /* GET hotels page. */
 router.get("/", async function(req, res) {
@@ -9,12 +10,15 @@ router.get("/", async function(req, res) {
 
   sort = req.query.sort !== undefined ? (req.query.sort == 'price' ? 'PRICE' : 'DISTANCE' ) : undefined
 
-  // TODO:
-  // get city code
-  // req.query.city
-  cityCode = "OPO"
+  latLng = await getLatLon(req.query.city)
+  if(latLng == null){
+    res.status(400).send({
+      message: 'City not found while searching for hotels'
+    })
+    return
+  }
 
-  getHotels(cityCode, parseInt(req.query.radius), sort, parseInt(req.query.ratings), req.query.priceRange)
+  getHotels(latLng.latitude, latLng.longitude, parseInt(req.query.radius), sort, parseInt(req.query.ratings), req.query.priceRange)
     .then((response) => {
       res.send(response.data)
     })
