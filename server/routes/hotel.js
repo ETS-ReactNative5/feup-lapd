@@ -20,7 +20,7 @@ router.get("/", async function(req, res) {
 
   getHotels(latLng.latitude, latLng.longitude, parseInt(req.query.radius), sort, parseInt(req.query.ratings), req.query.priceRange)
     .then((response) => {
-      res.send(response.data)
+      res.send(response)
     })
     .catch((err) => {
       console.log(err);

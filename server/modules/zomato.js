@@ -1,9 +1,26 @@
 const axios = require('axios')
 const qs = require('querystring');
 var zomato = require("../config/config.js").zomato;
+var dataStorage = require("../utils/data_storage");
+
+getRestaurantsFilename = (city, offset, sort = "", order = "") => {
+  const data = {
+    city: city,
+    offset: offset,
+    sort: sort,
+    order: order
+  }
+
+  return `restaurants?${qs.stringify(data)}`
+}
 
 // This endpoint only returs 20 restaurants at a time, use offset parameter to get the next 20 restaurants
 exports.getRestaurants = async (city, offset, sort, order) => {
+  filename = getRestaurantsFilename(city, offset, sort, order)
+  storedResponse = dataStorage.getItem(filename)
+
+  if(storedResponse !== null) return JSON.parse(storedResponse)
+
   let response = await axios({
     method: "GET",
     url: `${zomato.url}/locations?query=${city}`,
@@ -31,11 +48,14 @@ exports.getRestaurants = async (city, offset, sort, order) => {
     order: order              //asc or desc
   }
 
-  return await axios({
+  response =  await axios({
     method: "GET",
     url: `${zomato.url}/search?${qs.stringify(data)}`,
     headers: {
       "user-key": zomato.user_key,
     }
   });
+
+  dataStorage.setItem(filename, JSON.stringify(response.data))
+  return response.data
 }

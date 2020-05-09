@@ -1,6 +1,7 @@
 const axios = require('axios')
 const qs = require('querystring');
 var foursquare = require("../config/config.js").foursquare;
+var dataStorage = require("../utils/data_storage");
 
 const limit = 50;         //max limit value
 const v = 20190425;       //hardcoded value present in Foursquare documentation
@@ -16,6 +17,16 @@ getRequestData = (city, category_id) => {
     limit: limit,
     intent: "checkin"
   }
+}
+
+getFilename = (type, city, offset, filters = "") => {
+  const data = {
+    city: city,
+    offset: offset,
+    filters: filters
+  }
+
+  return `${type}?${qs.stringify(data)}`
 }
 
 getPhoto = async (venue_id) => {
@@ -41,31 +52,46 @@ getPhoto = async (venue_id) => {
 }
 
 exports.getShops = async (city, offset) => {
+  filename = getFilename('shops', city, offset)
+  storedResponse = dataStorage.getItem(filename)
+
+  if(storedResponse !== null) return JSON.parse(storedResponse)
+
   const data = getRequestData(city, foursquare.shops_id)
 
   try {
     let request = await axios.get(`${foursquare.url}/search?${qs.stringify(data)}`);
-    let results_found = request.data.response.venues.length
-    let shops = request.data.response.venues.slice(offset, offset+number_items);
 
-    for (let i = 0; i < shops.length; i++) {
-      shops[i].photoUrl = await getPhoto(shops[i].id);
+    if(request.data.meta.code == 200){
+      let results_found = request.data.response.venues.length
+      let shops = request.data.response.venues.slice(offset, offset+number_items);
+
+      for (let i = 0; i < shops.length; i++) {
+        shops[i].photoUrl = await getPhoto(shops[i].id);
+      }
+
+      request.data.response.venues = shops;
+      request.data.meta.results_found = results_found;
+      request.data.meta.results_start = offset;
+      request.data.meta.results_shown = shops.length;
+
+      dataStorage.setItem(filename, JSON.stringify(request.data))
+      return request.data;
     }
 
-    request.data.response.venues = shops;
-    request.data.meta.results_found = results_found;
-    request.data.meta.results_start = offset;
-    request.data.meta.results_shown = shops.length;
-
-    return request;
+    return request
   } catch (error) {
-    console.log("Error in getting shops")
+    console.log("Error: ", error)
+    return;
   }
-
-  throw "An error occurred while getting shops";
 }
 
 exports.getPOIs = async (city, offset, filters) => {
+  filename = getFilename('pois', city, offset, filters)
+  storedResponse = dataStorage.getItem(filename)
+
+  if(storedResponse !== null) return JSON.parse(storedResponse)
+
   let options = filters ? filters.split("&") : [ 'art', 'outdoor', 'nightlife', 'event' ];
 
   const outdoorsData = getRequestData(city, foursquare.outdoors_id)
@@ -124,7 +150,7 @@ exports.getPOIs = async (city, offset, filters) => {
     pois[i].photoUrl = await getPhoto(pois[i].id);
   }
 
-  return {
+  response = {
     meta: {
       code: 200,
       results_found: number_venues,
@@ -135,4 +161,7 @@ exports.getPOIs = async (city, offset, filters) => {
       venues: pois
     }
   }
+
+  dataStorage.setItem(filename, JSON.stringify(response))
+  return response
 }

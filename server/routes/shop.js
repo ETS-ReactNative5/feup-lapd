@@ -9,7 +9,7 @@ router.get("/", async function(req, res) {
 
   getShops(req.query.city, parseInt(req.query.offset))
     .then((response) => {
-      res.send(response.data);
+      res.send(response);
     })
     .catch((err) => {
       console.log(err);

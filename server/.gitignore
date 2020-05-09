@@ -114,5 +114,5 @@ dist
 .yarn/build-state.yml
 .pnp.*
 
-
-store/
+token/
+data/

@@ -9,7 +9,7 @@ router.get("/", async function(req, res) {
 
   getRestaurants(req.query.city, parseInt(req.query.offset), req.query.sort, req.query.order)
     .then((response) => {
-      res.send(response.data);
+      res.send(response);
     })
     .catch((err) => {
       console.log(err);
