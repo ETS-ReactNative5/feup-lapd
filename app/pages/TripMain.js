@@ -4,6 +4,7 @@ import {
   Text, Image, StyleSheet, Dimensions, StatusBar,
 } from 'react-native';
 import Background from '../components/Background';
+import TripInfo from '../components/TripInfo';
 
 const styles = StyleSheet.create({
   container: {
@@ -46,17 +47,7 @@ const TripMain = ({navigation, route}) => {
   return (
     <Background>
       {/* <StatusBar barStyle="light-content" backgroundColor="#7159c1" /> */}
-      <Image
-        source={{
-          uri: 'https://s3-sa-east-1.amazonaws.com/rocketseat-cdn/rocketseat_logo.png',
-        }}
-        style={styles.logo}
-        resizeMode="contain"
-      />
-      <Text style={styles.welcome}>Bem-vindo ao Template Avançado!</Text>
-      <Text style={styles.instructions}>Essa é a tela principal da sua aplicação =)</Text>
-      <Text style={styles.instructions}>Você pode editar a tela no arquivo:</Text>
-      <Text style={[styles.instructions, styles.fileName]}>src/pages/Main/index.js</Text>
+      <TripInfo city="Porto" country="Portugal" date="12 - 16 Mar"/>
     </Background>
   )
 };
