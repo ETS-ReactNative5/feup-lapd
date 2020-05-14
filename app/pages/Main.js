@@ -84,7 +84,7 @@ const Main = ({navigation}) => {
         <SelectInput value={date} onChange={setDate} placeholder="Select date..." icon="calendar" />
       </View>
       <View style={styles.buttoncontainer}>
-        <MainButton text='Search' handlePress={handleSearch}/>
+        <MainButton text='Search' widthRatio={0.5} handlePress={handleSearch}/>
       </View>
       <TouchableHighlight
         onPress={handlePlannedTripsPress}

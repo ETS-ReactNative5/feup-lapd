@@ -17,7 +17,7 @@ const navigatorOptions = () => {
     headerTitle: (
       <Image
         source={require('./assets/logo.png')}
-        resizeMode="cover"
+        resizeMode="contain"
         style={{
           width: 50,
           height: 50,

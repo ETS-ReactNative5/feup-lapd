@@ -3,9 +3,6 @@ import {View, StyleSheet, TouchableOpacity, Text, Dimensions} from 'react-native
 import { LinearGradient } from 'expo-linear-gradient';
 
 const styles = StyleSheet.create({
-  container: {
-    width: Dimensions.get('window').width * 0.50,
-  },
   gradient: {
     justifyContent: 'center',
     alignItems:'center',
@@ -19,7 +16,7 @@ const styles = StyleSheet.create({
 });
 
 const MainButton = (props) => (
-  <View style={styles.container}>
+  <View style={{width: Dimensions.get('window').width * props.widthRatio}}>
     <TouchableOpacity style={styles.button} activeOpacity={0.8} onPress={props.handlePress}>
       <LinearGradient
         colors={['#E51B23', '#FF6363']}

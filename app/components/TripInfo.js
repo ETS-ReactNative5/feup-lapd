@@ -7,7 +7,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     display: 'flex',
     flexDirection: 'row',
-    width: '95%'
+    width: '95%',
+    flex: 2
   },
   city: {
     color: 'black',

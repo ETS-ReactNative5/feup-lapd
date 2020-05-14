@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     width: '95%',
+    flex: 2
   }
 });
 

@@ -63,7 +63,7 @@ const WeatherIcon = (props) => (
     <Text adjustsFontSizeToFit numberOfLines={1} style={styles.date}>{props.date}</Text>
     <Image
         source={getWeatherIcon(props.weather)}
-        resizeMode="cover"
+        resizeMode="contain"
         style={styles.icon}
       />
     <View style={styles.temperature}>
