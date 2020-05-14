@@ -15,10 +15,7 @@ export default function Routes() {
             name="Main"
             component={Main}
             options={{
-              // title: 'Tela Principal',
-              // headerStyle: { backgroundColor: '#7159c1' },
-              // headerTintColor: '#fff',
-              // headerTitleAlign: 'center',
+              title: '',
               headerShown: false,
             }}
           />
@@ -26,7 +23,7 @@ export default function Routes() {
             name="TripMain"
             component={TripMain}
             options={{
-              title: 'Tela Principal',
+              title: 'Trip',
               headerStyle: { backgroundColor: '#7159c1' },
               headerTintColor: '#fff',
               headerTitleAlign: 'center',

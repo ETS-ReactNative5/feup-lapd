@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
 import {
-  Text, Image, StyleSheet, Dimensions, ImageBackground, View, TouchableHighlight
+  Text, Image, StyleSheet, Dimensions, View, TouchableHighlight
 } from 'react-native';
 import SelectInput from '../components/SelectInput';
 import MainButton from '../components/MainButton';
+import Background from '../components/Background';
 
 const styles = StyleSheet.create({
   container: {
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const Main = () => {
+const Main = ({navigation}) => {
 
   const [city, setCity] = useState('');
   const [date, setDate] = useState('');
@@ -60,6 +61,7 @@ const Main = () => {
     console.log('Search button pressed')
     console.log("City: ", city)
     console.log("Date: ", date )
+    navigation.navigate('TripMain', { city: city, date: date })
   }
 
   const handlePlannedTripsPress = () => {
@@ -71,12 +73,7 @@ const Main = () => {
   }, []);
 
   return (
-    <ImageBackground
-      source={require('../assets/background.png')}
-      style={styles.container}
-      imageStyle= {{opacity:0.7}}
-      resizeMode="cover"
-    >
+    <Background>
       <Image
         source={require('../assets/logo.png')}
         style={styles.logo}
@@ -98,7 +95,7 @@ const Main = () => {
             <Text style={styles.plannedtrips}>View planned trips</Text>
           </View>
       </TouchableHighlight>
-    </ImageBackground>
+    </Background>
   )
 };
 
