@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 
 import { Provider } from 'react-redux';
 
-import Router from './config/routes'
+import Router from './routes'
 // import store from './redux/store';
 
 export default function App() {
@@ -12,5 +12,5 @@ export default function App() {
     /*<Provider store={store}>*/
       <Router />
     // </Provider>
-);
+  );
 }
