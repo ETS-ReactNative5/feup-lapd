@@ -1,11 +1,32 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { Image, View } from 'react-native';
 
 import Main from './pages/Main'
 import TripMain from './pages/TripMain'
 
 const Stack = createStackNavigator();
+
+const navigatorOptions = () => {
+  return {
+    headerTransparent: true,
+    headerTintColor: '#808080',
+    headerBackTitle: ' ',
+    headerTitleAlign: 'center',
+    headerTitle: (
+      <Image
+        source={require('./assets/logo.png')}
+        resizeMode="cover"
+        style={{
+          width: 50,
+          height: 50,
+          resizeMode: 'contain',
+        }}
+      />
+    ),
+  }
+}
 
 export default function Routes() {
     return (
@@ -15,19 +36,13 @@ export default function Routes() {
             name="Main"
             component={Main}
             options={{
-              title: '',
               headerShown: false,
             }}
           />
           <Stack.Screen
             name="TripMain"
             component={TripMain}
-            options={{
-              title: 'Trip',
-              headerStyle: { backgroundColor: '#7159c1' },
-              headerTintColor: '#fff',
-              headerTitleAlign: 'center',
-            }}
+            options={navigatorOptions()}
           />
         </Stack.Navigator>
       </NavigationContainer>

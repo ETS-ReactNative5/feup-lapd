@@ -45,7 +45,7 @@ const TripMain = ({navigation, route}) => {
 
   return (
     <Background>
-      <StatusBar barStyle="light-content" backgroundColor="#7159c1" />
+      {/* <StatusBar barStyle="light-content" backgroundColor="#7159c1" /> */}
       <Image
         source={{
           uri: 'https://s3-sa-east-1.amazonaws.com/rocketseat-cdn/rocketseat_logo.png',
