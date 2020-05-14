@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
 
 import {
-  Text, Image, StyleSheet, Dimensions, StatusBar,
+  Text, Image, StyleSheet, Dimensions, StatusBar, View
 } from 'react-native';
 import Background from '../components/Background';
 import TripInfo from '../components/TripInfo';
+import Weather from '../components/Weather';
 
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     flex: 1,
     paddingHorizontal: 20,
+    marginVertical: Dimensions.get('window').height * 0.11,
   },
   fileName: {
     fontWeight: 'bold',
@@ -46,8 +48,11 @@ const TripMain = ({navigation, route}) => {
 
   return (
     <Background>
-      {/* <StatusBar barStyle="light-content" backgroundColor="#7159c1" /> */}
-      <TripInfo city="Porto" country="Portugal" date="12 - 16 Mar"/>
+      <View style={styles.container}>
+        {/* <StatusBar barStyle="light-content" backgroundColor="#7159c1" /> */}
+        <TripInfo city="Porto" country="Portugal" date="12 - 16 Mar"/>
+        <Weather/>
+      </View>
     </Background>
   )
 };

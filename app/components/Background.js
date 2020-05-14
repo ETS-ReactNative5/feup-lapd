@@ -14,7 +14,7 @@ const Background = (props) => (
   <ImageBackground
     source={require('../assets/background.png')}
     style={styles.container}
-    imageStyle= {{opacity:0.7}}
+    imageStyle= {{opacity:0.65}}
     resizeMode="cover"
   >
     {props.children}

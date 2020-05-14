@@ -11,7 +11,7 @@ const Stack = createStackNavigator();
 const navigatorOptions = () => {
   return {
     headerTransparent: true,
-    headerTintColor: '#808080',
+    headerTintColor: 'black',
     headerBackTitle: ' ',
     headerTitleAlign: 'center',
     headerTitle: (

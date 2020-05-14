@@ -5,10 +5,9 @@ import { Icon } from 'react-native-elements'
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    marginVertical: Dimensions.get('window').height * 0.11,
     display: 'flex',
     flexDirection: 'row',
-    width: '85%'
+    width: '95%'
   },
   city: {
     color: 'black',
