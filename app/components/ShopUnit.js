@@ -52,13 +52,19 @@ const styles = StyleSheet.create({
   },
   place: {
     display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    maxWidth: '100%',
-  }
+    maxWidth: '100%'
+  },
+  address: {
+    paddingTop: 5,
+    textAlign: 'left',
+    color: 'black',
+    opacity: 0.8,
+    fontSize: 11,
+    fontWeight: "200"
+  },
 });
 
-const POIUnit = (props) => {
+const ShopUnit = (props) => {
   const [selected, setSelected] = useState(false)
 
   const handleTripPress = () => {
@@ -83,6 +89,7 @@ const POIUnit = (props) => {
           <View style={styles.text}>
             <View style={styles.place}>
               <Text adjustsFontSizeToFit numberOfLines={2} style={styles.name}>{props.name}</Text>
+              <Text adjustsFontSizeToFit numberOfLines={2} style={styles.address}>{props.address}</Text>
             </View>
           </View>
           <TouchableHighlight
@@ -116,4 +123,4 @@ const POIUnit = (props) => {
   )
 };
 
-export default POIUnit;
+export default ShopUnit;

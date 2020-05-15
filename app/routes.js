@@ -7,6 +7,7 @@ import Main from './pages/Main'
 import TripMain from './pages/TripMain'
 import PlannedTrips from './pages/PlannedTrips'
 import POIs from './pages/POIs'
+import Shops from './pages/Shops'
 
 const Stack = createStackNavigator();
 
@@ -54,6 +55,11 @@ export default function Routes() {
           <Stack.Screen
             name="POIs"
             component={POIs}
+            options={navigatorOptions()}
+          />
+          <Stack.Screen
+            name="Shops"
+            component={Shops}
             options={navigatorOptions()}
           />
         </Stack.Navigator>
