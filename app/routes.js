@@ -5,6 +5,7 @@ import { Image, View } from 'react-native';
 
 import Main from './pages/Main'
 import TripMain from './pages/TripMain'
+import PlannedTrips from './pages/PlannedTrips'
 
 const Stack = createStackNavigator();
 
@@ -42,6 +43,11 @@ export default function Routes() {
           <Stack.Screen
             name="TripMain"
             component={TripMain}
+            options={navigatorOptions()}
+          />
+          <Stack.Screen
+            name="PlannedTrips"
+            component={PlannedTrips}
             options={navigatorOptions()}
           />
         </Stack.Navigator>

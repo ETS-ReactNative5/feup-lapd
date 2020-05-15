@@ -1,6 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, Dimensions, View, Image, TouchableOpacity} from 'react-native';
-import { Icon } from 'react-native-elements'
+import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 
 const styles = StyleSheet.create({
   container: {

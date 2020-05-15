@@ -15,7 +15,8 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 20,
     display: 'flex',
-    marginVertical: Dimensions.get('window').height * 0.11,
+    marginTop: Dimensions.get('window').height * 0.11,
+    marginBottom: Dimensions.get('window').height * 0.08
   }
 });
 
@@ -24,7 +25,7 @@ const TripMain = ({navigation, route}) => {
   const { city, date } = route.params
 
   const handleViewPlanPress = () => {
-    console.log("View plan")
+    navigation.navigate('PlannedTrips')
   }
 
   useEffect(() => {
