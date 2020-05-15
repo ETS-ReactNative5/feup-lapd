@@ -7,7 +7,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginVertical: 13,
     width: "100%",
-    height: 90,
     justifyContent: 'center',
   },
   photo: {
@@ -19,6 +18,7 @@ const styles = StyleSheet.create({
     marginLeft: 13
   },
   button: {
+    paddingVertical: 10,
     alignItems: 'center',
     display: 'flex',
     flexDirection: 'row',
@@ -52,22 +52,16 @@ const styles = StyleSheet.create({
   },
   place: {
     display: 'flex',
-    maxWidth: '100%'
-  },
-  address: {
-    paddingTop: 5,
-    textAlign: 'left',
-    color: 'black',
-    opacity: 0.8,
-    fontSize: 11,
-    fontWeight: "200"
-  },
+    flexDirection: 'row',
+    alignItems: 'center',
+    maxWidth: '100%',
+  }
 });
 
-const ShopUnit = (props) => {
+const POIUnit = (props) => {
   const [selected, setSelected] = useState(false)
 
-  const handleTripPress = () => {
+  const handlePOIPress = () => {
     console.log("NAVIGATE")
     // navigation.navigate('Main')
   }
@@ -79,7 +73,7 @@ const ShopUnit = (props) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button} activeOpacity={0.8} onPress={handleTripPress}>
+      <TouchableOpacity style={styles.button} activeOpacity={0.8} onPress={handlePOIPress}>
         <Image
           source={{ uri: props.photo, }}
           resizeMode="cover"
@@ -89,7 +83,6 @@ const ShopUnit = (props) => {
           <View style={styles.text}>
             <View style={styles.place}>
               <Text adjustsFontSizeToFit numberOfLines={2} style={styles.name}>{props.name}</Text>
-              <Text adjustsFontSizeToFit numberOfLines={2} style={styles.address}>{props.address}</Text>
             </View>
           </View>
           <TouchableHighlight
@@ -123,4 +116,4 @@ const ShopUnit = (props) => {
   )
 };
 
-export default ShopUnit;
+export default POIUnit;

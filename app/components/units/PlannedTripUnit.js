@@ -7,7 +7,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginVertical: 13,
     width: "100%",
-    height: 90,
     justifyContent: 'center',
   },
   photo: {
@@ -19,6 +18,7 @@ const styles = StyleSheet.create({
     marginLeft: 13
   },
   button: {
+    paddingVertical: 10,
     alignItems: 'center',
     display: 'flex',
     flexDirection: 'row',

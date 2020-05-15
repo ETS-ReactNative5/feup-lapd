@@ -4,7 +4,7 @@ import {
   Text, StyleSheet, Dimensions, View, ScrollView
 } from 'react-native';
 import Background from '../components/Background';
-import PlannedTripUnit from '../components/PlannedTripUnit';
+import PlannedTripUnit from '../components/units/PlannedTripUnit';
 
 const styles = StyleSheet.create({
   container: {

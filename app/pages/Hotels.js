@@ -4,7 +4,7 @@ import {
   Text, StyleSheet, Dimensions, View, ScrollView, Image, TouchableHighlight
 } from 'react-native';
 import Background from '../components/Background';
-import POIUnit from '../components/units/POIUnit';
+import HotelUnit from '../components/units/HotelUnit';
 
 const styles = StyleSheet.create({
   container: {
@@ -32,7 +32,6 @@ const styles = StyleSheet.create({
   image: {
     width: 25,
     height: 25,
-    // aspectRatio: 1,
     resizeMode: "contain",
   },
   filter: {
@@ -41,10 +40,10 @@ const styles = StyleSheet.create({
   }
 });
 
-const POIs = ({navigation}) => {
+const Hotels = ({navigation}) => {
 
   useEffect(() => {
-    console.log("Points of Interest page")
+    console.log("Hotels page")
   }, []);
 
   const handleFilterPress = () => {
@@ -55,7 +54,7 @@ const POIs = ({navigation}) => {
     <Background>
       <View style={styles.container}>
         <View style={styles.titlecontainer}>
-          <Text style={styles.title}>Points of Interest</Text>
+          <Text style={styles.title}>Hotels</Text>
           <View style={styles.filter}>
             <TouchableHighlight
               onPress={handleFilterPress}
@@ -69,19 +68,22 @@ const POIs = ({navigation}) => {
           </View>
         </View>
         <ScrollView contentContainerStyle={{width: "100%"}}>
-          <POIUnit
-            name="Torre dos Clérigos"
-            photo="https://thumbs.web.sapo.io/?W=800&H=0&delay_optim=1&epic=NGVjacAb7MZWPBuMOmahyV9l5LPGACf7TtK2b3sXQhWHzLBPc9KC7eZMvN6GQ/S6YHh0fxK5DJYvPq/YoSd7E1hFcwUefVWbJLytu0BkI5CsuE8="
+          <HotelUnit
+            name="HF Ipanema Porto"
+            address="Rua do Campo Alegre 156, 4150-169 Porto"
+            contact="22 607 5059"
+            rating="4"
+            price="60"
+            photo="https://pix10.agoda.net/hotelImages/154/1543/1543_15063016440031302008.jpg?s=1024x768"
             navigation={navigation}
           />
-          <POIUnit
-            name="Ribeira"
-            photo="https://i0.statig.com.br/bancodeimagens/5l/eb/sa/5lebsabb3aqcx1upuu5nwzibw.jpg"
-            navigation={navigation}
-          />
-          <POIUnit
-            name="Avenida dos Aliados"
-            photo="https://media-manager.noticiasaominuto.com/1920/naom_5b9bc00a43bfc.jpg"
+          <HotelUnit
+            name="Hotel Vila Galé Porto"
+            address="Av. de Fernão de Magalhães 7, 4300-190 Porto"
+            contact="22 519 1800"
+            rating="5"
+            price="69"
+            photo="https://q-cf.bstatic.com/images/hotel/max1024x768/739/73902525.jpg"
             navigation={navigation}
           />
         </ScrollView>
@@ -90,4 +92,4 @@ const POIs = ({navigation}) => {
   )
 };
 
-export default POIs;
+export default Hotels;

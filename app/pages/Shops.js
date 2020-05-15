@@ -4,7 +4,7 @@ import {
   Text, StyleSheet, Dimensions, View, ScrollView,
 } from 'react-native';
 import Background from '../components/Background';
-import ShopUnit from '../components/ShopUnit';
+import ShopUnit from '../components/units/ShopUnit';
 
 const styles = StyleSheet.create({
   container: {

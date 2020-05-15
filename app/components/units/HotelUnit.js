@@ -7,7 +7,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginVertical: 13,
     width: "100%",
-    height: 90,
     justifyContent: 'center',
   },
   photo: {
@@ -22,6 +21,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     display: 'flex',
     flexDirection: 'row',
+    paddingVertical: 5,
     backgroundColor: 'white',
     borderRadius: 20,
     flex: 1,
@@ -52,16 +52,39 @@ const styles = StyleSheet.create({
   },
   place: {
     display: 'flex',
+    maxWidth: '100%'
+  },
+  addresscontact: {
+    textAlign: 'left',
+    color: 'black',
+    opacity: 0.8,
+    fontSize: 11,
+    fontWeight: "200",
+    paddingTop: 1
+  },
+  ratingprice: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  price: {
+    textAlign: 'left',
+    color: '#5393DF',
+    fontSize: 11,
+    fontWeight: "400",
+  },
+  rating: {
+    display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center',
-    maxWidth: '100%',
+    paddingRight: 5,
+    paddingTop: 2
   }
 });
 
-const POIUnit = (props) => {
+const HotelUnit = (props) => {
   const [selected, setSelected] = useState(false)
 
-  const handleTripPress = () => {
+  const handleHotelPress = () => {
     console.log("NAVIGATE")
     // navigation.navigate('Main')
   }
@@ -71,9 +94,23 @@ const POIUnit = (props) => {
     setSelected(!selected)
   }
 
+  const getRating = () => {
+    let stars = []
+    for (let i = 0; i < parseInt(props.rating); i++) {
+      stars.push(<Icon
+        // name={'ios-star-half'}
+        name={'ios-star'}
+        size={13}
+        color="#F1C644"
+        type="ionicon"
+      />)
+    }
+    return stars
+  }
+
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button} activeOpacity={0.8} onPress={handleTripPress}>
+      <TouchableOpacity style={styles.button} activeOpacity={0.8} onPress={handleHotelPress}>
         <Image
           source={{ uri: props.photo, }}
           resizeMode="cover"
@@ -83,6 +120,14 @@ const POIUnit = (props) => {
           <View style={styles.text}>
             <View style={styles.place}>
               <Text adjustsFontSizeToFit numberOfLines={2} style={styles.name}>{props.name}</Text>
+              <Text adjustsFontSizeToFit numberOfLines={2} style={styles.addresscontact}>{props.address}</Text>
+              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.addresscontact}>{props.contact}</Text>
+              <View style={styles.ratingprice}>
+                <View style={styles.rating}>
+                  {getRating()}
+                </View>
+                <Text adjustsFontSizeToFit numberOfLines={1} style={styles.price}>{props.price}€</Text>
+              </View>
             </View>
           </View>
           <TouchableHighlight
@@ -116,4 +161,4 @@ const POIUnit = (props) => {
   )
 };
 
-export default POIUnit;
+export default HotelUnit;
