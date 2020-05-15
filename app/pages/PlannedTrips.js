@@ -16,13 +16,12 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   title: {
-    fontSize: 40,
+    fontSize: 35,
     fontWeight: 'bold',
     textAlign: 'left',
   },
   titlecontainer: {
     justifyContent: 'flex-start',
-    textAlign: 'left',
     width: '100%',
     paddingBottom: 25
   }

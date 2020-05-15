@@ -18,12 +18,12 @@ const styles = StyleSheet.create({
 const PlacesGroup = (props) => (
   <View style={styles.container}>
     <View style={styles.row}>
-      <PlacesButton navigation={props.navigation} image="poi" content="Points of Interest"/>
-      <PlacesButton navigation={props.navigation} image="restaurant" content="Restaurants"/>
+      <PlacesButton navigation={props.navigation} type="poi" content="Points of Interest"/>
+      <PlacesButton navigation={props.navigation} type="restaurant" content="Restaurants"/>
     </View>
     <View style={styles.row}>
-      <PlacesButton navigation={props.navigation} image="shop" content="Shops"/>
-      <PlacesButton navigation={props.navigation} image="hotel" content="Hotels"/>
+      <PlacesButton navigation={props.navigation} type="shop" content="Shops"/>
+      <PlacesButton navigation={props.navigation} type="hotel" content="Hotels"/>
     </View>
   </View>
 );

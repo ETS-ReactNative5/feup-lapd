@@ -46,22 +46,52 @@ const getPlaceIcon = (icon) => {
   }
 }
 
-const handlePress = (navigation) => {
-  console.log("NAVIGATE")
-  navigation.navigate('Main')
-}
+const PlacesButton = (props) => {
+  const handlePress = () => {
+    console.log("NAVIGATE")
+    switch (props.type) {
+      case 'poi':
+        props.navigation.navigate('POIs')
+        break;
+      case 'restaurant':
+        props.navigation.navigate('Restaurants')
+        break;
+      case 'shop':
+        props.navigation.navigate('Shops')
+        break;
+      case 'hotel':
+        props.navigation.navigate('Hotels')
+        break;
+      default:
+        break;
+    }
+  }
 
-const PlacesButton = (props) => (
-  <View style={styles.container}>
-    <TouchableOpacity style={styles.button} activeOpacity={0.8} onPress={() => handlePress(props.navigation)}>
-      <Image
-        source={getPlaceIcon(props.image)}
-        resizeMode="cover"
-        style={styles.icon}
-      />
-      <Text adjustsFontSizeToFit numberOfLines={1} style={styles.content}>{props.content}</Text>
-    </TouchableOpacity>
-  </View>
-);
+  const getPlaceIcon = () => {
+    switch (props.type) {
+      case 'poi':
+        return require('../assets/places/poi.png')
+      case 'restaurant':
+        return require('../assets/places/restaurant.png')
+      case 'shop':
+        return require('../assets/places/shop.png')
+      case 'hotel':
+        return require('../assets/places/hotel.png')
+    }
+  }
+
+  return (
+    <View style={styles.container}>
+      <TouchableOpacity style={styles.button} activeOpacity={0.8} onPress={handlePress}>
+        <Image
+          source={getPlaceIcon()}
+          resizeMode="cover"
+          style={styles.icon}
+        />
+        <Text adjustsFontSizeToFit numberOfLines={1} style={styles.content}>{props.content}</Text>
+      </TouchableOpacity>
+    </View>
+  )
+};
 
 export default PlacesButton;

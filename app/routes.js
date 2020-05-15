@@ -1,11 +1,12 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Image, View } from 'react-native';
+import { Image } from 'react-native';
 
 import Main from './pages/Main'
 import TripMain from './pages/TripMain'
 import PlannedTrips from './pages/PlannedTrips'
+import POIs from './pages/POIs'
 
 const Stack = createStackNavigator();
 
@@ -48,6 +49,11 @@ export default function Routes() {
           <Stack.Screen
             name="PlannedTrips"
             component={PlannedTrips}
+            options={navigatorOptions()}
+          />
+          <Stack.Screen
+            name="POIs"
+            component={POIs}
             options={navigatorOptions()}
           />
         </Stack.Navigator>

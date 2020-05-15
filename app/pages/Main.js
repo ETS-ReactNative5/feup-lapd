@@ -64,10 +64,6 @@ const Main = ({navigation}) => {
     navigation.navigate('TripMain', { city: city, date: date })
   }
 
-  const handlePlannedTripsPress = () => {
-    console.log('Planned trips pressed')
-  }
-
   useEffect(() => {
     console.log("Main page")
   }, []);
@@ -87,7 +83,7 @@ const Main = ({navigation}) => {
         <MainButton text='Search' widthRatio={0.5} handlePress={handleSearch}/>
       </View>
       <TouchableHighlight
-        onPress={handlePlannedTripsPress}
+        onPress={() => navigation.navigate('PlannedTrips')}
         underlayColor='transparent'
         style={styles.plannedtripscontainer}
         >
