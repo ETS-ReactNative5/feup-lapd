@@ -5,7 +5,7 @@ import { Icon } from 'react-native-elements'
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    marginVertical: 13,
+    marginVertical: 5,
     width: "100%",
     justifyContent: 'center',
   },

@@ -25,8 +25,7 @@ const TripMain = ({navigation, route}) => {
   const { city, date } = route.params
 
   const handleViewPlanPress = () => {
-    console.log("View trip plan")
-    // navigation.navigate('PlannedTrips')
+    navigation.navigate('TripPlan')
   }
 
   useEffect(() => {

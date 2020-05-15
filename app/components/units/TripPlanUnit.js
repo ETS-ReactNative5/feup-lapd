@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const POIUnit = (props) => {
+const TripPlanUnit = (props) => {
   const [selected, setSelected] = useState(false)
 
   const handlePOIPress = () => {
@@ -72,7 +72,7 @@ const POIUnit = (props) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button} activeOpacity={0.8} onPress={handlePOIPress}>
+      <View style={styles.button}>
         <Image
           source={{ uri: props.photo, }}
           resizeMode="cover"
@@ -87,32 +87,32 @@ const POIUnit = (props) => {
           <TouchableHighlight
             onPress={handleSelectPress}
             underlayColor='transparent'
-            >
-              <View>
-                {!selected &&
-                  <Icon
-                    iconStyle={styles.icon}
-                    name="plus"
-                    size={25}
-                    color="#BD0B0B"
-                    type="evilicon"
-                  />
-                }
-                {selected &&
-                  <Icon
-                    iconStyle={styles.icon}
-                    name="check"
-                    size={25}
-                    color="#2FA511"
-                    type="evilicon"
-                  />
-                }
-              </View>
+          >
+            <View>
+              {!selected &&
+                <Icon
+                  iconStyle={styles.icon}
+                  name="plus"
+                  size={25}
+                  color="#BD0B0B"
+                  type="evilicon"
+                />
+              }
+              {selected &&
+                <Icon
+                  iconStyle={styles.icon}
+                  name="check"
+                  size={25}
+                  color="#2FA511"
+                  type="evilicon"
+                />
+              }
+            </View>
           </TouchableHighlight>
         </View>
-      </TouchableOpacity>
+      </View>
     </View>
   )
 };
 
-export default POIUnit;
+export default TripPlanUnit;
