@@ -4,7 +4,7 @@ import {
   Text, StyleSheet, Dimensions, View, ScrollView, Image, TouchableHighlight
 } from 'react-native';
 import Background from '../components/Background';
-import POIUnit from '../components/units/POIUnit';
+import RestaurantUnit from '../components/units/RestaurantUnit';
 
 const styles = StyleSheet.create({
   container: {
@@ -32,7 +32,6 @@ const styles = StyleSheet.create({
   image: {
     width: 25,
     height: 25,
-    // aspectRatio: 1,
     resizeMode: "contain",
   },
   filter: {
@@ -41,10 +40,10 @@ const styles = StyleSheet.create({
   }
 });
 
-const POIs = () => {
+const Restaurants = () => {
 
   useEffect(() => {
-    console.log("Points of Interest page")
+    console.log("Restaurants page")
   }, []);
 
   const handleFilterPress = () => {
@@ -55,7 +54,7 @@ const POIs = () => {
     <Background>
       <View style={styles.container}>
         <View style={styles.titlecontainer}>
-          <Text style={styles.title}>Points of Interest</Text>
+          <Text style={styles.title}>Restaurants</Text>
           <View style={styles.filter}>
             <TouchableHighlight
               onPress={handleFilterPress}
@@ -69,17 +68,19 @@ const POIs = () => {
           </View>
         </View>
         <ScrollView contentContainerStyle={{width: "100%"}}>
-          <POIUnit
-            name="Torre dos Clérigos"
-            photo="https://thumbs.web.sapo.io/?W=800&H=0&delay_optim=1&epic=NGVjacAb7MZWPBuMOmahyV9l5LPGACf7TtK2b3sXQhWHzLBPc9KC7eZMvN6GQ/S6YHh0fxK5DJYvPq/YoSd7E1hFcwUefVWbJLytu0BkI5CsuE8="
+          <RestaurantUnit
+            name="Taberna Londrina"
+            address="Estrada da Circunvalação 7964, 4200-537 Porto"
+            rating="4.3"
+            price="21"
+            photo="https://media-cdn.tripadvisor.com/media/photo-s/19/f9/d7/9e/20191101-142718-largejpg.jpg"
           />
-          <POIUnit
-            name="Ribeira"
-            photo="https://i0.statig.com.br/bancodeimagens/5l/eb/sa/5lebsabb3aqcx1upuu5nwzibw.jpg"
-          />
-          <POIUnit
-            name="Avenida dos Aliados"
-            photo="https://media-manager.noticiasaominuto.com/1920/naom_5b9bc00a43bfc.jpg"
+          <RestaurantUnit
+            name="Salve Simpatia"
+            address="Rua da Picaria 89 Baixa, Porto 4050-478 Portugal"
+            rating="4.5"
+            price="16"
+            photo="https://media-cdn.tripadvisor.com/media/photo-s/13/8d/55/92/ambiente-res-do-chao.jpg"
           />
         </ScrollView>
       </View>
@@ -87,4 +88,4 @@ const POIs = () => {
   )
 };
 
-export default POIs;
+export default Restaurants;

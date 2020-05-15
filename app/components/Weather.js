@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     display: 'flex',
     flexDirection: 'row',
-    width: '95%',
+    maxWidth: '95%',
     flex: 2
   }
 });

@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const Hotels = ({navigation}) => {
+const Hotels = () => {
 
   useEffect(() => {
     console.log("Hotels page")
@@ -75,7 +75,6 @@ const Hotels = ({navigation}) => {
             rating="4"
             price="60"
             photo="https://pix10.agoda.net/hotelImages/154/1543/1543_15063016440031302008.jpg?s=1024x768"
-            navigation={navigation}
           />
           <HotelUnit
             name="Hotel Vila Galé Porto"
@@ -84,7 +83,6 @@ const Hotels = ({navigation}) => {
             rating="5"
             price="69"
             photo="https://q-cf.bstatic.com/images/hotel/max1024x768/739/73902525.jpg"
-            navigation={navigation}
           />
         </ScrollView>
       </View>

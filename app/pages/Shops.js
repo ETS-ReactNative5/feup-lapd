@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const Shops = ({navigation}) => {
+const Shops = () => {
 
   useEffect(() => {
     console.log("Shops page")
@@ -48,19 +48,16 @@ const Shops = ({navigation}) => {
             name="Continente"
             address="R. dos Campeões Europeus 28-198, 4350-149 Porto"
             photo="https://www.dinheirovivo.pt/wp-content/uploads/2018/07/hipermercadocontinente_dv.jpg"
-            navigation={navigation}
           />
           <ShopUnit
             name="Farmácia Central"
             address="Av. Dr. Ribeiro de Magalhães 658, 4610-108 Felgueiras"
             photo="https://www.cm-mourao.pt/pt/site-servicos/PublishingImages/Farmacia%20Central.jpg?RenditionID=16&Width=639&Height=362"
-            navigation={navigation}
           />
           <ShopUnit
             name="Norteshopping"
             address="R. Sara Afonso, 4460-841 Sra. da Hora"
             photo="https://nit.pt/wp-content/uploads/2019/06/fc6945645b5ec9a7a2f3abadac824498.jpg"
-            navigation={navigation}
           />
         </ScrollView>
       </View>

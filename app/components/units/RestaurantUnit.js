@@ -18,10 +18,10 @@ const styles = StyleSheet.create({
     marginLeft: 13
   },
   button: {
-    paddingVertical: 10,
     alignItems: 'center',
     display: 'flex',
     flexDirection: 'row',
+    paddingVertical: 5,
     backgroundColor: 'white',
     borderRadius: 20,
     flex: 1,
@@ -54,21 +54,45 @@ const styles = StyleSheet.create({
     display: 'flex',
     maxWidth: '100%'
   },
-  address: {
-    paddingTop: 5,
+  addresscontact: {
     textAlign: 'left',
     color: 'black',
     opacity: 0.8,
     fontSize: 11,
-    fontWeight: "200"
+    fontWeight: "200",
+    paddingTop: 1
   },
+  ratingprice: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "flex-end"
+  },
+  price: {
+    textAlign: 'left',
+    color: '#5393DF',
+    fontSize: 11,
+    fontWeight: "400",
+  },
+  rating: {
+    display: 'flex',
+    flexDirection: 'row',
+    paddingRight: 5,
+    paddingLeft: 2,
+    paddingTop: 2
+  },
+  ratingnumber: {
+    textAlign: 'left',
+    color: '#FB7E0A',
+    fontSize: 11,
+    fontWeight: "400",
+  }
 });
 
-const ShopUnit = (props) => {
+const RestaurantUnit = (props) => {
   const [selected, setSelected] = useState(false)
 
-  const handleShopPress = () => {
-    console.log("Open shop details")
+  const handleRestaurantPress = () => {
+    console.log("Open restaurant details")
   }
 
   const handleSelectPress = () => {
@@ -76,9 +100,38 @@ const ShopUnit = (props) => {
     setSelected(!selected)
   }
 
+  const getRating = () => {
+    let stars = []
+    for (let i = 1; i < 6; i++) {
+      if(i <= Math.floor(props.rating)){
+        stars.push(<Icon
+          name={'ios-star'}
+          size={13}
+          color="#F1C644"
+          type="ionicon"
+        />)
+      } else if((parseFloat(props.rating)-i) >= -0.5){
+        stars.push(<Icon
+          name={'ios-star-half'}
+          size={13}
+          color="#F1C644"
+          type="ionicon"
+        />)
+      } else {
+        stars.push(<Icon
+          name={'ios-star-outline'}
+          size={13}
+          color="#F1C644"
+          type="ionicon"
+        />)
+      }
+    }
+    return stars
+  }
+
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button} activeOpacity={0.8} onPress={handleShopPress}>
+      <TouchableOpacity style={styles.button} activeOpacity={0.8} onPress={handleRestaurantPress}>
         <Image
           source={{ uri: props.photo, }}
           resizeMode="cover"
@@ -88,7 +141,14 @@ const ShopUnit = (props) => {
           <View style={styles.text}>
             <View style={styles.place}>
               <Text adjustsFontSizeToFit numberOfLines={2} style={styles.name}>{props.name}</Text>
-              <Text adjustsFontSizeToFit numberOfLines={2} style={styles.address}>{props.address}</Text>
+              <Text adjustsFontSizeToFit numberOfLines={2} style={styles.addresscontact}>{props.address}</Text>
+              <View style={styles.ratingprice}>
+                <Text adjustsFontSizeToFit numberOfLines={1} style={styles.ratingnumber}>{props.rating}</Text>
+                <View style={styles.rating}>
+                  {getRating()}
+                </View>
+                <Text adjustsFontSizeToFit numberOfLines={1} style={styles.price}>{props.price}€</Text>
+              </View>
             </View>
           </View>
           <TouchableHighlight
@@ -122,4 +182,4 @@ const ShopUnit = (props) => {
   )
 };
 
-export default ShopUnit;
+export default RestaurantUnit;

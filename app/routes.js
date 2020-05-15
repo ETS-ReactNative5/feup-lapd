@@ -9,27 +9,26 @@ import PlannedTrips from './pages/PlannedTrips'
 import POIs from './pages/POIs'
 import Shops from './pages/Shops'
 import Hotels from './pages/Hotels'
+import Restaurants from './pages/Restaurants'
 
 const Stack = createStackNavigator();
 
-const navigatorOptions = () => {
-  return {
-    headerTransparent: true,
-    headerTintColor: 'black',
-    headerBackTitle: ' ',
-    headerTitleAlign: 'center',
-    headerTitle: (
-      <Image
-        source={require('./assets/logo.png')}
-        resizeMode="contain"
-        style={{
-          width: 50,
-          height: 50,
-          resizeMode: 'contain',
-        }}
-      />
-    ),
-  }
+const navigatorOptions = {
+  headerTransparent: true,
+  headerTintColor: 'black',
+  headerBackTitle: ' ',
+  headerTitleAlign: 'center',
+  headerTitle: (
+    <Image
+      source={require('./assets/logo.png')}
+      resizeMode="contain"
+      style={{
+        width: 50,
+        height: 50,
+        resizeMode: 'contain',
+      }}
+    />
+  )
 }
 
 export default function Routes() {
@@ -46,27 +45,32 @@ export default function Routes() {
           <Stack.Screen
             name="TripMain"
             component={TripMain}
-            options={navigatorOptions()}
+            options={navigatorOptions}
           />
           <Stack.Screen
             name="PlannedTrips"
             component={PlannedTrips}
-            options={navigatorOptions()}
+            options={navigatorOptions}
           />
           <Stack.Screen
             name="POIs"
             component={POIs}
-            options={navigatorOptions()}
+            options={navigatorOptions}
           />
           <Stack.Screen
             name="Shops"
             component={Shops}
-            options={navigatorOptions()}
+            options={navigatorOptions}
           />
           <Stack.Screen
             name="Hotels"
             component={Hotels}
-            options={navigatorOptions()}
+            options={navigatorOptions}
+          />
+          <Stack.Screen
+            name="Restaurants"
+            component={Restaurants}
+            options={navigatorOptions}
           />
         </Stack.Navigator>
       </NavigationContainer>

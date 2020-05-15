@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   ratingprice: {
     display: "flex",
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "flex-end"
   },
   price: {
     textAlign: 'left',
@@ -85,8 +85,7 @@ const HotelUnit = (props) => {
   const [selected, setSelected] = useState(false)
 
   const handleHotelPress = () => {
-    console.log("NAVIGATE")
-    // navigation.navigate('Main')
+    console.log("Open hotel details")
   }
 
   const handleSelectPress = () => {
@@ -98,7 +97,6 @@ const HotelUnit = (props) => {
     let stars = []
     for (let i = 0; i < parseInt(props.rating); i++) {
       stars.push(<Icon
-        // name={'ios-star-half'}
         name={'ios-star'}
         size={13}
         color="#F1C644"
@@ -133,27 +131,27 @@ const HotelUnit = (props) => {
           <TouchableHighlight
             onPress={handleSelectPress}
             underlayColor='transparent'
-            >
-              <View>
-                {!selected &&
-                  <Icon
-                    iconStyle={styles.icon}
-                    name="plus"
-                    size={25}
-                    color="#BD0B0B"
-                    type="evilicon"
-                  />
-                }
-                {selected &&
-                  <Icon
-                    iconStyle={styles.icon}
-                    name="check"
-                    size={25}
-                    color="#2FA511"
-                    type="evilicon"
-                  />
-                }
-              </View>
+          >
+            <View>
+              {!selected &&
+                <Icon
+                  iconStyle={styles.icon}
+                  name="plus"
+                  size={25}
+                  color="#BD0B0B"
+                  type="evilicon"
+                />
+              }
+              {selected &&
+                <Icon
+                  iconStyle={styles.icon}
+                  name="check"
+                  size={25}
+                  color="#2FA511"
+                  type="evilicon"
+                />
+              }
+            </View>
           </TouchableHighlight>
         </View>
       </TouchableOpacity>

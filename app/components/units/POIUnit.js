@@ -62,8 +62,7 @@ const POIUnit = (props) => {
   const [selected, setSelected] = useState(false)
 
   const handlePOIPress = () => {
-    console.log("NAVIGATE")
-    // navigation.navigate('Main')
+    console.log("Open POI details")
   }
 
   const handleSelectPress = () => {
