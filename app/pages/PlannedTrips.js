@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
 import {
-  Text, Image, StyleSheet, Dimensions, View, ScrollView
+  Text, StyleSheet, Dimensions, View, ScrollView
 } from 'react-native';
-import SelectInput from '../components/SelectInput';
-import MainButton from '../components/MainButton';
 import Background from '../components/Background';
 import PlannedTripUnit from '../components/PlannedTripUnit';
 
@@ -43,37 +41,57 @@ const PlannedTrips = ({navigation}) => {
           <Text style={styles.title}>Planned Trips</Text>
         </View>
         <ScrollView contentContainerStyle={{width: "100%"}}>
-          <PlannedTripUnit content="IOIO" navigation={navigation}/>
-          <PlannedTripUnit content="IOIO" navigation={navigation}/>
-          <PlannedTripUnit content="IOIO" navigation={navigation}/>
-          <PlannedTripUnit content="IOIO" navigation={navigation}/>
-          <PlannedTripUnit content="IOIO" navigation={navigation}/>
-          <PlannedTripUnit content="IOIO" navigation={navigation}/>
-          <PlannedTripUnit content="IOIO" navigation={navigation}/>
-          <PlannedTripUnit content="IOIO" navigation={navigation}/>
+          <PlannedTripUnit
+            city="Porto"
+            country="Portugal"
+            photo="https://i0.statig.com.br/bancodeimagens/5l/eb/sa/5lebsabb3aqcx1upuu5nwzibw.jpg"
+            date="12 - 16 Mar"
+            navigation={navigation}
+          />
+          <PlannedTripUnit
+            city="Barcelona"
+            country="Espanha"
+            photo="https://cdn4.hotelopia.com/destinations/d/BCN.jpg"
+            date="25 - 27 Apr"
+            navigation={navigation}
+          />
+          <PlannedTripUnit
+            city="Lisboa"
+            country="Portugal"
+            photo="https://media-manager.noticiasaominuto.com/1920/naom_5c028796324ea.jpg"
+            date="12 - 16 Mar"
+            navigation={navigation}
+          />
+          <PlannedTripUnit
+            city="Porto"
+            country="Portugal"
+            photo="https://i0.statig.com.br/bancodeimagens/5l/eb/sa/5lebsabb3aqcx1upuu5nwzibw.jpg"
+            date="12 - 16 Mar"
+            navigation={navigation}
+          />
+          <PlannedTripUnit
+            city="Porto"
+            country="Portugal"
+            photo="https://i0.statig.com.br/bancodeimagens/5l/eb/sa/5lebsabb3aqcx1upuu5nwzibw.jpg"
+            date="12 - 16 Mar"
+            navigation={navigation}
+          />
+          <PlannedTripUnit
+            city="Porto"
+            country="Portugal"
+            photo="https://i0.statig.com.br/bancodeimagens/5l/eb/sa/5lebsabb3aqcx1upuu5nwzibw.jpg"
+            date="12 - 16 Mar"
+            navigation={navigation}
+          />
+          <PlannedTripUnit
+            city="Porto"
+            country="Portugal"
+            photo="https://i0.statig.com.br/bancodeimagens/5l/eb/sa/5lebsabb3aqcx1upuu5nwzibw.jpg"
+            date="12 - 16 Mar"
+            navigation={navigation}
+          />
         </ScrollView>
       </View>
-      {/* <Image
-        source={require('../assets/logo.png')}
-        style={styles.logo}
-        resizeMode="contain"
-      />
-      <View style={styles.searchinputs}>
-        <SelectInput value={city} onChange={setCity} placeholder="Select city..." icon="location" />
-        <SelectInput value={date} onChange={setDate} placeholder="Select date..." icon="calendar" />
-      </View>
-      <View style={styles.buttoncontainer}>
-        <MainButton text='Search' widthRatio={0.5} handlePress={handleSearch}/>
-      </View>
-      <TouchableHighlight
-        onPress={handlePlannedTripsPress}
-        underlayColor='transparent'
-        style={styles.plannedtripscontainer}
-        >
-          <View>
-            <Text style={styles.plannedtrips}>View planned trips</Text>
-          </View>
-      </TouchableHighlight> */}
     </Background>
   )
 };
