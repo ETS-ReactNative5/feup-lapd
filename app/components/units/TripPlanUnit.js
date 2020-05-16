@@ -46,6 +46,9 @@ const styles = StyleSheet.create({
     paddingRight: 15,
     opacity: 0.8
   },
+  alert: {
+    paddingRight: 5,
+  },
   text: {
     flex: 2,
     marginHorizontal: 12,
@@ -59,15 +62,13 @@ const styles = StyleSheet.create({
 });
 
 const TripPlanUnit = (props) => {
-  const [selected, setSelected] = useState(false)
 
-  const handlePOIPress = () => {
-    console.log("Open POI details")
+  const handleDeletePress = () => {
+    console.log("Delete pressed")
   }
 
-  const handleSelectPress = () => {
-    console.log("Selected pressed")
-    setSelected(!selected)
+  const handleAlertPress = () => {
+    console.log("Alert pressed")
   }
 
   return (
@@ -84,29 +85,32 @@ const TripPlanUnit = (props) => {
               <Text adjustsFontSizeToFit numberOfLines={2} style={styles.name}>{props.name}</Text>
             </View>
           </View>
-          <TouchableHighlight
-            onPress={handleSelectPress}
+          {props.alert && <TouchableHighlight
+            onPress={handleAlertPress}
             underlayColor='transparent'
           >
             <View>
-              {!selected &&
-                <Icon
-                  iconStyle={styles.icon}
-                  name="plus"
-                  size={25}
-                  color="#BD0B0B"
-                  type="evilicon"
-                />
-              }
-              {selected &&
-                <Icon
-                  iconStyle={styles.icon}
-                  name="check"
-                  size={25}
-                  color="#2FA511"
-                  type="evilicon"
-                />
-              }
+              <Icon
+                iconStyle={styles.alert}
+                name="exclamation"
+                size={25}
+                color="#EBD50F"
+                type="evilicon"
+              />
+            </View>
+          </TouchableHighlight>}
+          <TouchableHighlight
+            onPress={handleDeletePress}
+            underlayColor='transparent'
+          >
+            <View>
+              <Icon
+                iconStyle={styles.icon}
+                name="trash"
+                size={25}
+                color="#BD0B0B"
+                type="evilicon"
+              />
             </View>
           </TouchableHighlight>
         </View>

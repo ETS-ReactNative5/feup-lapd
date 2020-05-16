@@ -8,7 +8,11 @@ import {
   Animated,
   Easing,
   Platform,
+  TouchableHighlight,
+  ScrollView
 } from 'react-native';
+import { Icon } from 'react-native-elements'
+
 import Background from '../components/Background';
 import TripPlanUnit from '../components/units/TripPlanUnit';
 import SortableList from 'react-native-sortable-list';
@@ -31,13 +35,17 @@ const styles = StyleSheet.create({
   titlecontainer: {
     justifyContent: 'flex-start',
     width: '100%',
-    paddingBottom: 25,
+    paddingBottom: 15,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center'
   },
-  list: {
-    flex: 1,
+  date: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    textAlign: 'left',
+    color: '#E51B23',
+    flex: 2,
   },
   contentContainer: {
     paddingHorizontal: 20
@@ -57,23 +65,46 @@ const styles = StyleSheet.create({
         marginHorizontal: 30,
       },
     })
+  },
+  scrollview: {
+    flexGrow: 1
+  },
+  datemap: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingBottom: 10,
+    paddingTop: 20,
+  },
+  list: {
+    flexGrow: 1,
   }
 });
 
 const data = {
   0: {
-    photo: 'https://placekitten.com/200/240',
-    name: 'Chloe',
+    photo: 'https://www.vilagale.com/media/1231487/slider_vgportoribeira.jpg?quality=89',
+    name: 'Ribeira',
+    alert: true
   },
   1: {
-    photo: 'https://placekitten.com/200/201',
-    name: 'Jasper',
+    photo: 'https://media-manager.noticiasaominuto.com/1920/naom_5b9bc00a43bfc.jpg',
+    name: 'Avenida dos Aliados',
   },
   2: {
-    photo: 'https://placekitten.com/200/202',
-    name: 'Pepper',
+    photo: 'https://www.comerciocomhistoria.gov.pt/wp-content/uploads/import/listings/3351_imagem2.jpg',
+    name: 'Livraria Lello',
+    alert: true
   }
 };
+
+const all_data = [
+  {date: "12 Mar", data: data},
+  {date: "13 Mar", data: data},
+  {date: "14 Mar", data: data},
+  {date: "15 Mar", data: data}
+]
 
 const Row = (props) => {
 
@@ -124,12 +155,15 @@ const Row = (props) => {
         <TripPlanUnit
           name={props.data.name}
           photo={props.data.photo}
+          alert={props.data.alert}
         />
     </Animated.View>
   );
 }
 
 const TripPlan = () => {
+
+  const [scroll, setScroll] = useState(true);
 
   useEffect(() => {
     console.log("Points of Interest page")
@@ -139,32 +173,46 @@ const TripPlan = () => {
     return <Row data={data} active={active} />
   }
 
+  const handleMapPress = () => {
+    console.log("Map pressed")
+  }
+
   return (
     <Background>
       <View style={styles.container}>
         <View style={styles.titlecontainer}>
           <Text style={styles.title}>Trip Plan</Text>
         </View>
-        {/* <ScrollView contentContainerStyle={{width: "100%"}}>
-          <TripPlanUnit
-            name="Torre dos Clérigos"
-            photo="https://thumbs.web.sapo.io/?W=800&H=0&delay_optim=1&epic=NGVjacAb7MZWPBuMOmahyV9l5LPGACf7TtK2b3sXQhWHzLBPc9KC7eZMvN6GQ/S6YHh0fxK5DJYvPq/YoSd7E1hFcwUefVWbJLytu0BkI5CsuE8="
-          />
-          <TripPlanUnit
-            name="Ribeira"
-            photo="https://i0.statig.com.br/bancodeimagens/5l/eb/sa/5lebsabb3aqcx1upuu5nwzibw.jpg"
-          />
-          <TripPlanUnit
-            name="Avenida dos Aliados"
-            photo="https://media-manager.noticiasaominuto.com/1920/naom_5b9bc00a43bfc.jpg"
-          />
-        </ScrollView> */}
-          <SortableList
-            style={styles.list}
-            contentContainerStyle={styles.contentContainer}
-            data={data}
-            renderRow={_renderRow}
-          />
+        <ScrollView contentContainerStyle={styles.scrollview} scrollEnabled={scroll}>
+          {all_data.map(day =>
+            <>
+              <View style={styles.datemap}>
+                <Text style={styles.date}>{day.date}</Text>
+                <TouchableHighlight
+                  onPress={handleMapPress}
+                  underlayColor='transparent'
+                >
+                  <View>
+                    <Icon
+                      name={'md-map'}
+                      size={35}
+                      color="green"
+                      type="ionicon"
+                    />
+                  </View>
+                </TouchableHighlight>
+              </View>
+              <SortableList
+                style={styles.list}
+                contentContainerStyle={styles.contentContainer}
+                data={day.data}
+                renderRow={_renderRow}
+                onActivateRow={() => setScroll(false)}
+                onReleaseRow={() => setScroll(true)}
+              />
+            </>
+          )}
+        </ScrollView>
       </View>
     </Background>
   )
