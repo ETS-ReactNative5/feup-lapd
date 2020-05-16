@@ -109,6 +109,7 @@ const RestaurantUnit = (props) => {
           size={13}
           color="#F1C644"
           type="ionicon"
+          key={`star_${i}`}
         />)
       } else if((parseFloat(props.rating)-i) >= -0.5){
         stars.push(<Icon
@@ -116,6 +117,7 @@ const RestaurantUnit = (props) => {
           size={13}
           color="#F1C644"
           type="ionicon"
+          key={`star_${i}`}
         />)
       } else {
         stars.push(<Icon
@@ -123,6 +125,7 @@ const RestaurantUnit = (props) => {
           size={13}
           color="#F1C644"
           type="ionicon"
+          key={`star_${i}`}
         />)
       }
     }

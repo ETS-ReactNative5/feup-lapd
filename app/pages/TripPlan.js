@@ -161,7 +161,7 @@ const Row = (props) => {
   );
 }
 
-const TripPlan = () => {
+const TripPlan = ({navigation}) => {
 
   const [scroll, setScroll] = useState(true);
 
@@ -174,7 +174,7 @@ const TripPlan = () => {
   }
 
   const handleMapPress = () => {
-    console.log("Map pressed")
+    navigation.navigate('TripMap')
   }
 
   return (

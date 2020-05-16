@@ -101,6 +101,7 @@ const HotelUnit = (props) => {
         size={13}
         color="#F1C644"
         type="ionicon"
+        key={`star_${i}`}
       />)
     }
     return stars
