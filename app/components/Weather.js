@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {StyleSheet, View, ScrollView} from 'react-native';
 import WeatherIcon from './WeatherIcon';
+import { ApiServices } from '../api/ApiServices';
 
 const styles = StyleSheet.create({
   container: {
@@ -12,18 +13,26 @@ const styles = StyleSheet.create({
   }
 });
 
-const Weather = (props) => (
-  <View style={styles.container}>
-    <ScrollView horizontal={true}>
-      <WeatherIcon date="12 Mar" weather="sun" max="32" min="9"/>
-      <WeatherIcon date="13 Mar" weather="cloud" max="31" min="10"/>
-      <WeatherIcon date="14 Mar" weather="rain" max="30" min="-1"/>
-      <WeatherIcon date="15 Mar" weather="sun_cloud" max="28" min="20"/>
-      <WeatherIcon date="16 Mar" weather="snow" max="25" min="12"/>
-      <WeatherIcon date="17 Mar" weather="thunder" max="25" min="12"/>
-      <WeatherIcon date="18 Mar" weather="random" max="25" min="12"/>
-    </ScrollView>
-  </View>
-);
+const Weather = (props) => {
+  const [weathers, setWeather] = useState(null)
+
+  useEffect(() => {
+    ApiServices.getWeather("Viseu").then((response) => {
+      setWeather(response.data)
+    }).catch((error) => {console.log(error)})
+  }, [])
+
+  return (
+    <View style={styles.container}>
+      <ScrollView horizontal={true}>
+        {weathers !== null && weathers.map((item, index) =>{
+          return(
+            <WeatherIcon key={index} date={item.date} weather_main={item.weather_main} weather_description={item.weather_description} max={item.max} min={item.min}/>
+          )
+        })}
+      </ScrollView>
+    </View>
+  )
+};
 
 export default Weather;

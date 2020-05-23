@@ -1,6 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, Dimensions, View, Image} from 'react-native';
-import { Icon } from 'react-native-elements'
+import {StyleSheet, Text, View, Image} from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -37,38 +36,57 @@ const styles = StyleSheet.create({
   }
 });
 
-const getWeatherIcon = (condition) => {
-  switch (condition) {
-    case 'sun':
-      return require('../assets/weather/sun.png')
-    case 'cloud':
-      return require('../assets/weather/cloud.png')
-    case 'fog':
-      return require('../assets/weather/fog.png')
-    case 'rain':
-      return require('../assets/weather/rain.png')
-    case 'snow':
-      return require('../assets/weather/snow.png')
-    case 'sun_cloud':
-      return require('../assets/weather/sun_cloud.png')
-    case 'thunder':
-      return require('../assets/weather/thunder.png')
-    default:
-      return require('../assets/weather/no_weather.png')
+const getWeatherIcon = (main, description) => {
+  if(main === "Clear") {
+    return require('../assets/weather/sun.png')
+  } else if(main === "Clouds" && description === "few clouds"){
+    return require('../assets/weather/sun_cloud.png')
+  } else if(main === "Clouds"){
+    return require('../assets/weather/cloud.png')
+  } else if(main === "Rain" || main === "Drizzle"){
+    return require('../assets/weather/rain.png')
+  } else if(main === "Snow"){
+    return require('../assets/weather/snow.png')
+  } else if(main === "Thunderstorm"){
+    return require('../assets/weather/thunder.png')
+  } else if(
+      main === "Fog" ||
+      main === "Mist" ||
+      main === "Smoke" ||
+      main === "Haze" ||
+      main === "Dust" ||
+      main === "Sand" ||
+      main === "Ash" ||
+      main === "Squall" ||
+      main === "Tornado"
+    ){
+    return require('../assets/weather/fog.png')
+  } else {
+    return require('../assets/weather/no_weather.png')
   }
+}
+
+const getDate = (date) => {
+  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  ];
+
+  const split = date.split("-")
+
+  return split[2] + " " + monthNames[parseInt(split[1])-1]
 }
 
 const WeatherIcon = (props) => (
   <View style={styles.container}>
-    <Text adjustsFontSizeToFit numberOfLines={1} style={styles.date}>{props.date}</Text>
+    <Text adjustsFontSizeToFit numberOfLines={1} style={styles.date}>{getDate(props.date)}</Text>
     <Image
-        source={getWeatherIcon(props.weather)}
+        source={getWeatherIcon(props.weather_main, props.weather_description)}
         resizeMode="contain"
         style={styles.icon}
       />
     <View style={styles.temperature}>
-      <Text style={styles.max}>{props.max}º</Text>
-      <Text style={styles.min}>{props.min}º</Text>
+      <Text style={styles.max}>{Math.round(props.max)}º</Text>
+      <Text style={styles.min}>{Math.round(props.min)}º</Text>
     </View>
   </View>
 );

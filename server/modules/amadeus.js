@@ -54,7 +54,6 @@ getHotelsFilename = (latitude, longitude, radius, sort = "", ratings = "", price
 
 exports.getHotels = async (latitude, longitude, radius, sort, ratings, priceRange) => {
   filename = getHotelsFilename(latitude, longitude, radius, sort, ratings, priceRange)
-  console.log("FILENAME: " + filename)
   storedResponse = dataStorage.getItem(filename)
 
   if(storedResponse !== null) return JSON.parse(storedResponse)
