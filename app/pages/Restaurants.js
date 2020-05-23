@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import {
   Text, StyleSheet, Dimensions, View, ScrollView, Image, TouchableHighlight, ActivityIndicator
 } from 'react-native';
-import { Icon } from 'react-native-elements'
 import Background from '../components/Background';
 import RestaurantUnit from '../components/units/RestaurantUnit';
 import { ApiServices } from '../api/ApiServices';
@@ -54,17 +53,10 @@ const Restaurants = () => {
   const [loading, setLoading] = useState(false)
   const [offset, setOffset] = useState(0)
 
-
-  useEffect(() => {
-    ApiServices.getRestaurants("Lisboa", offset).then((response) => {
-      setRestaurants(response.data.restaurants)
-      setOffset(offset+20)
-    }).catch((error) => console.log(error))
-  }, []);
-
   const fetchRestaurants = () => {
     ApiServices.getRestaurants("Lisboa", offset).then((response) => {
-      setRestaurants(restaurants.concat(response.data.restaurants))
+      if(offset === 0) setRestaurants(response.data.restaurants)
+      else setRestaurants(restaurants.concat(response.data.restaurants))
       setOffset(offset+20)
       setLoading(false)
     }).catch((error) => {
@@ -72,6 +64,10 @@ const Restaurants = () => {
       setLoading(false)
     })
   }
+
+  useEffect(() => {
+    fetchRestaurants()
+  }, []);
 
   const handleFilterPress = () => {
     console.log('Open filters')

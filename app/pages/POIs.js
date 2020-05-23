@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
 import {
-  Text, StyleSheet, Dimensions, View, ScrollView, Image, TouchableHighlight
+  Text, StyleSheet, Dimensions, View, ScrollView, Image, TouchableHighlight, ActivityIndicator
 } from 'react-native';
 import Background from '../components/Background';
 import POIUnit from '../components/units/POIUnit';
+import { ApiServices } from '../api/ApiServices';
 
 const styles = StyleSheet.create({
   container: {
@@ -41,10 +42,32 @@ const styles = StyleSheet.create({
   }
 });
 
+const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
+  const paddingToBottom = 20;
+  return layoutMeasurement.height + contentOffset.y >=
+    contentSize.height - paddingToBottom;
+};
+
 const POIs = () => {
 
+  const [pois, setPois] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [offset, setOffset] = useState(0)
+
+  const fetchPOIs = () => {
+    ApiServices.getPOIs("Lisboa", offset, 'art&outdoor&nightlife&event').then((response) => {
+      if(offset === 0) setPois(response.data.response.venues)
+      else setPois(pois.concat(response.data.response.venues))
+      setOffset(offset+20)
+      setLoading(false)
+    }).catch((error) => {
+      console.log(error)
+      setLoading(false)
+    })
+  }
+
   useEffect(() => {
-    console.log("Points of Interest page")
+    fetchPOIs()
   }, []);
 
   const handleFilterPress = () => {
@@ -68,20 +91,37 @@ const POIs = () => {
             </TouchableHighlight>
           </View>
         </View>
-        <ScrollView contentContainerStyle={{width: "100%"}}>
-          <POIUnit
-            name="Torre dos Clérigos"
-            photo="https://thumbs.web.sapo.io/?W=800&H=0&delay_optim=1&epic=NGVjacAb7MZWPBuMOmahyV9l5LPGACf7TtK2b3sXQhWHzLBPc9KC7eZMvN6GQ/S6YHh0fxK5DJYvPq/YoSd7E1hFcwUefVWbJLytu0BkI5CsuE8="
+        {pois === null &&
+          <ActivityIndicator
+            animating = {true}
+            color = 'black'
+            size = "large"
           />
-          <POIUnit
-            name="Ribeira"
-            photo="https://i0.statig.com.br/bancodeimagens/5l/eb/sa/5lebsabb3aqcx1upuu5nwzibw.jpg"
-          />
-          <POIUnit
-            name="Avenida dos Aliados"
-            photo="https://media-manager.noticiasaominuto.com/1920/naom_5b9bc00a43bfc.jpg"
-          />
-        </ScrollView>
+        }
+        {pois !== null &&
+          <ScrollView
+            contentContainerStyle={{width: "100%"}}
+            onScroll={({nativeEvent}) => {
+              if (isCloseToBottom(nativeEvent)) {
+                if(loading === false) {
+                  setLoading(true)
+                  fetchPOIs()
+                }
+              }
+            }}
+            scrollEventThrottle={400}
+          >
+            {pois.map((poi, index) => {
+              return (
+                <POIUnit
+                  key={index}
+                  name={poi.name}
+                  photo={poi.photoUrl}
+                />
+              )
+            })}
+          </ScrollView>
+        }
       </View>
     </Background>
   )

@@ -74,7 +74,7 @@ const POIUnit = (props) => {
     <View style={styles.container}>
       <TouchableOpacity style={styles.button} activeOpacity={0.8} onPress={handlePOIPress}>
         <Image
-          source={{ uri: props.photo, }}
+          source={props.photo !== null ? { uri: props.photo, }: require('../../assets/no_image.png')}
           resizeMode="cover"
           style={styles.photo}
         />
