@@ -120,6 +120,11 @@ const POIs = () => {
                 />
               )
             })}
+            {loading && <ActivityIndicator
+              animating = {true}
+              color = 'black'
+              size = "large"
+            />}
           </ScrollView>
         }
       </View>

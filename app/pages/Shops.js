@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
 import {
-  Text, StyleSheet, Dimensions, View, ScrollView,
+  Text, StyleSheet, Dimensions, View, ScrollView, ActivityIndicator
 } from 'react-native';
 import Background from '../components/Background';
 import ShopUnit from '../components/units/ShopUnit';
+import { ApiServices } from '../api/ApiServices';
 
 const styles = StyleSheet.create({
   container: {
@@ -31,10 +32,32 @@ const styles = StyleSheet.create({
   }
 });
 
+const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
+  const paddingToBottom = 20;
+  return layoutMeasurement.height + contentOffset.y >=
+    contentSize.height - paddingToBottom;
+};
+
 const Shops = () => {
 
+  const [shops, setShops] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [offset, setOffset] = useState(0)
+
+  const fetchShops = () => {
+    ApiServices.getShops("Lisboa", offset).then((response) => {
+      if(offset === 0) setShops(response.data.response.venues)
+      else setShops(shops.concat(response.data.response.venues))
+      setOffset(offset+20)
+      setLoading(false)
+    }).catch((error) => {
+      console.log(error)
+      setLoading(false)
+    })
+  }
+
   useEffect(() => {
-    console.log("Shops page")
+    fetchShops()
   }, []);
 
   return (
@@ -43,23 +66,42 @@ const Shops = () => {
         <View style={styles.titlecontainer}>
           <Text style={styles.title}>Shops</Text>
         </View>
-        <ScrollView contentContainerStyle={{width: "100%"}}>
-          <ShopUnit
-            name="Continente"
-            address="R. dos Campeões Europeus 28-198, 4350-149 Porto"
-            photo="https://www.dinheirovivo.pt/wp-content/uploads/2018/07/hipermercadocontinente_dv.jpg"
+        {shops === null &&
+          <ActivityIndicator
+            animating = {true}
+            color = 'black'
+            size = "large"
           />
-          <ShopUnit
-            name="Farmácia Central"
-            address="Av. Dr. Ribeiro de Magalhães 658, 4610-108 Felgueiras"
-            photo="https://www.cm-mourao.pt/pt/site-servicos/PublishingImages/Farmacia%20Central.jpg?RenditionID=16&Width=639&Height=362"
-          />
-          <ShopUnit
-            name="Norteshopping"
-            address="R. Sara Afonso, 4460-841 Sra. da Hora"
-            photo="https://nit.pt/wp-content/uploads/2019/06/fc6945645b5ec9a7a2f3abadac824498.jpg"
-          />
-        </ScrollView>
+        }
+        {shops !== null &&
+          <ScrollView
+            contentContainerStyle={{width: "100%"}}
+            onScroll={({nativeEvent}) => {
+              if (isCloseToBottom(nativeEvent)) {
+                if(loading === false) {
+                  setLoading(true)
+                  fetchShops()
+                }
+              }
+            }}
+            scrollEventThrottle={400}
+          >
+            {shops.map((shop, index) => {
+              return(
+                <ShopUnit
+                  key={index}
+                  name={shop.name}
+                  address={(shop.location.address || "") + " " + (shop.location.postalCode || "") + " " + (shop.location.city || "")}
+                  photo={shop.photoUrl}
+                />)
+            })}
+            {loading && <ActivityIndicator
+              animating = {true}
+              color = 'black'
+              size = "large"
+            />}
+          </ScrollView>
+        }
       </View>
     </Background>
   )

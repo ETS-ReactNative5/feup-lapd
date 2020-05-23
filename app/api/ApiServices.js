@@ -45,15 +45,15 @@ const getPOIs = async (city, offset, filters) => {
 const getHotels = async (city, radius, ratings = "", priceRange = "", sort = "") => {
   const query = {
     city: city,
-    radius: radius,
-    ratings: ratings,
-    priceRange: priceRange,
-    sort: sort
+    radius: radius
   }
+
+  if(ratings !== "") query.ratings = ratings
+  if(priceRange !== "") query.priceRange = priceRange
+  if(sort !== "") query.sort = sort
 
   return await axios.get(`${API_URL}/hotels?${qs.stringify(query)}`);
 };
-
 
 export const ApiServices = {
   getWeather,

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
 import {
-  Text, StyleSheet, Dimensions, View, ScrollView, Image, TouchableHighlight
+  Text, StyleSheet, Dimensions, View, ScrollView, Image, TouchableHighlight, ActivityIndicator
 } from 'react-native';
 import Background from '../components/Background';
 import HotelUnit from '../components/units/HotelUnit';
+import { ApiServices } from '../api/ApiServices';
 
 const styles = StyleSheet.create({
   container: {
@@ -42,8 +43,14 @@ const styles = StyleSheet.create({
 
 const Hotels = () => {
 
+  const [hotels, setHotels] = useState(null)
+
   useEffect(() => {
-    console.log("Hotels page")
+    ApiServices.getHotels("Lisboa", 300).then((response) => {
+      setHotels(response.data.data)
+    }).catch((error) => {
+      console.log(error)
+    })
   }, []);
 
   const handleFilterPress = () => {
@@ -67,24 +74,33 @@ const Hotels = () => {
             </TouchableHighlight>
           </View>
         </View>
-        <ScrollView contentContainerStyle={{width: "100%"}}>
-          <HotelUnit
-            name="HF Ipanema Porto"
-            address="Rua do Campo Alegre 156, 4150-169 Porto"
-            contact="22 607 5059"
-            rating="4"
-            price="60"
-            photo="https://pix10.agoda.net/hotelImages/154/1543/1543_15063016440031302008.jpg?s=1024x768"
+        {hotels === null &&
+          <ActivityIndicator
+            animating = {true}
+            color = 'black'
+            size = "large"
           />
-          <HotelUnit
-            name="Hotel Vila Galé Porto"
-            address="Av. de Fernão de Magalhães 7, 4300-190 Porto"
-            contact="22 519 1800"
-            rating="5"
-            price="69"
-            photo="https://q-cf.bstatic.com/images/hotel/max1024x768/739/73902525.jpg"
-          />
-        </ScrollView>
+        }
+        {hotels !== null &&
+          <ScrollView contentContainerStyle={{width: "100%"}}>
+            {hotels.map((item, index) => {
+              const hotel = item.hotel
+              const offers = item.offers
+              console.log(hotel.media.uri)
+              return(
+                <HotelUnit
+                  key={index}
+                  name={hotel.name}
+                  address={hotel.address.lines[0] + " " + hotel.address.postalCode}
+                  contact={hotel.contact.phone}
+                  rating={hotel.rating}
+                  price={offers[0].price.total || "-"}
+                  photo={hotel.media[0].uri}
+                />
+              )
+            })}
+          </ScrollView>
+        }
       </View>
     </Background>
   )
