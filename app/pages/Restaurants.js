@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
 import {
-  Text, StyleSheet, Dimensions, View, ScrollView, Image, TouchableHighlight
+  Text, StyleSheet, Dimensions, View, ScrollView, Image, TouchableHighlight, ActivityIndicator
 } from 'react-native';
+import { Icon } from 'react-native-elements'
 import Background from '../components/Background';
 import RestaurantUnit from '../components/units/RestaurantUnit';
+import { ApiServices } from '../api/ApiServices';
 
 const styles = StyleSheet.create({
   container: {
@@ -40,11 +42,36 @@ const styles = StyleSheet.create({
   }
 });
 
+const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
+  const paddingToBottom = 20;
+  return layoutMeasurement.height + contentOffset.y >=
+    contentSize.height - paddingToBottom;
+};
+
 const Restaurants = () => {
 
+  const [restaurants, setRestaurants] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [offset, setOffset] = useState(0)
+
+
   useEffect(() => {
-    console.log("Restaurants page")
+    ApiServices.getRestaurants("Lisboa", offset).then((response) => {
+      setRestaurants(response.data.restaurants)
+      setOffset(offset+20)
+    }).catch((error) => console.log(error))
   }, []);
+
+  const fetchRestaurants = () => {
+    ApiServices.getRestaurants("Lisboa", offset).then((response) => {
+      setRestaurants(restaurants.concat(response.data.restaurants))
+      setOffset(offset+20)
+      setLoading(false)
+    }).catch((error) => {
+      console.log(error)
+      setLoading(false)
+    })
+  }
 
   const handleFilterPress = () => {
     console.log('Open filters')
@@ -60,29 +87,53 @@ const Restaurants = () => {
               onPress={handleFilterPress}
               underlayColor='transparent'
             >
-                <Image
-                  source={require('../assets/filter.png')}
-                  style={styles.image}
-                />
+              <Image
+                source={require('../assets/filter.png')}
+                style={styles.image}
+              />
             </TouchableHighlight>
           </View>
         </View>
-        <ScrollView contentContainerStyle={{width: "100%"}}>
-          <RestaurantUnit
-            name="Taberna Londrina"
-            address="Estrada da Circunvalação 7964, 4200-537 Porto"
-            rating="4.3"
-            price="21"
-            photo="https://media-cdn.tripadvisor.com/media/photo-s/19/f9/d7/9e/20191101-142718-largejpg.jpg"
+        {restaurants === null &&
+          <ActivityIndicator
+            animating = {true}
+            color = 'black'
+            size = "large"
           />
-          <RestaurantUnit
-            name="Salve Simpatia"
-            address="Rua da Picaria 89 Baixa, Porto 4050-478 Portugal"
-            rating="4.5"
-            price="16"
-            photo="https://media-cdn.tripadvisor.com/media/photo-s/13/8d/55/92/ambiente-res-do-chao.jpg"
-          />
-        </ScrollView>
+        }
+        {restaurants !== null &&
+          <ScrollView
+            contentContainerStyle={{width: "100%"}}
+            onScroll={({nativeEvent}) => {
+              if (isCloseToBottom(nativeEvent)) {
+                if(loading === false) {
+                  setLoading(true)
+                  fetchRestaurants()
+                }
+              }
+            }}
+            scrollEventThrottle={400}
+          >
+            {restaurants.map((item, index) => {
+              const restaurant = item.restaurant
+              return(
+                <RestaurantUnit
+                  key={index}
+                  name={restaurant.name}
+                  address={restaurant.location.address}
+                  rating={restaurant.user_rating.aggregate_rating}
+                  price={restaurant.average_cost_for_two/2}
+                  photo={restaurant.thumb}
+                />
+              )
+            })}
+            {loading && <ActivityIndicator
+              animating = {true}
+              color = 'black'
+              size = "large"
+            />}
+          </ScrollView>
+        }
       </View>
     </Background>
   )
