@@ -1,9 +1,9 @@
 import { Buffer } from 'buffer';
 global.Buffer = Buffer;
-GLOBAL = require('../config/global');
+GLOBAL = require('../config/Global');
 import React, { useEffect, useState } from 'react';
 import {
-  Text, Image, StyleSheet, Dimensions, View, TouchableHighlight
+  Text, Image, StyleSheet, Dimensions, View, TouchableHighlight, AsyncStorage
 } from 'react-native';
 import uuid from 'react-native-uuid';
 import SelectInput from '../components/SelectInput';
@@ -65,18 +65,29 @@ const Main = ({navigation}) => {
     console.log("City: ", city)
     console.log("Date: ", date )
 
+    // TODO: SET VARIABLES FROM SEARCH
     GLOBAL.city = "Porto"
     GLOBAL.country = "Portugal"
     GLOBAL.startDate = "2020-05-12"
     GLOBAL.endDate = "2020-05-17"
     GLOBAL.id = uuid.v4();
 
+    try {
+      AsyncStorage.setItem(`plannedtrips/${GLOBAL.id}`, JSON.stringify({
+        id: GLOBAL.id,
+        city: GLOBAL.city,
+        country: GLOBAL.country,
+        startDate: GLOBAL.startDate,
+        endDate: GLOBAL.endDate,
+        itemName: `plannedtrips/${GLOBAL.id}`,
+        // TODO: GET PHOTO OF A CITY
+        photo: "https://i0.statig.com.br/bancodeimagens/5l/eb/sa/5lebsabb3aqcx1upuu5nwzibw.jpg"
+      }));
+    } catch (error) {
+      console.log(error)
+    }
     navigation.navigate('TripMain')
   }
-
-  useEffect(() => {
-    console.log("Main page")
-  }, []);
 
   return (
     <Background>

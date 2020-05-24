@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import {
-  Text, StyleSheet, Dimensions, View, ScrollView
+  Text, StyleSheet, Dimensions, View, ScrollView, AsyncStorage, ActivityIndicator
 } from 'react-native';
 import Background from '../components/Background';
 import PlannedTripUnit from '../components/units/PlannedTripUnit';
@@ -29,9 +29,36 @@ const styles = StyleSheet.create({
 
 const PlannedTrips = ({navigation}) => {
 
+  const [plannedTrips, setPlannedTrips] = useState(null)
+  const [update, setUpdate] = useState(false)
+
   useEffect(() => {
-    console.log("Planned trips page")
-  }, []);
+    async function getAllPlannedTrips() {
+      try {
+        const keys = await AsyncStorage.getAllKeys();
+        let tripKeys = []
+        keys.forEach(key => {
+          if(key.includes("plannedtrips/")) tripKeys.push(key)
+        });
+
+        const trips = await AsyncStorage.multiGet(tripKeys);
+        let jsonTrips = []
+        trips.forEach(trip => {
+          jsonTrips.push(JSON.parse(trip[1]))
+        });
+        setPlannedTrips(jsonTrips)
+
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    getAllPlannedTrips()
+  }, [update]);
+
+  const handleUpdate = () => {
+    setUpdate(!update)
+  }
 
   return (
     <Background>
@@ -39,57 +66,33 @@ const PlannedTrips = ({navigation}) => {
         <View style={styles.titlecontainer}>
           <Text style={styles.title}>Planned Trips</Text>
         </View>
-        <ScrollView contentContainerStyle={{width: "100%"}}>
-          <PlannedTripUnit
-            city="Porto"
-            country="Portugal"
-            photo="https://i0.statig.com.br/bancodeimagens/5l/eb/sa/5lebsabb3aqcx1upuu5nwzibw.jpg"
-            date="12 - 16 Mar"
-            navigation={navigation}
+        {plannedTrips === null &&
+          <ActivityIndicator
+            animating = {true}
+            color = 'black'
+            size = "large"
           />
-          <PlannedTripUnit
-            city="Barcelona"
-            country="Espanha"
-            photo="https://cdn4.hotelopia.com/destinations/d/BCN.jpg"
-            date="25 - 27 Apr"
-            navigation={navigation}
-          />
-          <PlannedTripUnit
-            city="Lisboa"
-            country="Portugal"
-            photo="https://media-manager.noticiasaominuto.com/1920/naom_5c028796324ea.jpg"
-            date="12 - 16 Mar"
-            navigation={navigation}
-          />
-          <PlannedTripUnit
-            city="Porto"
-            country="Portugal"
-            photo="https://i0.statig.com.br/bancodeimagens/5l/eb/sa/5lebsabb3aqcx1upuu5nwzibw.jpg"
-            date="12 - 16 Mar"
-            navigation={navigation}
-          />
-          <PlannedTripUnit
-            city="Porto"
-            country="Portugal"
-            photo="https://i0.statig.com.br/bancodeimagens/5l/eb/sa/5lebsabb3aqcx1upuu5nwzibw.jpg"
-            date="12 - 16 Mar"
-            navigation={navigation}
-          />
-          <PlannedTripUnit
-            city="Porto"
-            country="Portugal"
-            photo="https://i0.statig.com.br/bancodeimagens/5l/eb/sa/5lebsabb3aqcx1upuu5nwzibw.jpg"
-            date="12 - 16 Mar"
-            navigation={navigation}
-          />
-          <PlannedTripUnit
-            city="Porto"
-            country="Portugal"
-            photo="https://i0.statig.com.br/bancodeimagens/5l/eb/sa/5lebsabb3aqcx1upuu5nwzibw.jpg"
-            date="12 - 16 Mar"
-            navigation={navigation}
-          />
-        </ScrollView>
+        }
+        {plannedTrips !== null &&
+          <ScrollView contentContainerStyle={{width: "100%"}}>
+            {plannedTrips.map((trip, index) => {
+              return(
+                <PlannedTripUnit
+                  key={index}
+                  id={trip.id}
+                  city={trip.city}
+                  country={trip.country}
+                  photo={trip.photo}
+                  startDate={trip.startDate}
+                  endDate={trip.endDate}
+                  navigation={navigation}
+                  itemName={trip.itemName}
+                  update={handleUpdate}
+                />
+              )
+            })}
+          </ScrollView>
+        }
       </View>
     </Background>
   )

@@ -1,5 +1,5 @@
+GLOBAL = require('../config/Global');
 import React, { useEffect, useState } from 'react';
-
 import {
   Text,
   StyleSheet,
@@ -9,7 +9,8 @@ import {
   Easing,
   Platform,
   TouchableHighlight,
-  ScrollView
+  ScrollView,
+  AsyncStorage
 } from 'react-native';
 import { Icon } from 'react-native-elements'
 
@@ -166,7 +167,31 @@ const TripPlan = ({navigation}) => {
   const [scroll, setScroll] = useState(true);
 
   useEffect(() => {
-    console.log("Points of Interest page")
+    console.log(GLOBAL.id)
+
+    async function getAllPlaces() {
+      try {
+        const keys = await AsyncStorage.getAllKeys();
+        let tripKeys = []
+        keys.forEach(key => {
+          if(key.includes(GLOBAL.id)) tripKeys.push(key)
+        });
+        console.log(keys)
+        console.log(tripKeys)
+
+        const places = await AsyncStorage.multiGet(tripKeys);
+        places.forEach(place => {
+          console.log(place)
+          // TODO: NEXT  -> GET TRIP PLAN FROM ASYNC STORAGE
+        });
+
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    getAllPlaces()
+
   }, []);
 
   const _renderRow = ({data, active}) => {

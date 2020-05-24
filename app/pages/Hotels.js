@@ -1,5 +1,5 @@
+GLOBAL = require('../config/Global');
 import React, { useEffect, useState } from 'react';
-
 import {
   Text, StyleSheet, Dimensions, View, ScrollView, Image, TouchableHighlight, ActivityIndicator
 } from 'react-native';
@@ -43,10 +43,13 @@ const styles = StyleSheet.create({
 
 const Hotels = () => {
 
+  // TODO: get radius from filters?
+  const radius = 300
+
   const [hotels, setHotels] = useState(null)
 
   useEffect(() => {
-    ApiServices.getHotels("Lisboa", 300).then((response) => {
+    ApiServices.getHotels(GLOBAL.city, radius).then((response) => {
       setHotels(response.data.data)
     }).catch((error) => {
       console.log(error)
@@ -86,9 +89,9 @@ const Hotels = () => {
             {hotels.map((item, index) => {
               const hotel = item.hotel
               const offers = item.offers
-              console.log(hotel.media.uri)
               return(
                 <HotelUnit
+                  id={hotel.hotelId}
                   key={index}
                   name={hotel.name}
                   address={hotel.address.lines[0] + " " + hotel.address.postalCode}

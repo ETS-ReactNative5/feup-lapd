@@ -1,6 +1,7 @@
 import React from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity, TouchableHighlight} from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableOpacity, TouchableHighlight, AsyncStorage} from 'react-native';
 import { Icon } from 'react-native-elements'
+import { Utils } from '../../utils/Utils';
 
 const styles = StyleSheet.create({
   container: {
@@ -82,57 +83,69 @@ const styles = StyleSheet.create({
   }
 });
 
-const handleTripPress = (navigation) => {
-  console.log("NAVIGATE")
-  // navigation.navigate('Main')
-}
+const PlannedTripUnit = (props) => {
 
-const handleDeletePress = () => {
-  console.log("Delete pressed")
-}
+  const handleDeletePress = async () => {
+    try {
+      await AsyncStorage.removeItem(props.itemName);
+      props.update()
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
-const PlannedTripUnit = (props) => (
-  <View style={styles.container}>
-    <TouchableOpacity style={styles.button} activeOpacity={0.8} onPress={() => handleTripPress(props.navigation)}>
-      <Image
-        source={{ uri: props.photo, }}
-        resizeMode="cover"
-        style={styles.photo}
-      />
-      <View style={styles.content}>
-        <View style={styles.text}>
-          <View style={styles.place}>
-            <Text adjustsFontSizeToFit numberOfLines={2} style={styles.city}>{props.city},</Text>
-            <Text adjustsFontSizeToFit numberOfLines={1} style={styles.country}>{props.country}</Text>
-          </View>
-          <View style={styles.date}>
-            <Icon
-              iconStyle={styles.calendar}
-              name="calendar"
-              size={20}
-              color="black"
-              type="evilicon"
-            />
-            <Text adjustsFontSizeToFit numberOfLines={1} style={styles.datecontent}>{props.date}</Text>
-          </View>
-        </View>
-        <TouchableHighlight
-          onPress={handleDeletePress}
-          underlayColor='transparent'
-          >
-            <View>
+  const handleTripPress = () => {
+    GLOBAL.city = props.city
+    GLOBAL.country = props.country
+    GLOBAL.startDate = props.startDate
+    GLOBAL.endDate = props.endDate
+    GLOBAL.id = props.id
+    props.navigation.navigate('TripMain')
+  }
+
+  return(
+    <View style={styles.container}>
+      <TouchableOpacity style={styles.button} activeOpacity={0.8} onPress={handleTripPress}>
+        <Image
+          source={{ uri: props.photo, }}
+          resizeMode="cover"
+          style={styles.photo}
+        />
+        <View style={styles.content}>
+          <View style={styles.text}>
+            <View style={styles.place}>
+              <Text adjustsFontSizeToFit numberOfLines={2} style={styles.city}>{props.city},</Text>
+              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.country}>{props.country}</Text>
+            </View>
+            <View style={styles.date}>
               <Icon
-                iconStyle={styles.icon}
-                name="trash"
-                size={25}
-                color="#BD0B0B"
+                iconStyle={styles.calendar}
+                name="calendar"
+                size={20}
+                color="black"
                 type="evilicon"
               />
+              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.datecontent}>{`${Utils.getDate(props.startDate)} - ${Utils.getDate(props.endDate)}`}</Text>
             </View>
-        </TouchableHighlight>
-      </View>
-    </TouchableOpacity>
-  </View>
-);
+          </View>
+          <TouchableHighlight
+            onPress={handleDeletePress}
+            underlayColor='transparent'
+            >
+              <View>
+                <Icon
+                  iconStyle={styles.icon}
+                  name="trash"
+                  size={25}
+                  color="#BD0B0B"
+                  type="evilicon"
+                />
+              </View>
+          </TouchableHighlight>
+        </View>
+      </TouchableOpacity>
+    </View>
+  )
+};
 
 export default PlannedTripUnit;

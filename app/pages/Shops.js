@@ -1,4 +1,4 @@
-GLOBAL = require('../config/global');
+GLOBAL = require('../config/Global');
 import React, { useEffect, useState } from 'react';
 import {
   Text, StyleSheet, Dimensions, View, ScrollView, ActivityIndicator,

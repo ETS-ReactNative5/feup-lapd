@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity, TouchableHighlight} from 'react-native';
+GLOBAL = require('../../config/Global');
+import React, { useState, useEffect } from 'react';
+import {StyleSheet, Text, View, Image, TouchableOpacity, TouchableHighlight, AsyncStorage} from 'react-native';
 import { Icon } from 'react-native-elements'
 
 const styles = StyleSheet.create({
@@ -61,13 +62,48 @@ const styles = StyleSheet.create({
 const POIUnit = (props) => {
   const [selected, setSelected] = useState(false)
 
+  const itemName = `${GLOBAL.id}/poi/${props.id}`
+
   const handlePOIPress = () => {
     console.log("Open POI details")
   }
 
-  const handleSelectPress = () => {
-    console.log("Selected pressed")
-    setSelected(!selected)
+  useEffect(() => {
+    async function loadStoredInformation() {
+      try {
+        let value = await AsyncStorage.getItem(itemName);
+        if (value != null) setSelected(true)
+        else setSelected(false)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    loadStoredInformation()
+  }, [])
+
+  const handleSelectPress = async () => {
+    if(selected){
+      try {
+        await AsyncStorage.removeItem(itemName);
+        setSelected(false)
+      } catch (error) {
+        console.log(error)
+      }
+    } else {
+      try {
+        await AsyncStorage.setItem(itemName, JSON.stringify({
+          photo: props.photo,
+          name: props.name,
+          itemName: itemName,
+          // TODO: Handle selected date from calendar pop up
+          date: "2020-05-12"
+        }));
+        setSelected(true)
+      } catch (error) {
+        console.log(error)
+      }
+    }
   }
 
   return (

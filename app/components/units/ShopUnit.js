@@ -1,4 +1,4 @@
-GLOBAL = require('../../config/global');
+GLOBAL = require('../../config/Global');
 import React, { useState, useEffect } from 'react';
 import {StyleSheet, Text, View, Image, TouchableOpacity, TouchableHighlight, AsyncStorage} from 'react-native';
 import { Icon } from 'react-native-elements'
@@ -101,6 +101,7 @@ const ShopUnit = (props) => {
         await AsyncStorage.setItem(itemName, JSON.stringify({
           photo: props.photo,
           name: props.name,
+          itemName: itemName,
           // TODO: Handle selected date from calendar pop up
           date: "2020-05-12"
         }));

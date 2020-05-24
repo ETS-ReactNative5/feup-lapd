@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
+import { Utils } from '../utils/Utils';
 
 const styles = StyleSheet.create({
   container: {
@@ -66,19 +67,9 @@ const getWeatherIcon = (main, description) => {
   }
 }
 
-const getDate = (date) => {
-  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-  ];
-
-  const split = date.split("-")
-
-  return split[2] + " " + monthNames[parseInt(split[1])-1]
-}
-
 const WeatherIcon = (props) => (
   <View style={styles.container}>
-    <Text adjustsFontSizeToFit numberOfLines={1} style={styles.date}>{getDate(props.date)}</Text>
+    <Text adjustsFontSizeToFit numberOfLines={1} style={styles.date}>{Utils.getDate(props.date)}</Text>
     <Image
         source={getWeatherIcon(props.weather_main, props.weather_description)}
         resizeMode="contain"

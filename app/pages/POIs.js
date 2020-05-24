@@ -1,5 +1,5 @@
+GLOBAL = require('../config/Global');
 import React, { useEffect, useState } from 'react';
-
 import {
   Text, StyleSheet, Dimensions, View, ScrollView, Image, TouchableHighlight, ActivityIndicator
 } from 'react-native';
@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
   image: {
     width: 25,
     height: 25,
-    // aspectRatio: 1,
     resizeMode: "contain",
   },
   filter: {
@@ -50,12 +49,14 @@ const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
 
 const POIs = () => {
 
+  const filters = 'art&outdoor&nightlife&event'
+
   const [pois, setPois] = useState(null)
   const [loading, setLoading] = useState(false)
   const [offset, setOffset] = useState(0)
 
   const fetchPOIs = () => {
-    ApiServices.getPOIs("Lisboa", offset, 'art&outdoor&nightlife&event').then((response) => {
+    ApiServices.getPOIs(GLOBAL.city, offset, filters).then((response) => {
       if(offset === 0) setPois(response.data.response.venues)
       else setPois(pois.concat(response.data.response.venues))
       setOffset(offset+20)
@@ -114,6 +115,7 @@ const POIs = () => {
             {pois.map((poi, index) => {
               return (
                 <POIUnit
+                  id={poi.id}
                   key={index}
                   name={poi.name}
                   photo={poi.photoUrl}

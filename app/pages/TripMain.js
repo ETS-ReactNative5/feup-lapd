@@ -1,14 +1,14 @@
-GLOBAL = require('../config/global');
-import React, { useEffect, useState } from 'react';
-
+GLOBAL = require('../config/Global');
+import React, { useEffect } from 'react';
 import {
-  Text, Image, StyleSheet, Dimensions, StatusBar, View
+  StyleSheet, Dimensions, View
 } from 'react-native';
 import Background from '../components/Background';
 import TripInfo from '../components/TripInfo';
 import Weather from '../components/Weather';
 import PlacesGroup from '../components/PlacesGroup';
 import MainButton from '../components/MainButton';
+import { Utils } from '../utils/Utils';
 
 const styles = StyleSheet.create({
   container: {
@@ -21,40 +21,21 @@ const styles = StyleSheet.create({
   }
 });
 
-const getDate = (date) => {
-  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-  ];
-
-  const split = date.split("-")
-
-  return split[2] + " " + monthNames[parseInt(split[1])-1]
-}
-
 const TripMain = ({navigation}) => {
-
-  const city = GLOBAL.city
-  const country = GLOBAL.country
-  const startDate = GLOBAL.startDate
-  const endDate = GLOBAL.endDate
-
-  const handleViewPlanPress = () => {
-    navigation.navigate('TripPlan')
-  }
 
   useEffect(() => {
     console.log("Trip page")
-    console.log(city, startDate, endDate)
+    console.log(GLOBAL.id, GLOBAL.city, GLOBAL.country, GLOBAL.startDate, GLOBAL.endDate)
   }, []);
 
   return (
     <Background>
       <View style={styles.container}>
         {/* <StatusBar barStyle="light-content" backgroundColor="#7159c1" /> */}
-        <TripInfo city={city} country={country} date={`${getDate(startDate)} - ${getDate(endDate)}`}/>
+        <TripInfo city={GLOBAL.city} country={GLOBAL.country} date={`${Utils.getDate(GLOBAL.startDate)} - ${Utils.getDate(GLOBAL.endDate)}`}/>
         <Weather/>
         <PlacesGroup navigation={navigation}/>
-        <MainButton text="View plan" widthRatio={0.7} handlePress={handleViewPlanPress}/>
+        <MainButton text="View plan" widthRatio={0.7} handlePress={() => navigation.navigate('TripPlan')}/>
       </View>
     </Background>
   )

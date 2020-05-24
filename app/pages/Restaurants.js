@@ -1,5 +1,5 @@
+GLOBAL = require('../config/Global');
 import React, { useEffect, useState } from 'react';
-
 import {
   Text, StyleSheet, Dimensions, View, ScrollView, Image, TouchableHighlight, ActivityIndicator
 } from 'react-native';
@@ -54,7 +54,7 @@ const Restaurants = () => {
   const [offset, setOffset] = useState(0)
 
   const fetchRestaurants = () => {
-    ApiServices.getRestaurants("Lisboa", offset).then((response) => {
+    ApiServices.getRestaurants(GLOBAL.city, offset).then((response) => {
       if(offset === 0) setRestaurants(response.data.restaurants)
       else setRestaurants(restaurants.concat(response.data.restaurants))
       setOffset(offset+20)
@@ -115,6 +115,7 @@ const Restaurants = () => {
               return(
                 <RestaurantUnit
                   key={index}
+                  id={restaurant.id}
                   name={restaurant.name}
                   address={restaurant.location.address}
                   rating={restaurant.user_rating.aggregate_rating}
