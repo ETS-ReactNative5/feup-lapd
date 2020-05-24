@@ -1,8 +1,11 @@
+import { Buffer } from 'buffer';
+global.Buffer = Buffer;
+GLOBAL = require('../config/global');
 import React, { useEffect, useState } from 'react';
-
 import {
   Text, Image, StyleSheet, Dimensions, View, TouchableHighlight
 } from 'react-native';
+import uuid from 'react-native-uuid';
 import SelectInput from '../components/SelectInput';
 import MainButton from '../components/MainButton';
 import Background from '../components/Background';
@@ -61,7 +64,14 @@ const Main = ({navigation}) => {
     console.log('Search button pressed')
     console.log("City: ", city)
     console.log("Date: ", date )
-    navigation.navigate('TripMain', { city: city, date: date })
+
+    GLOBAL.city = "Porto"
+    GLOBAL.country = "Portugal"
+    GLOBAL.startDate = "2020-05-12"
+    GLOBAL.endDate = "2020-05-17"
+    GLOBAL.id = uuid.v4();
+
+    navigation.navigate('TripMain')
   }
 
   useEffect(() => {

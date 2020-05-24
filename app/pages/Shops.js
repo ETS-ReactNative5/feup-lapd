@@ -1,7 +1,7 @@
+GLOBAL = require('../config/global');
 import React, { useEffect, useState } from 'react';
-
 import {
-  Text, StyleSheet, Dimensions, View, ScrollView, ActivityIndicator
+  Text, StyleSheet, Dimensions, View, ScrollView, ActivityIndicator,
 } from 'react-native';
 import Background from '../components/Background';
 import ShopUnit from '../components/units/ShopUnit';
@@ -45,7 +45,7 @@ const Shops = () => {
   const [offset, setOffset] = useState(0)
 
   const fetchShops = () => {
-    ApiServices.getShops("Lisboa", offset).then((response) => {
+    ApiServices.getShops(GLOBAL.city, offset).then((response) => {
       if(offset === 0) setShops(response.data.response.venues)
       else setShops(shops.concat(response.data.response.venues))
       setOffset(offset+20)
@@ -90,6 +90,7 @@ const Shops = () => {
               return(
                 <ShopUnit
                   key={index}
+                  id={shop.id}
                   name={shop.name}
                   address={(shop.location.address || "") + " " + (shop.location.postalCode || "") + " " + (shop.location.city || "")}
                   photo={shop.photoUrl}
