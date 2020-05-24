@@ -88,6 +88,12 @@ const PlannedTripUnit = (props) => {
   const handleDeletePress = async () => {
     try {
       await AsyncStorage.removeItem(props.itemName);
+      const keys = await AsyncStorage.getAllKeys();
+      let removeKeys = []
+      keys.forEach(key => {
+        if(key.includes(props.id)) removeKeys.push(key)
+      });
+      await AsyncStorage.multiRemove(removeKeys);
       props.update()
     } catch (error) {
       console.log(error)

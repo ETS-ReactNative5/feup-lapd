@@ -1,7 +1,9 @@
 GLOBAL = require('../../config/Global');
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {StyleSheet, Text, View, Image, TouchableOpacity, TouchableHighlight, AsyncStorage} from 'react-native';
 import { Icon } from 'react-native-elements'
+import DatePicker from '../DatePicker';
+import { Utils } from '../../utils/Utils';
 
 const styles = StyleSheet.create({
   container: {
@@ -64,6 +66,8 @@ const POIUnit = (props) => {
 
   const itemName = `${GLOBAL.id}/poi/${props.id}`
 
+  const childRef = useRef();
+
   const handlePOIPress = () => {
     console.log("Open POI details")
   }
@@ -91,18 +95,21 @@ const POIUnit = (props) => {
         console.log(error)
       }
     } else {
-      try {
-        await AsyncStorage.setItem(itemName, JSON.stringify({
-          photo: props.photo,
-          name: props.name,
-          itemName: itemName,
-          // TODO: Handle selected date from calendar pop up
-          date: "2020-05-12"
-        }));
-        setSelected(true)
-      } catch (error) {
-        console.log(error)
-      }
+      childRef.current.open()
+    }
+  }
+
+  const saveItem = async (selectedDate) => {
+    try {
+      await AsyncStorage.setItem(itemName, JSON.stringify({
+        photo: props.photo,
+        name: props.name,
+        itemName: itemName,
+        date: Utils.formatDate(selectedDate)
+      }));
+      setSelected(true)
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -147,6 +154,7 @@ const POIUnit = (props) => {
           </TouchableHighlight>
         </View>
       </TouchableOpacity>
+      <DatePicker ref={childRef} saveItem={saveItem}/>
     </View>
   )
 };
