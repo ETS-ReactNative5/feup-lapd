@@ -13,6 +13,7 @@ import {
   AsyncStorage
 } from 'react-native';
 import { Icon } from 'react-native-elements'
+import { Utils } from '../utils/Utils';
 
 import Background from '../components/Background';
 import TripPlanUnit from '../components/units/TripPlanUnit';
@@ -80,32 +81,35 @@ const styles = StyleSheet.create({
   },
   list: {
     flexGrow: 1,
+  },
+  noplan: {
+    fontWeight: 'bold',
+  },
+  noplanview: {
+    // display: 'flex',
+    // justifyContent: 'center',
+    // paddingTop: 10,
+    paddingVertical: 10,
+    alignItems: 'center',
   }
 });
 
-const data = {
-  0: {
-    photo: 'https://www.vilagale.com/media/1231487/slider_vgportoribeira.jpg?quality=89',
-    name: 'Ribeira',
-    alert: true
-  },
-  1: {
-    photo: 'https://media-manager.noticiasaominuto.com/1920/naom_5b9bc00a43bfc.jpg',
-    name: 'Avenida dos Aliados',
-  },
-  2: {
-    photo: 'https://www.comerciocomhistoria.gov.pt/wp-content/uploads/import/listings/3351_imagem2.jpg',
-    name: 'Livraria Lello',
-    alert: true
-  }
-};
-
-const all_data = [
-  {date: "12 Mar", data: data},
-  {date: "13 Mar", data: data},
-  {date: "14 Mar", data: data},
-  {date: "15 Mar", data: data}
-]
+// const data = {
+//   0: {
+//     photo: 'https://www.vilagale.com/media/1231487/slider_vgportoribeira.jpg?quality=89',
+//     name: 'Ribeira',
+//     alert: true
+//   },
+//   1: {
+//     photo: 'https://media-manager.noticiasaominuto.com/1920/naom_5b9bc00a43bfc.jpg',
+//     name: 'Avenida dos Aliados',
+//   },
+//   2: {
+//     photo: 'https://www.comerciocomhistoria.gov.pt/wp-content/uploads/import/listings/3351_imagem2.jpg',
+//     name: 'Livraria Lello',
+//     alert: true
+//   }
+// };
 
 const Row = (props) => {
 
@@ -164,6 +168,7 @@ const Row = (props) => {
 
 const TripPlan = ({navigation}) => {
 
+  const [placesData, setPlacesData] = useState(null)
   const [scroll, setScroll] = useState(true);
 
   useEffect(() => {
@@ -174,17 +179,18 @@ const TripPlan = ({navigation}) => {
         const keys = await AsyncStorage.getAllKeys();
         let tripKeys = []
         keys.forEach(key => {
-          if(key.includes(GLOBAL.id)) tripKeys.push(key)
+          if(key.includes(GLOBAL.id) && !key.includes('plannedtrips')) tripKeys.push(key)
         });
-        console.log(keys)
-        console.log(tripKeys)
 
+        let placesList = Utils.getPlanDates(new Date(GLOBAL.startDate), new Date(GLOBAL.endDate))
         const places = await AsyncStorage.multiGet(tripKeys);
         places.forEach(place => {
-          console.log(place)
-          // TODO: NEXT  -> GET TRIP PLAN FROM ASYNC STORAGE
+          const placeJSON = JSON.parse(place[1])
+          placesList[placeJSON.date] = [...placesList[placeJSON.date], placeJSON]
         });
 
+        console.log(placesList)
+        setPlacesData(placesList)
       } catch (error) {
         console.error(error)
       }
@@ -209,34 +215,45 @@ const TripPlan = ({navigation}) => {
           <Text style={styles.title}>Trip Plan</Text>
         </View>
         <ScrollView contentContainerStyle={styles.scrollview} scrollEnabled={scroll}>
-          {all_data.map(day =>
+          {placesData !== null && Object.keys(placesData).map(key => {
+            return(
             <>
               <View style={styles.datemap}>
-                <Text style={styles.date}>{day.date}</Text>
-                <TouchableHighlight
-                  onPress={handleMapPress}
-                  underlayColor='transparent'
-                >
-                  <View>
-                    <Icon
-                      name={'md-map'}
-                      size={35}
-                      color="green"
-                      type="ionicon"
-                    />
-                  </View>
-                </TouchableHighlight>
+                <Text style={styles.date}>{Utils.getDate(key)}</Text>
+                {placesData[key].length > 0 &&
+                  <TouchableHighlight
+                    onPress={handleMapPress}
+                    underlayColor='transparent'
+                  >
+                    <View>
+                      <Icon
+                        name={'md-map'}
+                        size={35}
+                        color="green"
+                        type="ionicon"
+                      />
+                    </View>
+                  </TouchableHighlight>
+                }
               </View>
-              <SortableList
-                style={styles.list}
-                contentContainerStyle={styles.contentContainer}
-                data={day.data}
-                renderRow={_renderRow}
-                onActivateRow={() => setScroll(false)}
-                onReleaseRow={() => setScroll(true)}
-              />
+              {placesData[key].length > 0 &&
+                <SortableList
+                  style={styles.list}
+                  contentContainerStyle={styles.contentContainer}
+                  data={placesData[key]}
+                  renderRow={_renderRow}
+                  onActivateRow={() => setScroll(false)}
+                  onReleaseRow={() => setScroll(true)}
+                />
+              }
+              {placesData[key].length === 0 &&
+                <View style={styles.noplanview}>
+                  <Text style={styles.noplan}>No plans for this day</Text>
+                </View>
+              }
             </>
-          )}
+            )
+          })}
         </ScrollView>
       </View>
     </Background>
