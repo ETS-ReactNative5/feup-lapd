@@ -76,7 +76,7 @@ const Restaurants = () => {
     }).catch((error) => {
       console.log(error)
       setLoading(false)
-      setRestaurants([])
+      if(restaurants === null) setRestaurants([])
     })
   }
 

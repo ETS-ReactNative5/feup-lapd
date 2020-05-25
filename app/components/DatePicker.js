@@ -40,7 +40,7 @@ const DatePicker = forwardRef((props, ref) => {
             value={date}
             mode="date"
             is24Hour={true}
-            display="default"
+            display="calendar"
             onChange={onDateChangeAndroid}
             minimumDate={new Date(GLOBAL.startDate)}
             maximumDate={new Date(GLOBAL.endDate)}

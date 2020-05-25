@@ -66,7 +66,7 @@ const Main = ({navigation}) => {
     console.log("Date: ", date )
 
     // TODO: SET VARIABLES FROM SEARCH
-    GLOBAL.city = "Portofrferfre"
+    GLOBAL.city = "Porto"
     GLOBAL.country = "Portugal"
     GLOBAL.startDate = "2020-05-12"
     GLOBAL.endDate = "2020-05-17"

@@ -78,7 +78,7 @@ const POIs = () => {
     }).catch((error) => {
       console.log(error)
       setLoading(false)
-      setPois([])
+      if(pois === null) setPois([])
     })
   }
 

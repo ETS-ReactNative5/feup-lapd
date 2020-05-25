@@ -67,7 +67,7 @@ const Shops = () => {
     }).catch((error) => {
       console.log(error)
       setLoading(false)
-      setShops([])
+      if(shops === null) setShops([])
     })
   }
 
