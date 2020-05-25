@@ -121,6 +121,8 @@ const Restaurants = () => {
                   rating={restaurant.user_rating.aggregate_rating}
                   price={restaurant.average_cost_for_two/2}
                   photo={restaurant.thumb}
+                  lat={parseFloat(restaurant.location.latitude)}
+                  long={parseFloat(restaurant.location.longitude)}
                 />
               )
             })}

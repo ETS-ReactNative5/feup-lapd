@@ -111,7 +111,9 @@ const ShopUnit = (props) => {
         photo: props.photo,
         name: props.name,
         itemName: itemName,
-        date: Utils.formatDate(selectedDate)
+        date: Utils.formatDate(selectedDate),
+        lat: props.lat,
+        long: props.long
       }));
       setSelected(true)
     } catch (error) {

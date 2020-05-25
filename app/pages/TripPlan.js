@@ -62,7 +62,6 @@ const styles = StyleSheet.create({
       },
 
       android: {
-        // width: window.width - 30 * 2,
         elevation: 0,
         marginHorizontal: 30,
       },
@@ -86,9 +85,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   noplanview: {
-    // display: 'flex',
-    // justifyContent: 'center',
-    // paddingTop: 10,
     paddingVertical: 10,
     alignItems: 'center',
   }
@@ -161,6 +157,8 @@ const Row = (props) => {
           name={props.data.name}
           photo={props.data.photo}
           alert={props.data.alert}
+          itemName={props.data.itemName}
+          delete={props.data.delete}
         />
     </Animated.View>
   );
@@ -170,10 +168,14 @@ const TripPlan = ({navigation}) => {
 
   const [placesData, setPlacesData] = useState(null)
   const [scroll, setScroll] = useState(true);
+  const [update, setUpdate] = useState(false);
+
+  const handleDelete = () => {
+    setUpdate(!update)
+  }
 
   useEffect(() => {
-    console.log(GLOBAL.id)
-
+    setPlacesData(null)
     async function getAllPlaces() {
       try {
         const keys = await AsyncStorage.getAllKeys();
@@ -186,10 +188,10 @@ const TripPlan = ({navigation}) => {
         const places = await AsyncStorage.multiGet(tripKeys);
         places.forEach(place => {
           const placeJSON = JSON.parse(place[1])
+          placeJSON['delete'] = handleDelete
           placesList[placeJSON.date] = [...placesList[placeJSON.date], placeJSON]
         });
 
-        console.log(placesList)
         setPlacesData(placesList)
       } catch (error) {
         console.error(error)
@@ -198,15 +200,17 @@ const TripPlan = ({navigation}) => {
 
     getAllPlaces()
 
-  }, []);
+  }, [update]);
 
   const _renderRow = ({data, active}) => {
     return <Row data={data} active={active} />
   }
 
-  const handleMapPress = () => {
-    navigation.navigate('TripMap')
+  const handleMapPress = (places) => {
+    navigation.navigate('TripMap', {places: places})
   }
+
+  // TODO: Save order of plans for each day
 
   return (
     <Background>
@@ -222,7 +226,7 @@ const TripPlan = ({navigation}) => {
                 <Text style={styles.date}>{Utils.getDate(key)}</Text>
                 {placesData[key].length > 0 &&
                   <TouchableHighlight
-                    onPress={handleMapPress}
+                    onPress={() => handleMapPress(placesData[key])}
                     underlayColor='transparent'
                   >
                     <View>

@@ -94,6 +94,8 @@ const Shops = () => {
                   name={shop.name}
                   address={(shop.location.address || "") + " " + (shop.location.postalCode || "") + " " + (shop.location.city || "")}
                   photo={shop.photoUrl}
+                  lat={shop.location.lat}
+                  long={shop.location.lng}
                 />)
             })}
             {loading && <ActivityIndicator

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 import {
-  Text, StyleSheet, Dimensions, View, Linking
+  Text, StyleSheet, Dimensions, View, Linking, Alert
 } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import qs from 'qs'
@@ -37,24 +37,44 @@ const styles = StyleSheet.create({
   },
 });
 
-const TripMap = () => {
+const TripMap = ({route}) => {
+
+  const { places } = route.params
 
   let mapRef = null
 
   useEffect(() => {
-    console.log("Trip Map page")
     mapRef.fitToElements(true)
   }, []);
 
-  // https://github.com/react-native-community/react-native-maps
-  // https://developers.google.com/maps/documentation/urls/guide#directions-action
-
   const handleGetDirections = () => {
-    const data = {
-      origin: "41.1579 -8.6291", //Porto (or address)
-      destination: "41.2579 -8.6291", //Vila Real (or address)
-      waypoints: "Norteshopping|41.3579 -8.6291"
+
+    if(places.length < 2) {
+      Alert.alert(
+        'Warning',
+        'In order to get directions, you need to have at least 2 places planned to visit for the day.',
+        [
+          {
+            text: 'Ok',
+            style: 'cancel',
+          }
+        ],
+        { cancelable: false }
+      );
+      return
     }
+
+    const data = {
+      origin: places[0].lat + " " + places[0].long,
+      destination: places[places.length-1].lat + " " + places[places.length-1].long
+    }
+
+    let waypoints = ""
+    for (let i = 1; i < places.length - 1; i++) {
+      waypoints += places[i].lat + " " + places[i].long + "|"
+    }
+
+    if(waypoints !== "") data['waypoints'] = waypoints
 
     Linking.openURL(`https://www.google.com/maps/dir/?api=1&${qs.stringify(data)}`)
   }
@@ -69,22 +89,18 @@ const TripMap = () => {
           ref={(ref) => { mapRef = ref }}
           style={styles.map}
         >
-          <Marker
-            coordinate={{
-              'latitude': 41.1579,
-              'longitude': -8.6291
-            }}
-            title={"tILE"}
-            description={"FRERTG"}
-          />
-          <Marker
-            coordinate={{
-              'latitude': 41.2579,
-              'longitude': -8.6291
-            }}
-            title={"second"}
-            description={"FRERTG"}
-          />
+          {places.map((place, index) => {
+            return(
+              <Marker
+                key={index}
+                coordinate={{
+                  'latitude': place.lat,
+                  'longitude': place.long
+                }}
+                title={place.name}
+              />
+            )
+          })}
         </MapView>
         <MainButton text='Get Directions' widthRatio={0.8} handlePress={handleGetDirections}/>
       </View>

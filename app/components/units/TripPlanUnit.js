@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity, TouchableHighlight} from 'react-native';
+import {StyleSheet, Text, View, Image, AsyncStorage, TouchableHighlight} from 'react-native';
 import { Icon } from 'react-native-elements'
 
 const styles = StyleSheet.create({
@@ -63,8 +63,14 @@ const styles = StyleSheet.create({
 
 const TripPlanUnit = (props) => {
 
-  const handleDeletePress = () => {
-    console.log("Delete pressed")
+  const handleDeletePress = async () => {
+    try {
+      await AsyncStorage.removeItem(props.itemName);
+      setSelected(false)
+    } catch (error) {
+      console.log(error)
+    }
+    props.delete()
   }
 
   const handleAlertPress = () => {

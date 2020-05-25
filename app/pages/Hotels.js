@@ -93,6 +93,8 @@ const Hotels = () => {
                 <HotelUnit
                   id={hotel.hotelId}
                   key={index}
+                  lat={hotel.latitude}
+                  long={hotel.longitude}
                   name={hotel.name}
                   address={hotel.address.lines[0] + " " + hotel.address.postalCode}
                   contact={hotel.contact.phone}

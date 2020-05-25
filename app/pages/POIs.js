@@ -119,6 +119,8 @@ const POIs = () => {
                   key={index}
                   name={poi.name}
                   photo={poi.photoUrl}
+                  lat={poi.location.lat}
+                  long={poi.location.lng}
                 />
               )
             })}
