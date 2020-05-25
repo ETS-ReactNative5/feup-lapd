@@ -41,33 +41,37 @@ const styles = StyleSheet.create({
   }
 });
 
-const handlePress = () => {
-  console.log("Icon pressed")
-}
 
-const SelectInput = (props) => (
-	<View style={styles.view}>
-		<TextInput
-			style={styles.textinput}
-			placeholder={props.placeholder}
-			value={props.value}
-      onChangeText={text => props.onChange(text)}
-		/>
-    <TouchableHighlight
-      onPress={handlePress}
-      underlayColor='transparent'
+const SelectCity = (props) => {
+
+  const handlePress = () => {
+    console.log("Icon pressed")
+  }
+
+  return (
+    <View style={styles.view}>
+      <TextInput
+        style={styles.textinput}
+        placeholder="Select city..."
+        value={props.value}
+        onChangeText={text => props.onChange(text)}
+      />
+      <TouchableHighlight
+        onPress={handlePress}
+        underlayColor='transparent'
       >
         <View>
-            <Icon
-              iconStyle={styles.icon}
-              name={props.icon}
-              size={30}
-              color="black"
-              type="evilicon"
-            />
+          <Icon
+            iconStyle={styles.icon}
+            name="location"
+            size={30}
+            color="black"
+            type="evilicon"
+          />
         </View>
-    </TouchableHighlight>
-  </View>
-);
+      </TouchableHighlight>
+    </View>
+  )
+};
 
-export default SelectInput;
+export default SelectCity;

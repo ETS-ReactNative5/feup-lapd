@@ -31,8 +31,7 @@ const TripMain = ({navigation}) => {
   return (
     <Background>
       <View style={styles.container}>
-        {/* <StatusBar barStyle="light-content" backgroundColor="#7159c1" /> */}
-        <TripInfo city={GLOBAL.city} country={GLOBAL.country} date={`${Utils.getDate(GLOBAL.startDate)} - ${Utils.getDate(GLOBAL.endDate)}`}/>
+        <TripInfo city={GLOBAL.city} country={GLOBAL.country} date={GLOBAL.startDate === GLOBAL.endDate ? Utils.getDate(GLOBAL.startDate) : `${Utils.getDate(GLOBAL.startDate)} - ${Utils.getDate(GLOBAL.endDate)}`}/>
         <Weather/>
         <PlacesGroup navigation={navigation}/>
         <MainButton text="View plan" widthRatio={0.7} handlePress={() => navigation.navigate('TripPlan')}/>

@@ -1,14 +1,19 @@
 import { Buffer } from 'buffer';
 global.Buffer = Buffer;
 GLOBAL = require('../config/Global');
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
-  Text, Image, StyleSheet, Dimensions, View, TouchableHighlight, AsyncStorage
+  Text, Image, StyleSheet, Dimensions, View, TouchableHighlight, AsyncStorage, Alert
 } from 'react-native';
 import uuid from 'react-native-uuid';
-import SelectInput from '../components/SelectInput';
+import  moment  from  "moment";
+// import DateRangePicker from "react-native-daterange-picker";
+import DateRangePicker from "../components/DateRangePicker";
+import SelectDate from '../components/SelectDate';
+import SelectCity from '../components/SelectCity';
 import MainButton from '../components/MainButton';
 import Background from '../components/Background';
+import { Utils } from '../utils/Utils';
 
 const styles = StyleSheet.create({
   container: {
@@ -47,7 +52,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-
   buttoncontainer: {
     flex: 2,
     justifyContent: 'center',
@@ -58,18 +62,54 @@ const styles = StyleSheet.create({
 const Main = ({navigation}) => {
 
   const [city, setCity] = useState('');
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState('Select dates...');
+
+  const childRef = useRef();
+
+  const [startDate, setStartDate] = useState(null)
+  const [endDate, setEndDate] = useState(null)
+  const [displayedDate, setDisplayedDate] = useState(moment())
+  const [flag, setFlag] = useState(false)
+
+  const setDates = (dates) => {
+    if(dates.startDate) setStartDate(dates.startDate)
+    if(dates.endDate) setEndDate(dates.endDate)
+    if(dates.displayedDate) setDisplayedDate(dates.displayedDate)
+  }
 
   const handleSearch = () => {
     console.log('Search button pressed')
     console.log("City: ", city)
-    console.log("Date: ", date )
 
-    // TODO: SET VARIABLES FROM SEARCH
+    // TODO: GET CITY AND COUNTRY
     GLOBAL.city = "Porto"
     GLOBAL.country = "Portugal"
-    GLOBAL.startDate = "2020-05-12"
-    GLOBAL.endDate = "2020-05-17"
+
+    if(startDate === null || endDate === null){
+      Alert.alert('Error', 'No dates selected.', [
+          {
+            text: 'Ok',
+            style: 'cancel',
+          }
+        ],
+        { cancelable: false }
+      );
+      return
+    }
+    if(startDate > endDate){
+      Alert.alert('Error', 'Start date cannot be after end date.',  [
+          {
+            text: 'Ok',
+            style: 'cancel',
+          }
+        ],
+        { cancelable: false }
+      );
+      return
+    }
+
+    GLOBAL.startDate = Utils.formatDate(startDate)
+    GLOBAL.endDate = Utils.formatDate(endDate)
     GLOBAL.id = uuid.v4();
 
     try {
@@ -89,28 +129,47 @@ const Main = ({navigation}) => {
     navigation.navigate('TripMain')
   }
 
+  useEffect(() => {
+    if(startDate !== null && endDate !== null){
+      if(Utils.formatDate(startDate) === Utils.formatDate(endDate)) setDate(Utils.getDate(Utils.formatDate(startDate)))
+      else setDate(`${Utils.getDate(Utils.formatDate(startDate))} - ${Utils.getDate(Utils.formatDate(endDate))}`)
+      setFlag(true)
+    }
+  }, [startDate, endDate])
+
+  const openCalendar = () => {
+    childRef.current.onOpen()
+  }
+
   return (
     <Background>
+      <DateRangePicker
+        ref={childRef}
+        onChange={setDates}
+        endDate={endDate}
+        startDate={startDate}
+        displayedDate={displayedDate}
+        range
+      />
       <Image
         source={require('../assets/logo.png')}
         style={styles.logo}
         resizeMode="contain"
       />
       <View style={styles.searchinputs}>
-        <SelectInput value={city} onChange={setCity} placeholder="Select city..." icon="location" />
-        <SelectInput value={date} onChange={setDate} placeholder="Select date..." icon="calendar" />
+        <SelectCity value={city} onChange={setCity} />
+        <SelectDate value={date} onChange={setDate} editable={false} flag={flag} openCalendar={openCalendar}/>
       </View>
       <View style={styles.buttoncontainer}>
         <MainButton text='Search' widthRatio={0.5} handlePress={handleSearch}/>
       </View>
       <TouchableHighlight
-        onPress={() => navigation.navigate('PlannedTrips')}
         underlayColor='transparent'
         style={styles.plannedtripscontainer}
-        >
-          <View>
-            <Text style={styles.plannedtrips}>View planned trips</Text>
-          </View>
+      >
+        <View>
+          <Text style={styles.plannedtrips}>View planned trips</Text>
+        </View>
       </TouchableHighlight>
     </Background>
   )
