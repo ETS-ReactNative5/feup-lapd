@@ -8,6 +8,7 @@ const poiRouter = require("./routes/poi");
 const restaurantRouter = require("./routes/restaurant");
 const weatherRouter = require("./routes/weather");
 const locationRouter = require("./routes/location");
+const imageRouter = require("./routes/image");
 
 var app = express();
 
@@ -18,6 +19,7 @@ app.use("/pois", poiRouter);
 app.use("/restaurants", restaurantRouter);
 app.use("/weather", weatherRouter);
 app.use("/location", locationRouter);
+app.use("/image", imageRouter);
 
 const PORT = 3000;
 
