@@ -29,5 +29,12 @@ module.exports = {
   mapquest: {
     url: "http://open.mapquestapi.com/geocoding/v1/address",
     key: process.env.MAPQUEST_KEY
+  },
+  geodb: {
+    url: "http://geodb-free-service.wirefreethought.com/v1/geo",
+  },
+  pixabay: {
+    url: "https://pixabay.com/api",
+    key: process.env.PIXABAY_KEY
   }
 }
