@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-
 import {
   Text, StyleSheet, Dimensions, View, ScrollView, AsyncStorage, ActivityIndicator
 } from 'react-native';
+import { Icon } from 'react-native-elements'
 import Background from '../components/Background';
 import PlannedTripUnit from '../components/units/PlannedTripUnit';
 
@@ -24,6 +24,15 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     width: '100%',
     paddingBottom: 25
+  },
+  notfound: {
+    flex: 2,
+  },
+  notfoundtext: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    paddingTop: 20,
+    textAlign: 'center',
   }
 });
 
@@ -92,6 +101,17 @@ const PlannedTrips = ({navigation}) => {
               )
             })}
           </ScrollView>
+        }
+        {plannedTrips !== null && plannedTrips.length === 0 &&
+          <View style={styles.notfound}>
+            <Icon
+              name={'ios-compass'}
+              size={50}
+              color="black"
+              type="ionicon"
+            />
+            <Text style={styles.notfoundtext}>No planned trips found</Text>
+          </View>
         }
       </View>
     </Background>

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import {
   Text, StyleSheet, Dimensions, View, ScrollView, ActivityIndicator,
 } from 'react-native';
+import { Icon } from 'react-native-elements'
 import Background from '../components/Background';
 import ShopUnit from '../components/units/ShopUnit';
 import { ApiServices } from '../api/ApiServices';
@@ -29,6 +30,19 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center'
+  },
+  loading: {
+    flex: 3,
+    justifyContent: 'center',
+  },
+  notfound: {
+    flex: 2,
+  },
+  notfoundtext: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    paddingTop: 20,
+    textAlign: 'center',
   }
 });
 
@@ -41,7 +55,7 @@ const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
 const Shops = () => {
 
   const [shops, setShops] = useState(null)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [offset, setOffset] = useState(0)
 
   const fetchShops = () => {
@@ -53,6 +67,7 @@ const Shops = () => {
     }).catch((error) => {
       console.log(error)
       setLoading(false)
+      setShops([])
     })
   }
 
@@ -66,12 +81,14 @@ const Shops = () => {
         <View style={styles.titlecontainer}>
           <Text style={styles.title}>Shops</Text>
         </View>
-        {shops === null &&
-          <ActivityIndicator
-            animating = {true}
-            color = 'black'
-            size = "large"
-          />
+        {shops === null && loading === true &&
+          <View style={styles.loading}>
+            <ActivityIndicator
+              animating = {true}
+              color = 'black'
+              size = "large"
+            />
+          </View>
         }
         {shops !== null &&
           <ScrollView
@@ -104,6 +121,17 @@ const Shops = () => {
               size = "large"
             />}
           </ScrollView>
+        }
+        {shops !== null && shops.length === 0 &&
+          <View style={styles.notfound}>
+            <Icon
+              name={'ios-alert'}
+              size={50}
+              color="black"
+              type="ionicon"
+            />
+            <Text style={styles.notfoundtext}>No shops found</Text>
+          </View>
         }
       </View>
     </Background>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, Dimensions, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import { Icon } from 'react-native-elements'
 
 const styles = StyleSheet.create({
@@ -7,12 +7,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     display: 'flex',
     flexDirection: 'row',
-    width: '95%',
+    width: '100%',
     flex: 2
   },
   city: {
     color: 'black',
-    fontSize: 40,
+    fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'left'
   },
@@ -35,18 +35,19 @@ const styles = StyleSheet.create({
     color: '#696969',
     fontWeight: 'bold',
     textAlign: 'right',
-    paddingTop: 3
+    paddingTop: 3,
+    paddingLeft: 5
   }
 });
 
 const TripInfo = (props) => (
   <View style={styles.container}>
     <View style={styles.location}>
-      <Text adjustsFontSizeToFit numberOfLines={1} style={styles.city}>{props.city}</Text>
+      <Text adjustsFontSizeToFit numberOfLines={2} style={styles.city}>{props.city}</Text>
       <Text adjustsFontSizeToFit numberOfLines={1} style={styles.country}>{props.country}</Text>
     </View>
     <View style={styles.datecontainer}>
-      <Text style={styles.date}>{props.date}</Text>
+      <Text adjustsFontSizeToFit numberOfLines={2} style={styles.date}>{props.date}</Text>
       <Icon name='calendar' size={30} color="black" type="evilicon"/>
     </View>
   </View>

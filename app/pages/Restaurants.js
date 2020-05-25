@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import {
   Text, StyleSheet, Dimensions, View, ScrollView, Image, TouchableHighlight, ActivityIndicator
 } from 'react-native';
+import { Icon } from 'react-native-elements'
 import Background from '../components/Background';
 import RestaurantUnit from '../components/units/RestaurantUnit';
 import { ApiServices } from '../api/ApiServices';
@@ -38,6 +39,19 @@ const styles = StyleSheet.create({
   filter: {
     flex: 1,
     alignItems: 'flex-end'
+  },
+  loading: {
+    flex: 3,
+    justifyContent: 'center',
+  },
+  notfound: {
+    flex: 2,
+  },
+  notfoundtext: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    paddingTop: 20,
+    textAlign: 'center',
   }
 });
 
@@ -50,7 +64,7 @@ const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
 const Restaurants = () => {
 
   const [restaurants, setRestaurants] = useState(null)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [offset, setOffset] = useState(0)
 
   const fetchRestaurants = () => {
@@ -62,6 +76,7 @@ const Restaurants = () => {
     }).catch((error) => {
       console.log(error)
       setLoading(false)
+      setRestaurants([])
     })
   }
 
@@ -90,12 +105,14 @@ const Restaurants = () => {
             </TouchableHighlight>
           </View>
         </View>
-        {restaurants === null &&
-          <ActivityIndicator
-            animating = {true}
-            color = 'black'
-            size = "large"
-          />
+        {restaurants === null && loading === true &&
+          <View style={styles.loading}>
+            <ActivityIndicator
+              animating = {true}
+              color = 'black'
+              size = "large"
+            />
+          </View>
         }
         {restaurants !== null &&
           <ScrollView
@@ -132,6 +149,17 @@ const Restaurants = () => {
               size = "large"
             />}
           </ScrollView>
+        }
+        {restaurants !== null && restaurants.length === 0 &&
+          <View style={styles.notfound}>
+            <Icon
+              name={'ios-alert'}
+              size={50}
+              color="black"
+              type="ionicon"
+            />
+            <Text style={styles.notfoundtext}>No restaurants found</Text>
+          </View>
         }
       </View>
     </Background>

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import {
   Text, StyleSheet, Dimensions, View, ScrollView, Image, TouchableHighlight, ActivityIndicator
 } from 'react-native';
+import { Icon } from 'react-native-elements'
 import Background from '../components/Background';
 import POIUnit from '../components/units/POIUnit';
 import { ApiServices } from '../api/ApiServices';
@@ -38,6 +39,19 @@ const styles = StyleSheet.create({
   filter: {
     flex: 1,
     alignItems: 'flex-end'
+  },
+  loading: {
+    flex: 3,
+    justifyContent: 'center',
+  },
+  notfound: {
+    flex: 2,
+  },
+  notfoundtext: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    paddingTop: 20,
+    textAlign: 'center',
   }
 });
 
@@ -52,7 +66,7 @@ const POIs = () => {
   const filters = 'art&outdoor&nightlife&event'
 
   const [pois, setPois] = useState(null)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [offset, setOffset] = useState(0)
 
   const fetchPOIs = () => {
@@ -64,6 +78,7 @@ const POIs = () => {
     }).catch((error) => {
       console.log(error)
       setLoading(false)
+      setPois([])
     })
   }
 
@@ -92,12 +107,14 @@ const POIs = () => {
             </TouchableHighlight>
           </View>
         </View>
-        {pois === null &&
-          <ActivityIndicator
-            animating = {true}
-            color = 'black'
-            size = "large"
-          />
+        {pois === null && loading === true &&
+          <View style={styles.loading}>
+            <ActivityIndicator
+              animating = {true}
+              color = 'black'
+              size = "large"
+            />
+          </View>
         }
         {pois !== null &&
           <ScrollView
@@ -130,6 +147,17 @@ const POIs = () => {
               size = "large"
             />}
           </ScrollView>
+        }
+        {pois !== null && pois.length === 0 &&
+          <View style={styles.notfound}>
+            <Icon
+              name={'ios-alert'}
+              size={50}
+              color="black"
+              type="ionicon"
+            />
+            <Text style={styles.notfoundtext}>No points of interest found</Text>
+          </View>
         }
       </View>
     </Background>

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import {
   Text, StyleSheet, Dimensions, View, ScrollView, Image, TouchableHighlight, ActivityIndicator
 } from 'react-native';
+import { Icon } from 'react-native-elements'
 import Background from '../components/Background';
 import HotelUnit from '../components/units/HotelUnit';
 import { ApiServices } from '../api/ApiServices';
@@ -38,6 +39,19 @@ const styles = StyleSheet.create({
   filter: {
     flex: 1,
     alignItems: 'flex-end'
+  },
+  loading: {
+    flex: 3,
+    justifyContent: 'center',
+  },
+  notfound: {
+    flex: 2,
+  },
+  notfoundtext: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    paddingTop: 20,
+    textAlign: 'center',
   }
 });
 
@@ -78,11 +92,13 @@ const Hotels = () => {
           </View>
         </View>
         {hotels === null &&
-          <ActivityIndicator
-            animating = {true}
-            color = 'black'
-            size = "large"
-          />
+          <View style={styles.loading}>
+            <ActivityIndicator
+              animating = {true}
+              color = 'black'
+              size = "large"
+            />
+          </View>
         }
         {hotels !== null &&
           <ScrollView contentContainerStyle={{width: "100%"}}>
@@ -105,6 +121,17 @@ const Hotels = () => {
               )
             })}
           </ScrollView>
+        }
+        {hotels !== null && hotels.length === 0 &&
+          <View style={styles.notfound}>
+            <Icon
+              name={'ios-alert'}
+              size={50}
+              color="black"
+              type="ionicon"
+            />
+            <Text style={styles.notfoundtext}>No hotels found</Text>
+          </View>
         }
       </View>
     </Background>

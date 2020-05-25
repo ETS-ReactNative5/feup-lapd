@@ -48,7 +48,6 @@ const getPlaceIcon = (icon) => {
 
 const PlacesButton = (props) => {
   const handlePress = () => {
-    console.log("NAVIGATE")
     switch (props.type) {
       case 'poi':
         props.navigation.navigate('POIs')
