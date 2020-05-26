@@ -187,7 +187,7 @@ const POIs = () => {
             <Text style={styles.notfoundtext}>No points of interest found</Text>
           </View>
         }
-        <OverlayCard visible={show} toogleOverlay={handleOverlay}>
+        <OverlayCard height={Platform.OS === 'ios' ? "50%" : "65%"} visible={show} toogleOverlay={handleOverlay}>
           <POIFilter update={handleUpdate} setShow={setShow}
             art={art} toggleArt={() => setArt(!art)}
             outdoor={outdoor} toggleOutdoor={() => setOutdoor(!outdoor)}

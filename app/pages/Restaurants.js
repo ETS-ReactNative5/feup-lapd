@@ -179,7 +179,7 @@ const Restaurants = () => {
             <Text style={styles.notfoundtext}>No restaurants found</Text>
           </View>
         }
-        <OverlayCard width="85%" height="60%" visible={show} toogleOverlay={handleOverlay}>
+        <OverlayCard width="85%" height={Platform.OS === 'ios' ? "40%" : "50%"} visible={show} toogleOverlay={handleOverlay}>
           <RestaurantFilter setOrder={setOrder} setSort={setSort} order={order} sort={sort} update={handleUpdate} setShow={setShow} />
         </OverlayCard>
       </View>

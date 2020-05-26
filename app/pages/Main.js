@@ -142,7 +142,7 @@ const Main = ({navigation}) => {
 
     let photo = null
     try {
-      photo = (await  ApiServices.getCityPhoto(city)).data.image;
+      photo = (await ApiServices.getImage(`${GLOBAL.city} ${GLOBAL.country}`)).data[0].image
     } catch (error) {
       console.log(error)
     }

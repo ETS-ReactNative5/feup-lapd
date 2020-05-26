@@ -83,6 +83,14 @@ const getCityPhoto = async (city) => {
   return await axios.get(`${API_URL}/image?${qs.stringify(query)}`);
 }
 
+const getImage = async (q) => {
+  const query = {
+    q: q
+  }
+
+  return await axios.get(`${API_URL}/image/v2?${qs.stringify(query)}`);
+}
+
 export const ApiServices = {
   getWeather,
   getRestaurants,
@@ -91,5 +99,6 @@ export const ApiServices = {
   getHotels,
   getLocation,
   getLocationByCoordinates,
-  getCityPhoto
+  getCityPhoto,
+  getImage
 };

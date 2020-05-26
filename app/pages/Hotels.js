@@ -73,7 +73,7 @@ const Hotels = () => {
   }
 
   useEffect(() => {
-    ApiServices.getHotels(`${GLOBAL.city} ${GLOBAL.country}`, radius).then((response) => {
+    ApiServices.getHotels(GLOBAL.city, radius).then((response) => {
       setHotels(response.data.data)
     }).catch((error) => {
       setHotels([])
@@ -131,7 +131,6 @@ const Hotels = () => {
                   contact={hotel.contact.phone}
                   rating={hotel.rating}
                   price={offers[0].price.total || "-"}
-                  photo={hotel.media && hotel.media.length > 0 ? hotel.media[0].uri : null}
                 />
               )
             })}
