@@ -2,7 +2,7 @@ import axios from "axios";
 import qs from "qs";
 
 // const API_URL = "http://localhost:3000"
-const API_URL = "http://192.168.1.74:3000"
+const API_URL = "http://192.168.1.81:3000"
 
 const getWeather = async (city, startDate, endDate) => {
   const query = {
@@ -20,8 +20,8 @@ const getRestaurants = async (city, offset, sort = "", order = "") => {
     offset: offset
   }
 
-  if(sort !== "") query.sort = sort //cost, rating or real_distance
-  if(order !== "") query.order = order //asc or desc
+  if (sort !== "") query.sort = sort //cost, rating or real_distance
+  if (order !== "") query.order = order //asc or desc
 
   return await axios.get(`${API_URL}/restaurants?${qs.stringify(query)}`);
 }
@@ -51,9 +51,9 @@ const getHotels = async (city, radius, ratings = "", priceRange = "", sort = "")
     radius: radius // 1 - 300 (one value)
   }
 
-  if(ratings !== "") query.ratings = ratings // 1, 2, 3, 4 or 5
-  if(priceRange !== "") query.priceRange = priceRange // min-max
-  if(sort !== "") query.sort = sort // PRICE or DISTANCE
+  if (ratings !== "") query.ratings = ratings // 1, 2, 3, 4 or 5
+  if (priceRange !== "") query.priceRange = priceRange // min-max
+  if (sort !== "") query.sort = sort // PRICE or DISTANCE
 
   return await axios.get(`${API_URL}/hotels?${qs.stringify(query)}`);
 };

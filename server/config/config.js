@@ -33,5 +33,10 @@ module.exports = {
   pixabay: {
     url: "https://pixabay.com/api",
     key: process.env.PIXABAY_KEY
+  },
+  serpwow: {
+    url: "https://api.serpwow.com/live/search",
+    api_key: process.env.SERPWOW_KEY,
+    search_type: "images"
   }
 }
