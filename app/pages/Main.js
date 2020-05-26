@@ -140,6 +140,13 @@ const Main = ({navigation}) => {
     GLOBAL.endDate = Utils.formatDate(endDate)
     GLOBAL.id = uuid.v4();
 
+    let photo = null
+    try {
+      photo = (await  ApiServices.getCityPhoto(city)).data.image;
+    } catch (error) {
+      console.log(error)
+    }
+
     try {
       AsyncStorage.setItem(`plannedtrips/${GLOBAL.id}`, JSON.stringify({
         id: GLOBAL.id,
@@ -148,8 +155,7 @@ const Main = ({navigation}) => {
         startDate: GLOBAL.startDate,
         endDate: GLOBAL.endDate,
         itemName: `plannedtrips/${GLOBAL.id}`,
-        // TODO: GET PHOTO OF A CITY
-        photo: "https://i0.statig.com.br/bancodeimagens/5l/eb/sa/5lebsabb3aqcx1upuu5nwzibw.jpg"
+        photo: photo
       }));
     } catch (error) {
       console.log(error)
@@ -201,6 +207,7 @@ const Main = ({navigation}) => {
         />
       }
       <TouchableHighlight
+        onPress={() => navigation.navigate('PlannedTrips')}
         underlayColor='transparent'
         style={styles.plannedtripscontainer}
       >

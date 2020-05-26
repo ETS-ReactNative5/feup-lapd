@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity, TouchableHighlight, AsyncStorage} from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableOpacity, TouchableHighlight, AsyncStorage, Alert} from 'react-native';
 import { Icon } from 'react-native-elements'
 import { Utils } from '../../utils/Utils';
 
@@ -86,18 +86,33 @@ const styles = StyleSheet.create({
 const PlannedTripUnit = (props) => {
 
   const handleDeletePress = async () => {
-    try {
-      await AsyncStorage.removeItem(props.itemName);
-      const keys = await AsyncStorage.getAllKeys();
-      let removeKeys = []
-      keys.forEach(key => {
-        if(key.includes(props.id)) removeKeys.push(key)
-      });
-      await AsyncStorage.multiRemove(removeKeys);
-      props.update()
-    } catch (error) {
-      console.log(error)
-    }
+    Alert.alert(
+      'Are you sure you want to delete this item?', '',
+      [
+        {
+          text: 'Yes',
+          onPress: async () => {
+            try {
+              await AsyncStorage.removeItem(props.itemName);
+              const keys = await AsyncStorage.getAllKeys();
+              let removeKeys = []
+              keys.forEach(key => {
+                if(key.includes(props.id)) removeKeys.push(key)
+              });
+              await AsyncStorage.multiRemove(removeKeys);
+              props.update()
+            } catch (error) {
+              console.log(error)
+            }
+          }
+        },
+        {
+          text: 'No',
+          style: 'cancel'
+        }
+      ],
+      { cancelable: false }
+    );
   }
 
   const handleTripPress = () => {

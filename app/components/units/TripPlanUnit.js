@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {StyleSheet, Text, View, Image, AsyncStorage, TouchableHighlight} from 'react-native';
+import {StyleSheet, Text, View, Image, AsyncStorage, TouchableHighlight, Alert} from 'react-native';
 import { Icon } from 'react-native-elements'
 
 const styles = StyleSheet.create({
@@ -64,13 +64,27 @@ const styles = StyleSheet.create({
 const TripPlanUnit = (props) => {
 
   const handleDeletePress = async () => {
-    try {
-      await AsyncStorage.removeItem(props.itemName);
-      setSelected(false)
-    } catch (error) {
-      console.log(error)
-    }
-    props.delete()
+    Alert.alert(
+      'Are you sure you want to delete this item?', '',
+      [
+        {
+          text: 'Yes',
+          onPress: async () => {
+            try {
+              await AsyncStorage.removeItem(props.itemName);
+            } catch (error) {
+              console.log(error)
+            }
+            props.delete()
+          }
+        },
+        {
+          text: 'No',
+          style: 'cancel'
+        }
+      ],
+      { cancelable: false }
+    );
   }
 
   const handleAlertPress = () => {

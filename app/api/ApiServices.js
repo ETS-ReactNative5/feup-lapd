@@ -73,6 +73,14 @@ const getLocationByCoordinates = async (lat, long) => {
   return await axios.get(`${API_URL}/location/latlon?${qs.stringify(query)}`);
 }
 
+const getCityPhoto = async (city) => {
+  const query = {
+    q: city
+  }
+
+  return await axios.get(`${API_URL}/image?${qs.stringify(query)}`);
+}
+
 export const ApiServices = {
   getWeather,
   getRestaurants,
@@ -80,5 +88,6 @@ export const ApiServices = {
   getPOIs,
   getHotels,
   getLocation,
-  getLocationByCoordinates
+  getLocationByCoordinates,
+  getCityPhoto
 };
