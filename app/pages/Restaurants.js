@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
+const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
   const paddingToBottom = 20;
   return layoutMeasurement.height + contentOffset.y >=
     contentSize.height - paddingToBottom;
@@ -70,24 +70,33 @@ const Restaurants = () => {
   const [offset, setOffset] = useState(0)
   const [show, setShow] = useState(false)
   const [order, setOrder] = useState("")
+  const [sort, setSort] = useState("")
+  const [update, setUpdate] = useState(false)
+
+  const handleUpdate = () => {
+    setLoading(true);
+    setRestaurants(null);
+    setOffset(0);
+    setUpdate(!update);
+  }
 
   const fetchRestaurants = () => {
-    ApiServices.getRestaurants(`${GLOBAL.city} ${GLOBAL.country}`, offset).then((response) => {
-      if(!response.data.restaurants) throw new Error()
-      if(offset === 0) setRestaurants(response.data.restaurants)
+    ApiServices.getRestaurants(`${GLOBAL.city} ${GLOBAL.country}`, offset, sort, order).then((response) => {
+      if (!response.data.restaurants) throw new Error()
+      if (offset === 0) setRestaurants(response.data.restaurants)
       else setRestaurants(restaurants.concat(response.data.restaurants))
-      setOffset(offset+20)
+      setOffset(offset + 20)
       setLoading(false)
     }).catch((error) => {
       console.log(error)
       setLoading(false)
-      if(restaurants === null) setRestaurants([])
+      if (restaurants === null) setRestaurants([])
     })
   }
 
   useEffect(() => {
     fetchRestaurants()
-  }, []);
+  }, [update]);
 
   const handleFilterPress = () => {
     setShow(true)
@@ -117,18 +126,18 @@ const Restaurants = () => {
         {restaurants === null && loading === true &&
           <View style={styles.loading}>
             <ActivityIndicator
-              animating = {true}
-              color = 'black'
-              size = "large"
+              animating={true}
+              color='black'
+              size="large"
             />
           </View>
         }
         {restaurants !== null &&
           <ScrollView
-            contentContainerStyle={{width: "100%"}}
-            onScroll={({nativeEvent}) => {
+            contentContainerStyle={{ width: "100%" }}
+            onScroll={({ nativeEvent }) => {
               if (isCloseToBottom(nativeEvent)) {
-                if(loading === false) {
+                if (loading === false) {
                   setLoading(true)
                   fetchRestaurants()
                 }
@@ -138,14 +147,14 @@ const Restaurants = () => {
           >
             {restaurants.map((item, index) => {
               const restaurant = item.restaurant
-              return(
+              return (
                 <RestaurantUnit
                   key={index}
                   id={restaurant.id}
                   name={restaurant.name}
                   address={restaurant.location.address}
                   rating={restaurant.user_rating.aggregate_rating}
-                  price={restaurant.average_cost_for_two/2}
+                  price={restaurant.average_cost_for_two / 2}
                   photo={restaurant.thumb}
                   lat={parseFloat(restaurant.location.latitude)}
                   long={parseFloat(restaurant.location.longitude)}
@@ -153,9 +162,9 @@ const Restaurants = () => {
               )
             })}
             {loading && <ActivityIndicator
-              animating = {true}
-              color = 'black'
-              size = "large"
+              animating={true}
+              color='black'
+              size="large"
             />}
           </ScrollView>
         }
@@ -171,7 +180,7 @@ const Restaurants = () => {
           </View>
         }
         <OverlayCard width="85%" height="60%" visible={show} toogleOverlay={handleOverlay}>
-          <RestaurantFilter setOrder={setOrder}/>
+          <RestaurantFilter setOrder={setOrder} setSort={setSort} order={order} sort={sort} update={handleUpdate} setShow={setShow} />
         </OverlayCard>
       </View>
     </Background>
