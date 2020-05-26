@@ -69,6 +69,7 @@ const Restaurants = () => {
 
   const fetchRestaurants = () => {
     ApiServices.getRestaurants(`${GLOBAL.city} ${GLOBAL.country}`, offset).then((response) => {
+      if(!response.data.restaurants) throw new Error()
       if(offset === 0) setRestaurants(response.data.restaurants)
       else setRestaurants(restaurants.concat(response.data.restaurants))
       setOffset(offset+20)

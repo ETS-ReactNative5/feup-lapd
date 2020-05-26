@@ -4,6 +4,7 @@ import {StyleSheet, Text, View, Image, TouchableOpacity, TouchableHighlight, Asy
 import { Icon } from 'react-native-elements'
 import DatePicker from '../DatePicker';
 import { Utils } from '../../utils/Utils';
+import OverlayCard from '../OverlayCard';
 
 const styles = StyleSheet.create({
   container: {
@@ -93,6 +94,7 @@ const styles = StyleSheet.create({
 
 const RestaurantUnit = (props) => {
   const [selected, setSelected] = useState(false)
+  const [show, setShow] = useState(false)
 
   const itemName = `${GLOBAL.id}/restaurant/${props.id}`
 
@@ -100,6 +102,11 @@ const RestaurantUnit = (props) => {
 
   const handleRestaurantPress = () => {
     console.log("Open restaurant details")
+    setShow(true)
+  }
+
+  const handleOverlay = () => {
+    setShow(!show)
   }
 
   const getRating = () => {
@@ -181,7 +188,6 @@ const RestaurantUnit = (props) => {
     <View style={styles.container}>
       <TouchableOpacity style={styles.button} activeOpacity={0.8} onPress={handleRestaurantPress}>
         <Image
-          // source={{ uri: props.photo, }}
           source={props.photo !== null && props.photo !== "" ? { uri: props.photo, }: require('../../assets/no_image.png')}
           resizeMode="cover"
           style={styles.photo}
@@ -228,6 +234,9 @@ const RestaurantUnit = (props) => {
         </View>
       </TouchableOpacity>
       <DatePicker ref={childRef} saveItem={saveItem}/>
+      <OverlayCard width="85%" height="60%" visible={show} toogleOverlay={handleOverlay}>
+        <Text>Hello from Overlay2!</Text>
+      </OverlayCard>
     </View>
   )
 };
