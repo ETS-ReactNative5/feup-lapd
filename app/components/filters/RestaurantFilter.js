@@ -5,13 +5,17 @@ import { Divider } from 'react-native-elements';
 import MainButton from '../MainButton'
 
 const styles = StyleSheet.create({
+  container: {
+    height: "100%",
+  },
   title: {
     fontSize: 25,
     width: '100%',
     fontWeight: 'bold',
     textAlign: 'left',
     marginLeft: 15,
-    marginBottom: 5,
+    marginVertical: 5,
+    marginBottom: 7
   },
   divider: {
     width: '90%',
@@ -30,9 +34,6 @@ const styles = StyleSheet.create({
   },
   pickerContainer: {
     flex: 8,
-    // borderColor: 'grey',
-    // borderBottomWidth: 1,
-    // borderRadius: 10,
     textAlign: 'center',
   },
   labelContainer: {
@@ -55,7 +56,7 @@ const RestaurantFilter = (props) => {
   }
 
   return (
-    <View>
+    <View style={styles.container}>
       <Text style={styles.title}>Filter</Text>
       <Divider style={styles.divider} />
       <View style={styles.pickerLabelContainer}>
