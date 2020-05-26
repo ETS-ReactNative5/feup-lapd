@@ -39,7 +39,7 @@ const getToken = async () => {
   return tokenStorage.getItem("amadeus_token");
 };
 
-getHotelsFilename = (latitude, longitude, radius, sort = "", ratings = "", priceRange = "") => {
+const getFilename = (latitude, longitude, radius, sort = "", ratings = "", priceRange = "") => {
   const data = {
     latitude: latitude,
     longitude: longitude,
@@ -53,7 +53,7 @@ getHotelsFilename = (latitude, longitude, radius, sort = "", ratings = "", price
 }
 
 exports.getHotels = async (latitude, longitude, radius, sort, ratings, priceRange) => {
-  filename = getHotelsFilename(latitude, longitude, radius, sort, ratings, priceRange)
+  filename = getFilename(latitude, longitude, radius, sort, ratings, priceRange)
   storedResponse = dataStorage.getItem(filename)
 
   if(storedResponse !== null) return JSON.parse(storedResponse)

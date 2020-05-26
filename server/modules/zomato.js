@@ -3,7 +3,7 @@ const qs = require('querystring');
 var zomato = require("../config/config.js").zomato;
 var dataStorage = require("../utils/data_storage");
 
-getRestaurantsFilename = (city, offset, sort = "", order = "") => {
+const getRestaurantsFilename = (city, offset, sort = "", order = "") => {
   const data = {
     city: city,
     offset: offset,

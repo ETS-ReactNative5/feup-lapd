@@ -2,7 +2,7 @@ import axios from "axios";
 import qs from "qs";
 
 // const API_URL = "http://localhost:3000"
-const API_URL = "http://192.168.1.81:3000"
+const API_URL = "http://192.168.1.74:3000"
 
 const getWeather = async (city, startDate, endDate) => {
   const query = {

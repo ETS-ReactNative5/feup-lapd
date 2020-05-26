@@ -3,7 +3,7 @@ const qs = require('querystring');
 var serpwow = require("../config/config.js").serpwow;
 var dataStorage = require("../utils/data_storage");
 
-getFilename = (place_image) => {
+const getFilename = (place_image) => {
   	const data = {
   		place_image: place_image
   	}

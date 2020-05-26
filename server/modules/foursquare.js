@@ -7,7 +7,7 @@ const limit = 50;         //max limit value
 const v = 20190425;       //hardcoded value present in Foursquare documentation
 const number_items = 20;  //number of item each request returns
 
-getRequestData = (city, category_id) => {
+const getRequestData = (city, category_id) => {
   return {
     client_id: foursquare.client_id,
     client_secret: foursquare.client_secret,
@@ -19,7 +19,7 @@ getRequestData = (city, category_id) => {
   }
 }
 
-getFilename = (type, city, offset, filters = "") => {
+const getFilename = (type, city, offset, filters = "") => {
   const data = {
     city: city,
     offset: offset,
@@ -29,7 +29,7 @@ getFilename = (type, city, offset, filters = "") => {
   return `${type}?${qs.stringify(data)}`
 }
 
-getPhoto = async (venue_id) => {
+const getPhoto = async (venue_id) => {
   const data = {
     client_id: foursquare.client_id,
     client_secret: foursquare.client_secret,
