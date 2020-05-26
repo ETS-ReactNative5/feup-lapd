@@ -7,6 +7,8 @@ import { Icon } from 'react-native-elements'
 import Background from '../components/Background';
 import HotelUnit from '../components/units/HotelUnit';
 import { ApiServices } from '../api/ApiServices';
+import OverlayCard from '../components/OverlayCard';
+import HotelFilter from '../components/filters/HotelFilter';
 
 const styles = StyleSheet.create({
   container: {
@@ -57,10 +59,12 @@ const styles = StyleSheet.create({
 
 const Hotels = () => {
 
-  // TODO: get radius from filters?
-  const radius = 300
-
   const [hotels, setHotels] = useState(null)
+  const [show, setShow] = useState(false)
+  const [radius, setRadius] = useState(300)
+  const [ratings, setRatings] = useState("")
+  const [priceRange, setPriceRange] = useState("")
+  const [sort, setSort] = useState("")
 
   useEffect(() => {
     ApiServices.getHotels(`${GLOBAL.city} ${GLOBAL.country}`, radius).then((response) => {
@@ -72,7 +76,11 @@ const Hotels = () => {
   }, []);
 
   const handleFilterPress = () => {
-    console.log('Open filters')
+    setShow(true)
+  }
+
+  const handleOverlay = () => {
+    setShow(!show)
   }
 
   return (
@@ -134,6 +142,17 @@ const Hotels = () => {
             <Text style={styles.notfoundtext}>No hotels found</Text>
           </View>
         }
+        <OverlayCard width="85%" height="60%" visible={show} toogleOverlay={handleOverlay}>
+          <HotelFilter
+            radius={radius}
+            setRadius={setRadius}
+            ratings={ratings}
+            setRatings={setRatings}
+            priceRange={priceRange}
+            setPriceRange={setPriceRange}
+            sort={sort}
+            setSort={setSort}/>
+        </OverlayCard>
       </View>
     </Background>
   )
