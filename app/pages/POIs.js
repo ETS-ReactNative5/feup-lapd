@@ -94,7 +94,7 @@ const POIs = () => {
   }
 
   const fetchPOIs = () => {
-    ApiServices.getPOIs(`${GLOBAL.city} ${GLOBAL.country}`, offset, convertFilters).then((response) => {
+    ApiServices.getPOIs(`${GLOBAL.city} ${GLOBAL.country}`, offset, convertFilters()).then((response) => {
       if (offset === 0) setPois(response.data.response.venues)
       else setPois(pois.concat(response.data.response.venues))
       setOffset(offset + 20)
@@ -187,7 +187,7 @@ const POIs = () => {
             <Text style={styles.notfoundtext}>No points of interest found</Text>
           </View>
         }
-        <OverlayCard width="85%" height="60%" visible={show} toogleOverlay={handleOverlay}>
+        <OverlayCard visible={show} toogleOverlay={handleOverlay}>
           <POIFilter update={handleUpdate} setShow={setShow}
             art={art} toggleArt={() => setArt(!art)}
             outdoor={outdoor} toggleOutdoor={() => setOutdoor(!outdoor)}
