@@ -70,7 +70,7 @@ const POIs = () => {
   const [offset, setOffset] = useState(0)
 
   const fetchPOIs = () => {
-    ApiServices.getPOIs(GLOBAL.city, offset, filters).then((response) => {
+    ApiServices.getPOIs(`${GLOBAL.city} ${GLOBAL.country}`, offset, filters).then((response) => {
       if(offset === 0) setPois(response.data.response.venues)
       else setPois(pois.concat(response.data.response.venues))
       setOffset(offset+20)

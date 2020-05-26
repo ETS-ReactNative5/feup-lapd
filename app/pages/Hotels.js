@@ -63,9 +63,10 @@ const Hotels = () => {
   const [hotels, setHotels] = useState(null)
 
   useEffect(() => {
-    ApiServices.getHotels(GLOBAL.city, radius).then((response) => {
+    ApiServices.getHotels(`${GLOBAL.city} ${GLOBAL.country}`, radius).then((response) => {
       setHotels(response.data.data)
     }).catch((error) => {
+      setHotels([])
       console.log(error)
     })
   }, []);

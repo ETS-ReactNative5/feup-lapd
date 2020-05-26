@@ -1,7 +1,8 @@
 import axios from "axios";
 import qs from "qs";
 
-const API_URL = "http://localhost:3000"
+// const API_URL = "http://localhost:3000"
+const API_URL = "http://192.168.1.74:3000"
 
 const getWeather = async (city) => {
   const query = {
@@ -55,10 +56,29 @@ const getHotels = async (city, radius, ratings = "", priceRange = "", sort = "")
   return await axios.get(`${API_URL}/hotels?${qs.stringify(query)}`);
 };
 
+const getLocation = async (city) => {
+  const query = {
+    city: city
+  }
+
+  return await axios.get(`${API_URL}/location/city?${qs.stringify(query)}`);
+}
+
+const getLocationByCoordinates = async (lat, long) => {
+  const query = {
+    lat: lat,
+    long: long
+  }
+
+  return await axios.get(`${API_URL}/location/latlon?${qs.stringify(query)}`);
+}
+
 export const ApiServices = {
   getWeather,
   getRestaurants,
   getShops,
   getPOIs,
-  getHotels
+  getHotels,
+  getLocation,
+  getLocationByCoordinates
 };

@@ -3,7 +3,7 @@ global.Buffer = Buffer;
 GLOBAL = require('../config/Global');
 import React, { useEffect, useState, useRef } from 'react';
 import {
-  Text, Image, StyleSheet, Dimensions, View, TouchableHighlight, AsyncStorage, Alert
+  Text, Image, StyleSheet, Dimensions, View, TouchableHighlight, AsyncStorage, Alert, ActivityIndicator
 } from 'react-native';
 import uuid from 'react-native-uuid';
 import  moment  from  "moment";
@@ -14,6 +14,7 @@ import SelectCity from '../components/SelectCity';
 import MainButton from '../components/MainButton';
 import Background from '../components/Background';
 import { Utils } from '../utils/Utils';
+import { ApiServices } from '../api/ApiServices';
 
 const styles = StyleSheet.create({
   container: {
@@ -63,6 +64,7 @@ const Main = ({navigation}) => {
 
   const [city, setCity] = useState('');
   const [date, setDate] = useState('Select dates...');
+  const [loading, setLoading] = useState(false);
 
   const childRef = useRef();
 
@@ -77,13 +79,37 @@ const Main = ({navigation}) => {
     if(dates.displayedDate) setDisplayedDate(dates.displayedDate)
   }
 
-  const handleSearch = () => {
-    console.log('Search button pressed')
-    console.log("City: ", city)
+  const handleSearch = async () => {
+    setLoading(true)
+    if(city.trim() === ''){
+      Alert.alert('Error', 'No city selected.', [
+          {
+            text: 'Ok',
+            style: 'cancel',
+          }
+        ],
+        { cancelable: false }
+      );
+      setLoading(false)
+      return
+    }
 
-    // TODO: GET CITY AND COUNTRY
-    GLOBAL.city = "Porto"
-    GLOBAL.country = "Portugal"
+    try {
+      const location = await ApiServices.getLocation(city)
+      GLOBAL.city = location.data.city
+      GLOBAL.country = location.data.country
+    } catch (error) {
+      Alert.alert('Error', 'City not found.', [
+          {
+            text: 'Ok',
+            style: 'cancel',
+          }
+        ],
+        { cancelable: false }
+      );
+      setLoading(false)
+      return
+    }
 
     if(startDate === null || endDate === null){
       Alert.alert('Error', 'No dates selected.', [
@@ -94,6 +120,7 @@ const Main = ({navigation}) => {
         ],
         { cancelable: false }
       );
+      setLoading(false)
       return
     }
     if(startDate > endDate){
@@ -105,6 +132,7 @@ const Main = ({navigation}) => {
         ],
         { cancelable: false }
       );
+      setLoading(false)
       return
     }
 
@@ -126,6 +154,7 @@ const Main = ({navigation}) => {
     } catch (error) {
       console.log(error)
     }
+    setLoading(false)
     navigation.navigate('TripMain')
   }
 
@@ -149,6 +178,7 @@ const Main = ({navigation}) => {
         endDate={endDate}
         startDate={startDate}
         displayedDate={displayedDate}
+        minDate={moment()}
         range
       />
       <Image
@@ -157,12 +187,19 @@ const Main = ({navigation}) => {
         resizeMode="contain"
       />
       <View style={styles.searchinputs}>
-        <SelectCity value={city} onChange={setCity} />
+        <SelectCity value={city} onChange={setCity} setCity={setCity} setLoading={setLoading} />
         <SelectDate value={date} onChange={setDate} editable={false} flag={flag} openCalendar={openCalendar}/>
       </View>
       <View style={styles.buttoncontainer}>
         <MainButton text='Search' widthRatio={0.5} handlePress={handleSearch}/>
       </View>
+      {loading &&
+        <ActivityIndicator
+          animating = {true}
+          color = 'black'
+          size = "small"
+        />
+      }
       <TouchableHighlight
         underlayColor='transparent'
         style={styles.plannedtripscontainer}

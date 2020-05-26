@@ -1,6 +1,8 @@
 import React from 'react';
-import {View, StyleSheet, TextInput, Dimensions, TouchableHighlight} from 'react-native';
+import {View, StyleSheet, TextInput, Dimensions, TouchableHighlight, Alert} from 'react-native';
 import { Icon } from 'react-native-elements'
+import * as Permissions from 'expo-permissions';
+import * as Location from 'expo-location';
 
 const styles = StyleSheet.create({
 	view: {
@@ -44,8 +46,42 @@ const styles = StyleSheet.create({
 
 const SelectCity = (props) => {
 
-  const handlePress = () => {
-    console.log("Icon pressed")
+  const handleLocationPress = async () => {
+    props.setLoading(true)
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      Alert.alert('Error', 'Permission to access location was denied.', [
+        {
+          text: 'Ok',
+          style: 'cancel',
+        }
+      ],
+      { cancelable: false }
+    );
+    }
+    try {
+      let location = await Location.getCurrentPositionAsync({});
+
+      const region = {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 1.0,
+        longitudeDelta: 1.0
+      }
+
+      let loc = await Location.reverseGeocodeAsync(region)
+      props.setCity(loc[0].region)
+    } catch (error) {
+      Alert.alert('Error', 'Enable GPS to get your current location.', [
+          {
+            text: 'Ok',
+            style: 'cancel',
+          }
+        ],
+        { cancelable: false }
+      );
+    }
+    props.setLoading(false)
   }
 
   return (
@@ -57,7 +93,7 @@ const SelectCity = (props) => {
         onChangeText={text => props.onChange(text)}
       />
       <TouchableHighlight
-        onPress={handlePress}
+        onPress={handleLocationPress}
         underlayColor='transparent'
       >
         <View>

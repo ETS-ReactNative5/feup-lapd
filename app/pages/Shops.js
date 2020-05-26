@@ -59,7 +59,7 @@ const Shops = () => {
   const [offset, setOffset] = useState(0)
 
   const fetchShops = () => {
-    ApiServices.getShops(GLOBAL.city, offset).then((response) => {
+    ApiServices.getShops(`${GLOBAL.city} ${GLOBAL.country}`, offset).then((response) => {
       if(offset === 0) setShops(response.data.response.venues)
       else setShops(shops.concat(response.data.response.venues))
       setOffset(offset+20)
