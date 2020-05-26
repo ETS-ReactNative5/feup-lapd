@@ -1,48 +1,87 @@
 import React, { useState, useEffect } from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity, TouchableHighlight, Slider, Picker, ActionSheetIOS} from 'react-native';
+import { StyleSheet, Text, View, Slider } from 'react-native';
+import { Divider, Input, Icon } from 'react-native-elements';
+import RNPickerSelect from 'react-native-picker-select';
+import MainButton from '../MainButton'
 
 const styles = StyleSheet.create({
-  radius: {
-    display: 'flex',
-    flexDirection: "row",
+  container: {
+    height: "100%",
+  },
+  title: {
+    fontSize: 25,
+    width: '100%',
+    fontWeight: 'bold',
+    textAlign: 'left',
+    marginLeft: 15,
+    marginVertical: 5,
+    marginBottom: 7
+  },
+  divider: {
+    width: '90%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+    maxWidth: '100%'
+  },
+  pickerContainer: {
+    flex: 1,
+    textAlign: 'center',
+  },
+  label: {
+    fontSize: 17,
+  },
+  button: {
+    marginTop: 30,
+    alignItems: 'center',
+  },
+  priceRange: {
+    maxWidth: '30%',
+    flexDirection: 'row'
+  },
+  textInput: {
+    borderWidth: 1
   }
 });
 
 const HotelFilter = (props) => {
 
+  const [min, setMin] = useState('');
+  const [max, setMax] = useState('');
 
   useEffect(() => {
-
+    setMin(props.priceRange.split('-')[0])
+    setMax(props.priceRange.split('-')[1])
   }, [])
 
-  const pressSortIOS = () => {
-    ActionSheetIOS.showActionSheetWithOptions(
-      {
-        options: ["Cancel", "Price", "Distance", "Reset"],
-        destructiveButtonIndex: 3,
-        cancelButtonIndex: 0
-      },
-      buttonIndex => {
-        if (buttonIndex === 0) {
-          // cancel action
-        } else if (buttonIndex === 1) {
-          props.setSort("PRICE")
-        } else if (buttonIndex === 2) {
-          props.setSort("DISTANCE")
-        } else if (buttonIndex === 3) {
-          props.setSort("")
-        }
-      }
-    );
+  useEffect(() => {
+    if (!min || !max || min == '' || max == '' ||
+      (min != '' && max != '' && parseInt(min) >= parseInt(max))) {
+      console.log("Set - nada")
+      props.setPriceRange('')
+    } else {
+      console.log("Set - " + min + '-' + max)
+      props.setPriceRange(min + '-' + max);
+    }
+  }, [min, max])
+
+  const handleApply = () => {
+    props.setShow(false);
+    props.update();
   }
 
   return (
-    <View>
-      <Text>HOTEL FILTER</Text>
-      <View style={styles.radius}>
-        <Text>Radius: </Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Filter</Text>
+      <Divider style={styles.divider} />
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}> Radius: </Text>
         <Slider
-          style={{width: 200, height: 40}}
+          style={{ width: "60%" }}
           minimumValue={1}
           maximumValue={300}
           value={props.radius}
@@ -50,46 +89,63 @@ const HotelFilter = (props) => {
         />
         <Text>{props.radius} KM</Text>
       </View>
-      {Platform.OS !== 'ios' &&
+      <View style={styles.inputContainer}>
         <View>
-          <Text>Ratings</Text>
-          <Picker
-            selectedValue={props.ratings}
+          <Text style={styles.label} > Rating: </Text>
+        </View>
+        <View style={styles.pickerContainer}>
+          <RNPickerSelect
+            value={props.ratings}
+            placeholder={{ label: 'Select an item...', value: '' }}
             onValueChange={(value) => props.setRatings(value)}
-          >
-            <Picker.Item label='-' value='' />
-            <Picker.Item label='1' value='1' />
-            <Picker.Item label='2' value='2' />
-            <Picker.Item label='3' value='3' />
-            <Picker.Item label='4' value='4' />
-            <Picker.Item label='5' value='5' />
-          </Picker>
+            items={[
+              { label: '1 Star', value: '1' },
+              { label: '2 Stars', value: '2' },
+              { label: '3 Stars', value: '3' },
+              { label: '4 Stars', value: '4' },
+              { label: '5 Stars', value: '5' }
+            ]}
+          />
         </View>
-      }
-      {Platform.OS !== 'ios' &&
+      </View>
+      <View style={styles.inputContainer}>
+        <Text style={styles.label} > Price Range: </Text>
+        <View style={styles.priceRange}>
+          <Input
+            placeholder={'min'}
+            keyboardType='numeric'
+            value={min}
+            onChangeText={value => setMin(value)}
+          />
+          <Text style={{ alignItems: 'center' }}> - </Text>
+          <Input
+            placeholder={'max'}
+            keyboardType='numeric'
+            value={max}
+            onChangeText={value => setMax(value)}
+          />
+        </View>
+      </View>
+      <View style={styles.inputContainer}>
         <View>
-          <Text>Sort</Text>
-          <Picker
-            selectedValue={props.sort}
+          <Text style={styles.label} > Sort: </Text>
+        </View>
+        <View style={styles.pickerContainer}>
+          <RNPickerSelect
+            value={props.sort}
+            placeholder={{ label: 'Select an item...', value: '' }}
             onValueChange={(value) => props.setSort(value)}
-          >
-            <Picker.Item label='-' value='' />
-            <Picker.Item label='Price' value='PRICE' />
-            <Picker.Item label='Distance' value='DISTANCE' />
-          </Picker>
+            items={[
+              { label: 'Price', value: 'PRICE' },
+              { label: 'Distance', value: 'DISTANCE' }
+            ]}
+          />
         </View>
-      }
-      {Platform.OS === 'ios' &&
-        <View>
-          <Text>Sort:</Text>
-          <TouchableOpacity
-            onPress={pressSortIOS}
-          >
-            <Text>{props.sort === "" ? "-" : props.sort}</Text>
-          </TouchableOpacity>
-        </View>
-      }
-    </View>
+      </View>
+      <View style={styles.button}>
+        <MainButton text='Apply' widthRatio={0.7} handlePress={handleApply} />
+      </View>
+    </View >
   )
 };
 

@@ -65,6 +65,12 @@ const Hotels = () => {
   const [ratings, setRatings] = useState("")
   const [priceRange, setPriceRange] = useState("")
   const [sort, setSort] = useState("")
+  const [update, setUpdate] = useState(false)
+
+  const handleUpdate = () => {
+    setHotels(null);
+    setUpdate(!update);
+  }
 
   useEffect(() => {
     ApiServices.getHotels(`${GLOBAL.city} ${GLOBAL.country}`, radius).then((response) => {
@@ -73,7 +79,7 @@ const Hotels = () => {
       setHotels([])
       console.log(error)
     })
-  }, []);
+  }, [update]);
 
   const handleFilterPress = () => {
     setShow(true)
@@ -93,28 +99,28 @@ const Hotels = () => {
               onPress={handleFilterPress}
               underlayColor='transparent'
             >
-                <Image
-                  source={require('../assets/filter.png')}
-                  style={styles.image}
-                />
+              <Image
+                source={require('../assets/filter.png')}
+                style={styles.image}
+              />
             </TouchableHighlight>
           </View>
         </View>
         {hotels === null &&
           <View style={styles.loading}>
             <ActivityIndicator
-              animating = {true}
-              color = 'black'
-              size = "large"
+              animating={true}
+              color='black'
+              size="large"
             />
           </View>
         }
         {hotels !== null &&
-          <ScrollView contentContainerStyle={{width: "100%"}}>
+          <ScrollView contentContainerStyle={{ width: "100%" }}>
             {hotels.map((item, index) => {
               const hotel = item.hotel
               const offers = item.offers
-              return(
+              return (
                 <HotelUnit
                   id={hotel.hotelId}
                   key={index}
@@ -125,7 +131,7 @@ const Hotels = () => {
                   contact={hotel.contact.phone}
                   rating={hotel.rating}
                   price={offers[0].price.total || "-"}
-                  photo={hotel.media && hotel.media.length > 0? hotel.media[0].uri : null}
+                  photo={hotel.media && hotel.media.length > 0 ? hotel.media[0].uri : null}
                 />
               )
             })}
@@ -151,7 +157,10 @@ const Hotels = () => {
             priceRange={priceRange}
             setPriceRange={setPriceRange}
             sort={sort}
-            setSort={setSort}/>
+            setSort={setSort}
+            update={handleUpdate}
+            setShow={setShow}
+          />
         </OverlayCard>
       </View>
     </Background>

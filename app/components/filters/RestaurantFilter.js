@@ -22,10 +22,6 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     marginRight: 'auto',
   },
-  label: {
-    fontSize: 20,
-    marginTop: 10
-  },
   pickerLabelContainer: {
     flexDirection: 'row',
     alignItems: 'center',
