@@ -7,6 +7,8 @@ import { Icon } from 'react-native-elements'
 import Background from '../components/Background';
 import RestaurantUnit from '../components/units/RestaurantUnit';
 import { ApiServices } from '../api/ApiServices';
+import OverlayCard from '../components/OverlayCard';
+import RestaurantFilter from '../components/filters/RestaurantFilter';
 
 const styles = StyleSheet.create({
   container: {
@@ -66,9 +68,12 @@ const Restaurants = () => {
   const [restaurants, setRestaurants] = useState(null)
   const [loading, setLoading] = useState(true)
   const [offset, setOffset] = useState(0)
+  const [show, setShow] = useState(false)
+  const [order, setOrder] = useState("")
 
   const fetchRestaurants = () => {
     ApiServices.getRestaurants(`${GLOBAL.city} ${GLOBAL.country}`, offset).then((response) => {
+      if(!response.data.restaurants) throw new Error()
       if(offset === 0) setRestaurants(response.data.restaurants)
       else setRestaurants(restaurants.concat(response.data.restaurants))
       setOffset(offset+20)
@@ -85,7 +90,11 @@ const Restaurants = () => {
   }, []);
 
   const handleFilterPress = () => {
-    console.log('Open filters')
+    setShow(true)
+  }
+
+  const handleOverlay = () => {
+    setShow(!show)
   }
 
   return (
@@ -161,6 +170,9 @@ const Restaurants = () => {
             <Text style={styles.notfoundtext}>No restaurants found</Text>
           </View>
         }
+        <OverlayCard width="85%" height="60%" visible={show} toogleOverlay={handleOverlay}>
+          <RestaurantFilter setOrder={setOrder}/>
+        </OverlayCard>
       </View>
     </Background>
   )
