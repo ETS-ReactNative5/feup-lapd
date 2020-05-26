@@ -8,7 +8,6 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     display: 'flex',
-    flexDirection: 'row',
     maxWidth: '95%',
     flex: 2
   },
@@ -23,12 +22,12 @@ const styles = StyleSheet.create({
   }
 });
 
-const Weather = (props) => {
+const Weather = () => {
   const [weathers, setWeather] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    ApiServices.getWeather(GLOBAL.city).then((response) => {
+    ApiServices.getWeather(GLOBAL.city, GLOBAL.startDate, GLOBAL.endDate).then((response) => {
       setWeather(response.data)
       setLoading(false)
     }).catch((error) => {
@@ -55,7 +54,7 @@ const Weather = (props) => {
           })}
         </ScrollView>
       }
-      {!loading && weathers === null &&
+      {!loading && (weathers === null || weathers.length === 0) &&
         <View style={styles.noprediction}>
           <Image
             source={require('../assets/weather/no_weather.png')}

@@ -55,8 +55,8 @@ const PlannedTrips = ({navigation}) => {
         trips.forEach(trip => {
           jsonTrips.push(JSON.parse(trip[1]))
         });
+        jsonTrips.sort((a, b) => (a.createdAt < b.createdAt) ? 1 : -1)
         setPlannedTrips(jsonTrips)
-
       } catch (error) {
         console.error(error)
       }

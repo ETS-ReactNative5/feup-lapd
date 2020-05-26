@@ -9,6 +9,8 @@ router.get("/", async function(req, res) {
 
   getForecast(req.query.city)
     .then((response) => {
+      const startDate = new Date(req.query.startDate).toLocaleDateString("pt-PT")
+      const endDate = new Date(req.query.endDate).toLocaleDateString("pt-PT")
       const list = response.data.list
       let _items = []
       let i = 0
@@ -38,7 +40,14 @@ router.get("/", async function(req, res) {
         }
         i++
       }
-      res.send(_items)
+
+      let data = []
+      _items.forEach(item => {
+        if(item.date >= startDate && item.date <= endDate){
+          data.push(item)
+        }
+      })
+      res.send(data)
     })
     .catch((err) => {
       console.log(err)

@@ -155,7 +155,8 @@ const Main = ({navigation}) => {
         startDate: GLOBAL.startDate,
         endDate: GLOBAL.endDate,
         itemName: `plannedtrips/${GLOBAL.id}`,
-        photo: photo
+        photo: photo,
+        createdAt: new Date()
       }));
     } catch (error) {
       console.log(error)

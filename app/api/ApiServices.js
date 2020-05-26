@@ -4,9 +4,11 @@ import qs from "qs";
 // const API_URL = "http://localhost:3000"
 const API_URL = "http://192.168.1.74:3000"
 
-const getWeather = async (city) => {
+const getWeather = async (city, startDate, endDate) => {
   const query = {
-    city: city
+    city: city,
+    startDate: startDate,
+    endDate: endDate
   }
 
   return await axios.get(`${API_URL}/weather?${qs.stringify(query)}`);
