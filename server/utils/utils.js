@@ -253,14 +253,3 @@ exports.getCountryName = (countryCode) => {
         return countryCode;
     }
 }
-
-exports.convertISO6709 = (lat, lon) => {
-    let latlon = "";
-    if (lat >= 0) latlon += "+"; else latlon += "-";
-    latlon += lat;
-    if (lon >= 0) latlon += "+"; else latlon += "-";
-    latlon += Math.abs(lon);
-
-    return latlon;
-}
-
