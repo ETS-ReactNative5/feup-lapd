@@ -11,7 +11,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'left',
         marginLeft: 15,
-        marginBottom: 5,
+        marginVertical: 5,
+        marginBottom: 7,
     },
     divider: {
         width: '90%',
@@ -20,12 +21,22 @@ const styles = StyleSheet.create({
     },
     button: {
         alignItems: 'center',
+        flex: 1,
+        justifyContent: "flex-end",
+        marginBottom: 20
     },
-    container: {
+    content: {
+        justifyContent: 'center',
         alignItems: 'center',
+        display: 'flex',
+        marginTop: 3,
+        flex: 5
     },
     row: {
         flexDirection: 'row'
+    },
+    container: {
+        height: "100%"
     }
 });
 
@@ -37,12 +48,12 @@ const POIFilter = (props) => {
     }
 
     return (
-        <View>
+        <View style={styles.container}>
             <Text style={styles.title}>Filter</Text>
             <Divider style={styles.divider} />
-            <View style={styles.container}>
+            <View style={styles.content}>
                 <View style={styles.row}>
-                    <POIFilterButton style={styles.selected} type="art" content="Arts" toggle={props.toggleArt} selected={props.art} />
+                    <POIFilterButton type="art" content="Arts" toggle={props.toggleArt} selected={props.art} />
                     <POIFilterButton type="event" content="Events" toggle={props.toggleEvent} selected={props.event} />
                 </View>
                 <View style={styles.row}>
