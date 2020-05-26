@@ -24,7 +24,7 @@ router.get("/v2/", async function (req, res) {
 
     getSerpImage(req.query.q)
         .then((response) => {
-            res.send(response.data.image_results);
+            res.send(response.image_results);
         })
         .catch((err) => {
             console.log(err);
