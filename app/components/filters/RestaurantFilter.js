@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, Text, View, Picker } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import RNPickerSelect from 'react-native-picker-select';
 import { Divider } from 'react-native-elements';
 import MainButton from '../MainButton'
 
@@ -28,14 +29,14 @@ const styles = StyleSheet.create({
     marginBottom: 25
   },
   pickerContainer: {
-    flex: .8,
-    borderColor: 'grey',
-    borderBottomWidth: 1,
-    borderRadius: 10,
+    flex: 8,
+    // borderColor: 'grey',
+    // borderBottomWidth: 1,
+    // borderRadius: 10,
     textAlign: 'center',
   },
   labelContainer: {
-    flex: .2,
+    flex: 2,
   },
   label: {
     fontSize: 17,
@@ -62,16 +63,16 @@ const RestaurantFilter = (props) => {
           <Text style={styles.label} > Sort: </Text>
         </View>
         <View style={styles.pickerContainer}>
-          <Picker
-            mode='dropdown'
-            selectedValue={props.sort}
+          <RNPickerSelect
+            value={props.sort}
+            placeholder={{ label: 'Select an item...', value: '' }}
             onValueChange={(value) => props.setSort(value)}
-          >
-            <Picker.Item label='-' value='' />
-            <Picker.Item label='Cost' value='cost' />
-            <Picker.Item label='Rating' value='rating' />
-            <Picker.Item label='Real Distance' value='real_distance' />
-          </Picker>
+            items={[
+              { label: 'Cost', value: 'cost' },
+              { label: 'Rating', value: 'rating' },
+              { label: 'Real Distance', value: 'real_distance' }
+            ]}
+          />
         </View>
       </View>
       <View style={styles.pickerLabelContainer}>
@@ -79,17 +80,17 @@ const RestaurantFilter = (props) => {
           <Text style={styles.label} > Order: </Text>
         </View>
         <View style={styles.pickerContainer}>
-          <Picker
-            mode='dropdown'
-            selectedValue={props.order}
+          <RNPickerSelect
+            value={props.order}
+            placeholder={{ label: 'Select an item...', value: '' }}
             onValueChange={(value) => props.setOrder(value)}
-          >
-            <Picker.Item label='-' value='' />
-            <Picker.Item label='Ascendent' value='asc' />
-            <Picker.Item label='Descendent' value='desc' />
-          </Picker>
+            items={[
+              { label: 'Ascendant', value: 'asc' },
+              { label: 'Descendant', value: 'desc' }
+            ]}
+          />
         </View>
-      </View>
+      </View >
       <View style={styles.button}>
         <MainButton text='Apply' widthRatio={0.7} handlePress={handleApply} />
       </View>
