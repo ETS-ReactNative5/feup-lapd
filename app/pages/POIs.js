@@ -7,6 +7,8 @@ import { Icon } from 'react-native-elements'
 import Background from '../components/Background';
 import POIUnit from '../components/units/POIUnit';
 import { ApiServices } from '../api/ApiServices';
+import OverlayCard from '../components/OverlayCard';
+import POIFilter from '../components/filters/POIFilter';
 
 const styles = StyleSheet.create({
   container: {
@@ -55,7 +57,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
+const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
   const paddingToBottom = 20;
   return layoutMeasurement.height + contentOffset.y >=
     contentSize.height - paddingToBottom;
@@ -63,31 +65,57 @@ const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
 
 const POIs = () => {
 
-  const filters = 'art&outdoor&nightlife&event'
-
   const [pois, setPois] = useState(null)
   const [loading, setLoading] = useState(true)
   const [offset, setOffset] = useState(0)
+  const [show, setShow] = useState(false)
+  const [update, setUpdate] = useState(false)
+
+  const [art, setArt] = useState(true)
+  const [outdoor, setOutdoor] = useState(true)
+  const [nightlife, setNightlife] = useState(true)
+  const [event, setEvent] = useState(true)
+
+  const convertFilters = () => {
+    let filters = "";
+    if (art) filters += "art&"
+    if (outdoor) filters += "outdoor&"
+    if (nightlife) filters += "nightlife&"
+    if (event) filters += "event&"
+    filters = filters.slice(0, -1);
+    return filters
+  }
+
+  const handleUpdate = () => {
+    setLoading(true);
+    setPois(null);
+    setOffset(0);
+    setUpdate(!update);
+  }
 
   const fetchPOIs = () => {
-    ApiServices.getPOIs(`${GLOBAL.city} ${GLOBAL.country}`, offset, filters).then((response) => {
-      if(offset === 0) setPois(response.data.response.venues)
+    ApiServices.getPOIs(`${GLOBAL.city} ${GLOBAL.country}`, offset, convertFilters).then((response) => {
+      if (offset === 0) setPois(response.data.response.venues)
       else setPois(pois.concat(response.data.response.venues))
-      setOffset(offset+20)
+      setOffset(offset + 20)
       setLoading(false)
     }).catch((error) => {
       console.log(error)
       setLoading(false)
-      if(pois === null) setPois([])
+      if (pois === null) setPois([])
     })
   }
 
   useEffect(() => {
     fetchPOIs()
-  }, []);
+  }, [update]);
 
   const handleFilterPress = () => {
-    console.log('Open filters')
+    setShow(true)
+  }
+
+  const handleOverlay = () => {
+    setShow(!show)
   }
 
   return (
@@ -100,28 +128,28 @@ const POIs = () => {
               onPress={handleFilterPress}
               underlayColor='transparent'
             >
-                <Image
-                  source={require('../assets/filter.png')}
-                  style={styles.image}
-                />
+              <Image
+                source={require('../assets/filter.png')}
+                style={styles.image}
+              />
             </TouchableHighlight>
           </View>
         </View>
         {pois === null && loading === true &&
           <View style={styles.loading}>
             <ActivityIndicator
-              animating = {true}
-              color = 'black'
-              size = "large"
+              animating={true}
+              color='black'
+              size="large"
             />
           </View>
         }
         {pois !== null &&
           <ScrollView
-            contentContainerStyle={{width: "100%"}}
-            onScroll={({nativeEvent}) => {
+            contentContainerStyle={{ width: "100%" }}
+            onScroll={({ nativeEvent }) => {
               if (isCloseToBottom(nativeEvent)) {
-                if(loading === false) {
+                if (loading === false) {
                   setLoading(true)
                   fetchPOIs()
                 }
@@ -142,9 +170,9 @@ const POIs = () => {
               )
             })}
             {loading && <ActivityIndicator
-              animating = {true}
-              color = 'black'
-              size = "large"
+              animating={true}
+              color='black'
+              size="large"
             />}
           </ScrollView>
         }
@@ -159,6 +187,14 @@ const POIs = () => {
             <Text style={styles.notfoundtext}>No points of interest found</Text>
           </View>
         }
+        <OverlayCard width="85%" height="60%" visible={show} toogleOverlay={handleOverlay}>
+          <POIFilter update={handleUpdate} setShow={setShow}
+            art={art} toggleArt={() => setArt(!art)}
+            outdoor={outdoor} toggleOutdoor={() => setOutdoor(!outdoor)}
+            nightlife={nightlife} toggleNightlife={() => setNightlife(!nightlife)}
+            event={event} toggleEvent={() => setEvent(!event)}
+          />
+        </OverlayCard>
       </View>
     </Background>
   )

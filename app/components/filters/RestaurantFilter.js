@@ -91,7 +91,7 @@ const RestaurantFilter = (props) => {
         </View>
       </View>
       <View style={styles.button}>
-        <MainButton text='Apply' widthRatio={0.5} handlePress={handleApply} />
+        <MainButton text='Apply' widthRatio={0.7} handlePress={handleApply} />
       </View>
     </View >
   )

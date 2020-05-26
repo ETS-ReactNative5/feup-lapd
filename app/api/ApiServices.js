@@ -39,7 +39,7 @@ const getPOIs = async (city, offset, filters) => {
   const query = {
     city: city,
     offset: offset,
-    filters: filters //ar&outdoor&nightlife&event
+    filters: filters //art&outdoor&nightlife&event
   }
 
   return await axios.get(`${API_URL}/pois?${qs.stringify(query)}`);
