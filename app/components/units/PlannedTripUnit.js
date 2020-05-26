@@ -72,12 +72,6 @@ const styles = StyleSheet.create({
     flex: 2,
     marginHorizontal: 12,
   },
-  place: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    maxWidth: '55%',
-  },
   calendar: {
     opacity: 0.5
   }
@@ -134,10 +128,8 @@ const PlannedTripUnit = (props) => {
         />
         <View style={styles.content}>
           <View style={styles.text}>
-            <View style={styles.place}>
-              <Text adjustsFontSizeToFit numberOfLines={2} style={styles.city}>{props.city},</Text>
-              <Text adjustsFontSizeToFit numberOfLines={1} style={styles.country}>{props.country}</Text>
-            </View>
+            <Text adjustsFontSizeToFit numberOfLines={2} style={styles.city}>{props.city}</Text>
+            <Text adjustsFontSizeToFit numberOfLines={1} style={styles.country}>{props.country}</Text>
             <View style={styles.date}>
               <Icon
                 iconStyle={styles.calendar}

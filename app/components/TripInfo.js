@@ -46,8 +46,9 @@ const TripInfo = (props) => (
       <Text adjustsFontSizeToFit numberOfLines={2} style={styles.city}>{props.city}</Text>
       <Text adjustsFontSizeToFit numberOfLines={1} style={styles.country}>{props.country}</Text>
     </View>
+    <View style={{paddingHorizontal: 5}}></View>
     <View style={styles.datecontainer}>
-      <Text adjustsFontSizeToFit numberOfLines={2} style={styles.date}>{props.date}</Text>
+      <Text adjustsFontSizeToFit numberOfLines={1} style={styles.date}>{props.date}</Text>
       <Icon name='calendar' size={30} color="black" type="evilicon"/>
     </View>
   </View>

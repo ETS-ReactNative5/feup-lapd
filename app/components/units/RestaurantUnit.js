@@ -181,7 +181,8 @@ const RestaurantUnit = (props) => {
     <View style={styles.container}>
       <TouchableOpacity style={styles.button} activeOpacity={0.8} onPress={handleRestaurantPress}>
         <Image
-          source={{ uri: props.photo, }}
+          // source={{ uri: props.photo, }}
+          source={props.photo !== null && props.photo !== "" ? { uri: props.photo, }: require('../../assets/no_image.png')}
           resizeMode="cover"
           style={styles.photo}
         />
