@@ -4,6 +4,7 @@ import {StyleSheet, Text, View, Image, TouchableOpacity, TouchableHighlight, Asy
 import { Icon } from 'react-native-elements'
 import DatePicker from '../DatePicker';
 import { Utils } from '../../utils/Utils';
+import { ApiServices } from '../../api/ApiServices';
 
 const styles = StyleSheet.create({
   container: {
@@ -86,6 +87,7 @@ const styles = StyleSheet.create({
 
 const HotelUnit = (props) => {
   const [selected, setSelected] = useState(false)
+  const [photos, setPhotos] = useState(null)
 
   const itemName = `${GLOBAL.id}/hotel/${props.id}`
 
@@ -120,7 +122,14 @@ const HotelUnit = (props) => {
       }
     }
 
+    async function loadHotelPhotos() {
+      ApiServices.getImage(`${props.name} ${GLOBAL.city}`).then(response => {
+        setPhotos(response.data)
+      }).catch(error => console.log(error))
+    }
+
     loadStoredInformation()
+    loadHotelPhotos()
   }, [])
 
   const handleSelectPress = async () => {
@@ -156,7 +165,7 @@ const HotelUnit = (props) => {
     <View style={styles.container}>
       <TouchableOpacity style={styles.button} activeOpacity={0.8} onPress={handleHotelPress}>
         <Image
-          source={props.photo !== null ? { uri: props.photo, }: require('../../assets/no_image.png')}
+          source={photos !== null && photos.length > 0 ? { uri: photos[0].image } : require('../../assets/no_image.png')}
           resizeMode="cover"
           style={styles.photo}
         />

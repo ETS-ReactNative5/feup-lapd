@@ -30,10 +30,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 25,
-    marginBottom: 25
+    marginBottom: 25,
+    marginLeft: 20,
   },
   pickerContainer: {
-    flex: 8,
+    flex: 5,
     textAlign: 'center',
   },
   labelContainer: {
@@ -41,10 +42,17 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 17,
+    fontWeight: 'bold',
   },
   button: {
-    marginTop: 30,
     alignItems: 'center',
+    flex: 1,
+    marginBottom: 20,
+    justifyContent: "flex-end",
+  },
+  content: {
+    flex: 4,
+    justifyContent: "center",
   }
 });
 
@@ -59,39 +67,41 @@ const RestaurantFilter = (props) => {
     <View style={styles.container}>
       <Text style={styles.title}>Filter</Text>
       <Divider style={styles.divider} />
-      <View style={styles.pickerLabelContainer}>
-        <View style={styles.labelContainer}>
-          <Text style={styles.label} > Sort: </Text>
+      <View style={styles.content}>
+        <View style={styles.pickerLabelContainer}>
+          <View style={styles.labelContainer}>
+            <Text style={styles.label} > Sort: </Text>
+          </View>
+          <View style={styles.pickerContainer}>
+            <RNPickerSelect
+              value={props.sort}
+              placeholder={{ label: 'Select an item...', value: '' }}
+              onValueChange={(value) => props.setSort(value)}
+              items={[
+                { label: 'Cost', value: 'cost' },
+                { label: 'Rating', value: 'rating' },
+                { label: 'Real Distance', value: 'real_distance' }
+              ]}
+            />
+          </View>
         </View>
-        <View style={styles.pickerContainer}>
-          <RNPickerSelect
-            value={props.sort}
-            placeholder={{ label: 'Select an item...', value: '' }}
-            onValueChange={(value) => props.setSort(value)}
-            items={[
-              { label: 'Cost', value: 'cost' },
-              { label: 'Rating', value: 'rating' },
-              { label: 'Real Distance', value: 'real_distance' }
-            ]}
-          />
-        </View>
+        <View style={styles.pickerLabelContainer}>
+          <View style={styles.labelContainer}>
+            <Text style={styles.label}> Order: </Text>
+          </View>
+          <View style={styles.pickerContainer}>
+            <RNPickerSelect
+              value={props.order}
+              placeholder={{ label: 'Select an item...', value: '' }}
+              onValueChange={(value) => props.setOrder(value)}
+              items={[
+                { label: 'Ascendant', value: 'asc' },
+                { label: 'Descendant', value: 'desc' }
+              ]}
+            />
+          </View>
+        </View >
       </View>
-      <View style={styles.pickerLabelContainer}>
-        <View style={styles.labelContainer}>
-          <Text style={styles.label} > Order: </Text>
-        </View>
-        <View style={styles.pickerContainer}>
-          <RNPickerSelect
-            value={props.order}
-            placeholder={{ label: 'Select an item...', value: '' }}
-            onValueChange={(value) => props.setOrder(value)}
-            items={[
-              { label: 'Ascendant', value: 'asc' },
-              { label: 'Descendant', value: 'desc' }
-            ]}
-          />
-        </View>
-      </View >
       <View style={styles.button}>
         <MainButton text='Apply' widthRatio={0.7} handlePress={handleApply} />
       </View>
