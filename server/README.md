@@ -1,17 +1,18 @@
-## Instructions
+## Server Instructions
 
-Copy .env.template to .env and fill the variables
+Copy .env.template to .env and fill the variables.
 
+### Install dependencies:
 ```
-npm install
-```
-
-Development:
-```
-npm run start-dev
+> npm install
 ```
 
-Production:
+### Development mode:
 ```
-npm start
+> npm run start-dev
+```
+
+### Production:
+```
+> npm start
 ```

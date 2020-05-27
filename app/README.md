@@ -1,19 +1,21 @@
-## Instructions
+## App Instructions
 
+### Install dependencies:
 ```
-npm install
-```
-
-```
-npm start
+> npm install
 ```
 
-or
+### Start Expo Cli:
+```
+> npm start
+```
 
+### Run on Android:
 ```
-npm run android
+> npm run android
 ```
 
+### Run on IOS:
 ```
-npm run ios
+> npm run ios
 ```
