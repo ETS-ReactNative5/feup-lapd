@@ -1,3 +1,4 @@
+// Get date in format DD Month
 const getDate = (date) => {
   const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
@@ -8,6 +9,7 @@ const getDate = (date) => {
   return split[2] + " " + monthNames[parseInt(split[1])-1]
 }
 
+// Get date in format YYYY-MM-DD
 const formatDate = (date) => {
   var d = new Date(date),
       month = '' + (d.getMonth() + 1),
@@ -22,6 +24,7 @@ const formatDate = (date) => {
   return [year, month, day].join('-');
 }
 
+// Get a dictionary where the keys are the dates between startDate and endDate
 const getPlanDates = (startDate, endDate) => {
   var dates = {},
       currentDate = startDate,
