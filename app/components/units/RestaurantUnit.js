@@ -92,7 +92,6 @@ const styles = StyleSheet.create({
   },
   detailsImage: {
     width: '100%',
-    // height: '30%',
     height: Dimensions.get("screen").height * 0.25,
     borderRadius: 20,
     overflow: 'hidden',
@@ -100,8 +99,7 @@ const styles = StyleSheet.create({
   detailsHeader: {
     flexDirection: 'row',
     width: '100%',
-    marginBottom: 10,
-    marginTop: 10
+    marginVertical: 10
   },
   detailsName: {
     fontWeight: 'bold',
@@ -114,12 +112,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     flex: 1
   },
-  detailsAddress: {
-    color: 'grey',
-    fontSize: 13
-  },
   detailsProperty: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold',
     paddingBottom: 5
   },

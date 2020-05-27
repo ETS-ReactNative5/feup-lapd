@@ -1,6 +1,6 @@
 GLOBAL = require('../../config/Global');
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, TouchableHighlight, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, TouchableHighlight, AsyncStorage, Dimensions, ScrollView } from 'react-native';
 import { Icon, Divider } from 'react-native-elements'
 import DatePicker from '../DatePicker';
 import { Utils } from '../../utils/Utils';
@@ -86,14 +86,14 @@ const styles = StyleSheet.create({
   },
   detailsImage: {
     width: '100%',
-    height: '30%',
+    height: Dimensions.get("screen").height * 0.25,
     borderRadius: 20,
     overflow: 'hidden',
   },
   detailsHeader: {
     flexDirection: 'row',
     width: '100%',
-    marginBottom: 3,
+    marginVertical: 10
   },
   detailsName: {
     fontWeight: 'bold',
@@ -108,24 +108,35 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     marginRight: 3
   },
-  detailsContent: {
-    marginTop: 5,
-    marginBottom: 5
-  },
-  detailsAddress: {
-    color: 'grey',
-    fontSize: 13
+  detailsDescription: {
+    marginBottom: 10,
+    maxHeight: Dimensions.get("screen").height * 0.1,
   },
   detailsAmenities: {
     flexDirection: 'row',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    paddingLeft: 7
   },
-  detailsFooter: {
-    marginTop: 5,
-    marginBottom: 5,
-    justifyContent: 'flex-end',
+  detailsContent: {
+    marginVertical: 10,
+    display: 'flex',
+    flex: 1
+  },
+  detailsProperty: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    paddingBottom: 5,
+    // flex: 1,
+  },
+  detailsValue: {
+    fontSize: 12,
+    paddingLeft: 7,
+    // flex: 1,
+  },
+  detailsUnit: {
     flex: 1,
-  },
+    marginVertical: 5,
+  }
 });
 
 const HotelUnit = (props) => {
@@ -269,9 +280,8 @@ const HotelUnit = (props) => {
           />
           <View style={styles.detailsHeader}>
             <Text style={styles.detailsName}>{props.name}</Text>
-            <View>
+            <View style={{justifyContent: 'center'}}>
               <View style={{ flexDirection: 'row' }} >
-                <Text numberOfLines={1} style={[styles.ratingnumber, { fontSize: 15 }]}>{props.rating}</Text>
                 <View style={styles.rating}>
                   {getRating(15)}
                 </View>
@@ -279,37 +289,36 @@ const HotelUnit = (props) => {
               <Text numberOfLines={1} style={[styles.price, { fontSize: 13 }]}>Price: {props.price}€</Text>
             </View>
           </View>
-          <Divider />
-          <View style={styles.detailsContent}>
-            <Text style={{ fontSize: 12 }}>{props.description}</Text>
-            <Text style={styles.detailsAddress}>{props.address}</Text>
-          </View>
-          <Divider />
-          <View style={styles.detailsAmenities}>
-            {props.amenities.map((e => (
-              <Text style={{ fontSize: 9 }}>{e}/</Text>
-            )))}
-          </View>
-          <View style={styles.detailsFooter}>
+          <View>
             <Divider />
-            <Text style={{ fontSize: 9 }}>Phone number:</Text>
-            <Text style={{ fontSize: 10 }}>{props.phone}</Text>
-            <Text style={{ fontSize: 9 }}>Email:</Text>
-            <Text style={{ fontSize: 10 }}>{props.email}</Text>
-          </View>
-          {/* 
-
-          <View style={styles.detailsContent}>
-            <Text>{props.establishment} - {props.cuisines}</Text>
-            <Text style={styles.detailsAddress}>{props.address}</Text>
-          </View>
-          <View style={styles.detailsFooter}>
+            <Text style={[styles.detailsProperty, {paddingTop: 7}]}>Description:</Text>
+            <ScrollView style={styles.detailsDescription}>
+              <Text style={{ fontSize: 12 }}>{props.description}</Text>
+            </ScrollView>
             <Divider />
-            <Text style={{ fontSize: 13 }}>Phone number:</Text>
-            <Text style={{ fontSize: 10 }}>{props.phone}</Text>
-            <Text style={{ fontSize: 13 }}>Schedule:</Text>
-            <Text style={{ fontSize: 10 }}>{props.timings}</Text>
-          </View> */}
+          </View>
+          <ScrollView style={styles.detailsContent}>
+            <View style={styles.detailsUnit}>
+              <Text style={styles.detailsProperty}>Address:</Text>
+              <Text style={styles.detailsValue}>{props.address}</Text>
+            </View>
+            <View style={styles.detailsUnit}>
+              <Text style={styles.detailsProperty}>Phone number:</Text>
+              <Text style={styles.detailsValue}>{props.phone}</Text>
+            </View>
+            <View style={styles.detailsUnit}>
+              <Text style={styles.detailsProperty}>Email:</Text>
+              <Text style={styles.detailsValue}>{props.email}</Text>
+            </View>
+            <View style={[styles.detailsUnit, {flex: 2}]}>
+              <Text style={styles.detailsProperty}>Amenities:</Text>
+              <ScrollView style={styles.detailsAmenities}>
+                {props.amenities.map((e => (
+                  <Text style={{ fontSize: 12 }}>{e}</Text>
+                )))}
+              </ScrollView>
+            </View>
+          </ScrollView>
         </View>
       </OverlayCard>
     </View>
