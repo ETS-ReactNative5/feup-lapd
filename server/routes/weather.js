@@ -66,8 +66,6 @@ validateWeatherRequest = (res, query) => {
     return false;
   }
 
-  // Check if city exists ?
-
   return true;
 }
 

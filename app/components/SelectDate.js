@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, TextInput, Dimensions, TouchableHighlight, TouchableOpacity, Text} from 'react-native';
+import {View, StyleSheet, Dimensions, TouchableHighlight, TouchableOpacity, Text} from 'react-native';
 import { Icon } from 'react-native-elements'
 
 const styles = StyleSheet.create({
@@ -55,7 +55,6 @@ const styles = StyleSheet.create({
 const SelectDate = (props) => {
 
   const handlePress = () => {
-    console.log("Icon pressed")
     props.openCalendar()
   }
 

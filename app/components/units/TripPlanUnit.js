@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {StyleSheet, Text, View, Image, AsyncStorage, TouchableHighlight, Alert} from 'react-native';
 import { Icon } from 'react-native-elements'
 
@@ -46,9 +46,6 @@ const styles = StyleSheet.create({
     paddingRight: 15,
     opacity: 0.8
   },
-  alert: {
-    paddingRight: 5,
-  },
   text: {
     flex: 2,
     marginHorizontal: 12,
@@ -87,10 +84,6 @@ const TripPlanUnit = (props) => {
     );
   }
 
-  const handleAlertPress = () => {
-    console.log("Alert pressed")
-  }
-
   return (
     <View style={styles.container}>
       <View style={styles.button}>
@@ -105,20 +98,6 @@ const TripPlanUnit = (props) => {
               <Text adjustsFontSizeToFit numberOfLines={2} style={styles.name}>{props.name}</Text>
             </View>
           </View>
-          {props.alert && <TouchableHighlight
-            onPress={handleAlertPress}
-            underlayColor='transparent'
-          >
-            <View>
-              <Icon
-                iconStyle={styles.alert}
-                name="exclamation"
-                size={25}
-                color="#EBD50F"
-                type="evilicon"
-              />
-            </View>
-          </TouchableHighlight>}
           <TouchableHighlight
             onPress={handleDeletePress}
             underlayColor='transparent'

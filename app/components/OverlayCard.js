@@ -1,8 +1,6 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { Overlay } from 'react-native-elements';
-
-// https://react-native-elements.github.io/react-native-elements/docs/overlay.html
 
 const OverlayCard = (props) => (
   <View>

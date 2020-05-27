@@ -1,6 +1,6 @@
 GLOBAL = require('../../config/Global');
 import React, { useState, useEffect, useRef } from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity, TouchableHighlight, AsyncStorage} from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableHighlight, AsyncStorage} from 'react-native';
 import { Icon } from 'react-native-elements'
 import DatePicker from '../DatePicker';
 import { Utils } from '../../utils/Utils';
@@ -68,10 +68,6 @@ const POIUnit = (props) => {
 
   const childRef = useRef();
 
-  const handlePOIPress = () => {
-    console.log("Open POI details")
-  }
-
   useEffect(() => {
     async function loadStoredInformation() {
       try {
@@ -118,7 +114,7 @@ const POIUnit = (props) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button} activeOpacity={0.8} onPress={handlePOIPress}>
+      <View style={styles.button} >
         <Image
           source={props.photo !== null ? { uri: props.photo, }: require('../../assets/no_image.png')}
           resizeMode="cover"
@@ -156,7 +152,7 @@ const POIUnit = (props) => {
               </View>
           </TouchableHighlight>
         </View>
-      </TouchableOpacity>
+      </View>
       <DatePicker ref={childRef} saveItem={saveItem}/>
     </View>
   )

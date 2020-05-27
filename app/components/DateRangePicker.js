@@ -466,7 +466,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly"
   },
   selected: {
-    backgroundColor: "#0083E2",
+    backgroundColor: "#E51B23",
     height: "80%",
     borderRadius: 8
   },

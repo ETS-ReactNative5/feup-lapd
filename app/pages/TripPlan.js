@@ -11,10 +11,8 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements'
 import { Utils } from '../utils/Utils';
-
 import Background from '../components/Background';
 import TripPlanUnit from '../components/units/TripPlanUnit';
-// import SortableList from 'react-native-sortable-list';
 
 const styles = StyleSheet.create({
   container: {
@@ -94,7 +92,6 @@ const TripPlan = ({navigation}) => {
         places.forEach(place => {
           const placeJSON = JSON.parse(place[1])
           placeJSON['delete'] = handleDelete
-          // placeJSON['alert'] = true
           placesList[placeJSON.date] = [...placesList[placeJSON.date], placeJSON]
         });
         setPlacesData(placesList)
@@ -140,9 +137,10 @@ const TripPlan = ({navigation}) => {
               </View>
               <View style={styles.contentContainer}>
                 {placesData[key].length > 0 &&
-                  placesData[key].map(place => {
+                  placesData[key].map((place, index) => {
                     return (
                       <TripPlanUnit
+                        key={index}
                         name={place.name}
                         photo={place.photo}
                         alert={place.alert}

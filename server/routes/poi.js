@@ -24,8 +24,6 @@ validatePOIsRequest = (res, query) => {
     return false;
   }
 
-  // Check if city exists ?
-
   if(!/^\d+$/.test(query.offset)){
     res.status(400).send({
       message: 'Invalid offset parameter provided while searching for POIs'

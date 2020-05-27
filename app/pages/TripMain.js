@@ -1,5 +1,5 @@
 GLOBAL = require('../config/Global');
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   StyleSheet, Dimensions, View
 } from 'react-native';
@@ -21,23 +21,15 @@ const styles = StyleSheet.create({
   }
 });
 
-const TripMain = ({navigation}) => {
-
-  useEffect(() => {
-    console.log("Trip page")
-    console.log(GLOBAL.id, GLOBAL.city, GLOBAL.country, GLOBAL.startDate, GLOBAL.endDate)
-  }, []);
-
-  return (
-    <Background>
-      <View style={styles.container}>
-        <TripInfo city={GLOBAL.city} country={GLOBAL.country} date={GLOBAL.startDate === GLOBAL.endDate ? Utils.getDate(GLOBAL.startDate) : `${Utils.getDate(GLOBAL.startDate)} - ${Utils.getDate(GLOBAL.endDate)}`}/>
-        <Weather/>
-        <PlacesGroup navigation={navigation}/>
-        <MainButton text="View plan" widthRatio={0.7} handlePress={() => navigation.navigate('TripPlan')}/>
-      </View>
-    </Background>
-  )
-};
+const TripMain = ({navigation}) => (
+  <Background>
+    <View style={styles.container}>
+      <TripInfo city={GLOBAL.city} country={GLOBAL.country} date={GLOBAL.startDate === GLOBAL.endDate ? Utils.getDate(GLOBAL.startDate) : `${Utils.getDate(GLOBAL.startDate)} - ${Utils.getDate(GLOBAL.endDate)}`}/>
+      <Weather/>
+      <PlacesGroup navigation={navigation}/>
+      <MainButton text="View plan" widthRatio={0.7} handlePress={() => navigation.navigate('TripPlan')}/>
+    </View>
+  </Background>
+);
 
 export default TripMain;

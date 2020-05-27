@@ -14,7 +14,6 @@ const getRestaurantsFilename = (city, offset, sort = "", order = "") => {
   return `restaurants?${qs.stringify(data)}`
 }
 
-// This endpoint only returs 20 restaurants at a time, use offset parameter to get the next 20 restaurants
 exports.getRestaurants = async (city, offset, sort, order) => {
   filename = getRestaurantsFilename(city, offset, sort, order)
   storedResponse = dataStorage.getItem(filename)

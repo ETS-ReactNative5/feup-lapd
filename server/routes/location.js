@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 const { getLocationCity } = require("../modules/openweathermap");
 
+/* GET location page. */
 router.get("/city", async function (req, res) {
     if (!validateCityRequest(res, req.query)) return;
 

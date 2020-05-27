@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "app",
-    "slug": "app",
+    "name": "TripLap",
+    "slug": "triplap",
     "platforms": [
       "ios",
       "android",
@@ -23,6 +23,8 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "description": "Application developed in Markup Languages and Document Processing course at FEUP",
+    "githubUrl": "https://github.com/nunottlopes/feup-lapd"
   }
 }

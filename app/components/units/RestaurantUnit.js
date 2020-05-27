@@ -136,7 +136,6 @@ const RestaurantUnit = (props) => {
   const childRef = useRef();
 
   const handleRestaurantPress = () => {
-    console.log("Open restaurant details")
     setShow(true)
   }
 

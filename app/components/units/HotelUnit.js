@@ -147,7 +147,6 @@ const HotelUnit = (props) => {
   const childRef = useRef();
 
   const handleHotelPress = () => {
-    console.log("Open hotel details")
     setShow(true)
   }
 
