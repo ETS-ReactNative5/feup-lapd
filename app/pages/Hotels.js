@@ -131,6 +131,10 @@ const Hotels = () => {
                   contact={hotel.contact.phone}
                   rating={hotel.rating}
                   price={offers[0].price.total || "-"}
+                  description={hotel.description ? hotel.description.text || "No description provided..." : "No description provided..."}
+                  amenities={hotel.amenities || "No amenities provided..."}
+                  phone={hotel.contact.phone || "No phone number provided..."}
+                  email={hotel.contact.email || "No email provided..."}
                 />
               )
             })}

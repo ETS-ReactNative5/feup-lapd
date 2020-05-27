@@ -1,10 +1,11 @@
 GLOBAL = require('../../config/Global');
 import React, { useState, useEffect, useRef } from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity, TouchableHighlight, AsyncStorage} from 'react-native';
-import { Icon } from 'react-native-elements'
+import { StyleSheet, Text, View, Image, TouchableOpacity, TouchableHighlight, AsyncStorage } from 'react-native';
+import { Icon, Divider } from 'react-native-elements'
 import DatePicker from '../DatePicker';
 import { Utils } from '../../utils/Utils';
 import { ApiServices } from '../../api/ApiServices';
+import OverlayCard from '../OverlayCard';
 
 const styles = StyleSheet.create({
   container: {
@@ -82,12 +83,55 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingRight: 5,
     paddingTop: 2
-  }
+  },
+  detailsImage: {
+    width: '100%',
+    height: '30%',
+    borderRadius: 20,
+    overflow: 'hidden',
+  },
+  detailsHeader: {
+    flexDirection: 'row',
+    width: '100%',
+    marginBottom: 3,
+  },
+  detailsName: {
+    fontWeight: 'bold',
+    fontSize: 25,
+    marginRight: 2,
+    flex: 1,
+  },
+  ratingnumber: {
+    textAlign: 'left',
+    color: '#FB7E0A',
+    fontSize: 11,
+    fontWeight: "400",
+    marginRight: 3
+  },
+  detailsContent: {
+    marginTop: 5,
+    marginBottom: 5
+  },
+  detailsAddress: {
+    color: 'grey',
+    fontSize: 13
+  },
+  detailsAmenities: {
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+  },
+  detailsFooter: {
+    marginTop: 5,
+    marginBottom: 5,
+    justifyContent: 'flex-end',
+    flex: 1,
+  },
 });
 
 const HotelUnit = (props) => {
   const [selected, setSelected] = useState(false)
   const [photos, setPhotos] = useState(null)
+  const [show, setShow] = useState(false)
 
   const itemName = `${GLOBAL.id}/hotel/${props.id}`
 
@@ -95,14 +139,19 @@ const HotelUnit = (props) => {
 
   const handleHotelPress = () => {
     console.log("Open hotel details")
+    setShow(true)
   }
 
-  const getRating = () => {
+  const handleOverlay = () => {
+    setShow(!show)
+  }
+
+  const getRating = (size = 13) => {
     let stars = []
     for (let i = 0; i < parseInt(props.rating); i++) {
       stars.push(<Icon
         name={'ios-star'}
-        size={13}
+        size={size}
         color="#F1C644"
         type="ionicon"
         key={`star_${i}`}
@@ -133,7 +182,7 @@ const HotelUnit = (props) => {
   }, [])
 
   const handleSelectPress = async () => {
-    if(selected){
+    if (selected) {
       try {
         await AsyncStorage.removeItem(itemName);
         setSelected(false)
@@ -210,7 +259,59 @@ const HotelUnit = (props) => {
           </TouchableHighlight>
         </View>
       </TouchableOpacity>
-      <DatePicker ref={childRef} saveItem={saveItem}/>
+      <DatePicker ref={childRef} saveItem={saveItem} />
+      <OverlayCard width="85%" height="80%" visible={show} toogleOverlay={handleOverlay}>
+        <View style={{ height: "100%" }}>
+          <Image
+            source={photos !== null && photos.length > 0 ? { uri: photos[0].image } : require('../../assets/no_image.png')}
+            resizeMode="cover"
+            style={styles.detailsImage}
+          />
+          <View style={styles.detailsHeader}>
+            <Text style={styles.detailsName}>{props.name}</Text>
+            <View>
+              <View style={{ flexDirection: 'row' }} >
+                <Text numberOfLines={1} style={[styles.ratingnumber, { fontSize: 15 }]}>{props.rating}</Text>
+                <View style={styles.rating}>
+                  {getRating(15)}
+                </View>
+              </View>
+              <Text numberOfLines={1} style={[styles.price, { fontSize: 13 }]}>Price: {props.price}€</Text>
+            </View>
+          </View>
+          <Divider />
+          <View style={styles.detailsContent}>
+            <Text style={{ fontSize: 12 }}>{props.description}</Text>
+            <Text style={styles.detailsAddress}>{props.address}</Text>
+          </View>
+          <Divider />
+          <View style={styles.detailsAmenities}>
+            {props.amenities.map((e => (
+              <Text style={{ fontSize: 9 }}>{e}/</Text>
+            )))}
+          </View>
+          <View style={styles.detailsFooter}>
+            <Divider />
+            <Text style={{ fontSize: 9 }}>Phone number:</Text>
+            <Text style={{ fontSize: 10 }}>{props.phone}</Text>
+            <Text style={{ fontSize: 9 }}>Email:</Text>
+            <Text style={{ fontSize: 10 }}>{props.email}</Text>
+          </View>
+          {/* 
+
+          <View style={styles.detailsContent}>
+            <Text>{props.establishment} - {props.cuisines}</Text>
+            <Text style={styles.detailsAddress}>{props.address}</Text>
+          </View>
+          <View style={styles.detailsFooter}>
+            <Divider />
+            <Text style={{ fontSize: 13 }}>Phone number:</Text>
+            <Text style={{ fontSize: 10 }}>{props.phone}</Text>
+            <Text style={{ fontSize: 13 }}>Schedule:</Text>
+            <Text style={{ fontSize: 10 }}>{props.timings}</Text>
+          </View> */}
+        </View>
+      </OverlayCard>
     </View>
   )
 };
