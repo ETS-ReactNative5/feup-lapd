@@ -39,7 +39,7 @@ const getPOIs = async (city, offset, filters) => {
   const query = {
     city: city,
     offset: offset,
-    filters: filters //art&outdoor&nightlife&event
+    filters: filters      //art&outdoor&nightlife&event
   }
 
   return await axios.get(`${API_URL}/pois?${qs.stringify(query)}`);
@@ -48,12 +48,12 @@ const getPOIs = async (city, offset, filters) => {
 const getHotels = async (city, radius, ratings = "", priceRange = "", sort = "") => {
   const query = {
     city: city,
-    radius: radius // 1 - 300 (one value)
+    radius: radius        // 1 - 300 (one value)
   }
 
-  if (ratings !== "") query.ratings = ratings // 1, 2, 3, 4 or 5
-  if (priceRange !== "") query.priceRange = priceRange // min-max
-  if (sort !== "") query.sort = sort // PRICE or DISTANCE
+  if (ratings !== "") query.ratings = ratings           // 1, 2, 3, 4 or 5
+  if (priceRange !== "") query.priceRange = priceRange  // min-max
+  if (sort !== "") query.sort = sort                    // PRICE or DISTANCE
 
   return await axios.get(`${API_URL}/hotels?${qs.stringify(query)}`);
 };
@@ -88,7 +88,7 @@ const getImage = async (q) => {
     q: q
   }
 
-  return await axios.get(`${API_URL}/image/v2?${qs.stringify(query)}`);
+  return await axios.get(`${API_URL}/image?${qs.stringify(query)}`);
 }
 
 export const ApiServices = {

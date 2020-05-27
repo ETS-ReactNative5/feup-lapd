@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 const { getSerpImage } = require("../modules/serpwow");
 
-router.get("/v2/", async function (req, res) {
+router.get("/", async function (req, res) {
     if (!validateRequest(res, req.query)) return;
 
     getSerpImage(req.query.q)
