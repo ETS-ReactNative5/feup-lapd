@@ -1,6 +1,6 @@
 GLOBAL = require('../../config/Global');
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, TouchableHighlight, AsyncStorage, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, TouchableHighlight, AsyncStorage, Dimensions, ScrollView } from 'react-native';
 import { Icon, Divider } from 'react-native-elements'
 import DatePicker from '../DatePicker';
 import { Utils } from '../../utils/Utils';
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   detailsContent: {
-    marginVertical: 20,
+    marginVertical: 10,
     display: 'flex',
     flex: 1
   },
@@ -122,7 +122,8 @@ const styles = StyleSheet.create({
     paddingLeft: 7
   },
   detailsUnit: {
-    flex: 1
+    flex: 1,
+    marginVertical: 5,
   }
 });
 
@@ -268,7 +269,7 @@ const RestaurantUnit = (props) => {
         </View>
       </TouchableOpacity>
       <DatePicker ref={childRef} saveItem={saveItem} />
-      <OverlayCard width="85%" height="80%" visible={show} toogleOverlay={handleOverlay}>
+      <OverlayCard width="85%" height="70%" visible={show} toogleOverlay={handleOverlay}>
         <View style={{ height: "100%",  }}>
           <Image
             source={props.photo !== null && props.photo !== "" ? { uri: props.photo, } : require('../../assets/no_image.png')}
@@ -288,7 +289,7 @@ const RestaurantUnit = (props) => {
             </View>
           </View>
           <Divider />
-          <View style={styles.detailsContent}>
+          <ScrollView style={styles.detailsContent}>
             <View style={styles.detailsUnit}>
               <Text style={styles.detailsProperty}>Cuisine:</Text>
               <Text style={styles.detailsValue}>{props.establishment} - {props.cuisines}</Text>
@@ -305,7 +306,7 @@ const RestaurantUnit = (props) => {
               <Text style={styles.detailsProperty}>Schedule:</Text>
               <Text style={styles.detailsValue}>{props.timings}</Text>
             </View>
-          </View>
+          </ScrollView>
         </View>
       </OverlayCard>
     </View >

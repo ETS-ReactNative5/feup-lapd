@@ -126,12 +126,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     paddingBottom: 5,
-    // flex: 1,
   },
   detailsValue: {
     fontSize: 12,
     paddingLeft: 7,
-    // flex: 1,
   },
   detailsUnit: {
     flex: 1,
