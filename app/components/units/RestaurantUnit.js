@@ -1,6 +1,6 @@
 GLOBAL = require('../../config/Global');
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, TouchableHighlight, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, TouchableHighlight, AsyncStorage, Dimensions } from 'react-native';
 import { Icon, Divider } from 'react-native-elements'
 import DatePicker from '../DatePicker';
 import { Utils } from '../../utils/Utils';
@@ -92,14 +92,16 @@ const styles = StyleSheet.create({
   },
   detailsImage: {
     width: '100%',
-    height: '50%',
+    // height: '30%',
+    height: Dimensions.get("screen").height * 0.25,
     borderRadius: 20,
     overflow: 'hidden',
   },
   detailsHeader: {
     flexDirection: 'row',
     width: '100%',
-    marginBottom: 3,
+    marginBottom: 10,
+    marginTop: 10
   },
   detailsName: {
     fontWeight: 'bold',
@@ -108,19 +110,26 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   detailsContent: {
-    marginTop: 5,
-    marginBottom: 5
+    marginVertical: 20,
+    display: 'flex',
+    flex: 1
   },
   detailsAddress: {
     color: 'grey',
     fontSize: 13
   },
-  detailsFooter: {
-    marginTop: 5,
-    marginBottom: 5,
-    justifyContent: 'flex-end',
-    flex: 1,
+  detailsProperty: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    paddingBottom: 5
   },
+  detailsValue: {
+    fontSize: 12,
+    paddingLeft: 7
+  },
+  detailsUnit: {
+    flex: 1
+  }
 });
 
 const RestaurantUnit = (props) => {
@@ -266,7 +275,7 @@ const RestaurantUnit = (props) => {
       </TouchableOpacity>
       <DatePicker ref={childRef} saveItem={saveItem} />
       <OverlayCard width="85%" height="80%" visible={show} toogleOverlay={handleOverlay}>
-        <View style={{ height: "100%" }}>
+        <View style={{ height: "100%",  }}>
           <Image
             source={props.photo !== null && props.photo !== "" ? { uri: props.photo, } : require('../../assets/no_image.png')}
             resizeMode="cover"
@@ -274,27 +283,34 @@ const RestaurantUnit = (props) => {
           />
           <View style={styles.detailsHeader}>
             <Text style={styles.detailsName}>{props.name}</Text>
-            <View>
+            <View style={{justifyContent: 'center'}}>
               <View style={{ flexDirection: 'row' }} >
                 <Text numberOfLines={1} style={[styles.ratingnumber, { fontSize: 15 }]}>{props.rating}</Text>
                 <View style={styles.rating}>
                   {getRating(15)}
                 </View>
               </View>
-              <Text numberOfLines={1} style={[styles.price, { fontSize: 13 }]}>Price: {props.price}€</Text>
+              <Text numberOfLines={1} style={[styles.price, { fontSize: 13, paddingTop: 3 }]}>Price: {props.price}€</Text>
             </View>
           </View>
           <Divider />
           <View style={styles.detailsContent}>
-            <Text>{props.establishment} - {props.cuisines}</Text>
-            <Text style={styles.detailsAddress}>{props.address}</Text>
-          </View>
-          <View style={styles.detailsFooter}>
-            <Divider />
-            <Text style={{ fontSize: 13 }}>Phone number:</Text>
-            <Text style={{ fontSize: 10 }}>{props.phone}</Text>
-            <Text style={{ fontSize: 13 }}>Schedule:</Text>
-            <Text style={{ fontSize: 10 }}>{props.timings}</Text>
+            <View style={styles.detailsUnit}>
+              <Text style={styles.detailsProperty}>Cuisine:</Text>
+              <Text style={styles.detailsValue}>{props.establishment} - {props.cuisines}</Text>
+            </View>
+            <View style={styles.detailsUnit}>
+              <Text style={styles.detailsProperty}>Address:</Text>
+              <Text style={styles.detailsValue}>{props.address}</Text>
+            </View>
+            <View style={styles.detailsUnit}>
+              <Text style={styles.detailsProperty}>Phone number:</Text>
+              <Text style={styles.detailsValue}>{props.phone}</Text>
+            </View>
+            <View style={styles.detailsUnit}>
+              <Text style={styles.detailsProperty}>Schedule:</Text>
+              <Text style={styles.detailsValue}>{props.timings}</Text>
+            </View>
           </View>
         </View>
       </OverlayCard>
