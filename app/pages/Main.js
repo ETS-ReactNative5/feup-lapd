@@ -3,11 +3,10 @@ global.Buffer = Buffer;
 GLOBAL = require('../config/Global');
 import React, { useEffect, useState, useRef } from 'react';
 import {
-  Text, Image, StyleSheet, Dimensions, View, TouchableHighlight, AsyncStorage, Alert, ActivityIndicator
+  Text, Image, StyleSheet, Dimensions, View, TouchableHighlight, AsyncStorage, Alert, ActivityIndicator, Keyboard, TouchableWithoutFeedback
 } from 'react-native';
 import uuid from 'react-native-uuid';
 import  moment  from  "moment";
-// import DateRangePicker from "react-native-daterange-picker";
 import DateRangePicker from "../components/DateRangePicker";
 import SelectDate from '../components/SelectDate';
 import SelectCity from '../components/SelectCity';
@@ -21,7 +20,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     paddingHorizontal: 20,
-    display: "flex"
+    display: "flex",
   },
   plannedtrips: {
     color: 'white',
@@ -174,48 +173,53 @@ const Main = ({navigation}) => {
   }, [startDate, endDate])
 
   const openCalendar = () => {
+    Keyboard.dismiss()
     childRef.current.onOpen()
   }
 
   return (
     <Background>
-      <DateRangePicker
-        ref={childRef}
-        onChange={setDates}
-        endDate={endDate}
-        startDate={startDate}
-        displayedDate={displayedDate}
-        minDate={moment()}
-        range
-      />
-      <Image
-        source={require('../assets/logo.png')}
-        style={styles.logo}
-        resizeMode="contain"
-      />
-      <View style={styles.searchinputs}>
-        <SelectCity value={city} onChange={setCity} setCity={setCity} setLoading={setLoading} />
-        <SelectDate value={date} onChange={setDate} editable={false} flag={flag} openCalendar={openCalendar}/>
-      </View>
-      <View style={styles.buttoncontainer}>
-        <MainButton text='Search' widthRatio={0.5} handlePress={handleSearch}/>
-      </View>
-      {loading &&
-        <ActivityIndicator
-          animating = {true}
-          color = 'black'
-          size = "small"
-        />
-      }
-      <TouchableHighlight
-        onPress={() => navigation.navigate('PlannedTrips')}
-        underlayColor='transparent'
-        style={styles.plannedtripscontainer}
-      >
-        <View>
-          <Text style={styles.plannedtrips}>View planned trips</Text>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <View style={{ alignItems: 'center', justifyContent: 'center'}}>
+          <DateRangePicker
+            ref={childRef}
+            onChange={setDates}
+            endDate={endDate}
+            startDate={startDate}
+            displayedDate={displayedDate}
+            minDate={moment()}
+            range
+          />
+          <Image
+            source={require('../assets/logo.png')}
+            style={styles.logo}
+            resizeMode="contain"
+          />
+          <View style={styles.searchinputs}>
+            <SelectCity value={city} onChange={setCity} setCity={setCity} setLoading={setLoading} />
+            <SelectDate value={date} onChange={setDate} editable={false} flag={flag} openCalendar={openCalendar}/>
+          </View>
+          <View style={styles.buttoncontainer}>
+            <MainButton text='Search' widthRatio={0.5} handlePress={handleSearch}/>
+          </View>
+          {loading &&
+            <ActivityIndicator
+              animating = {true}
+              color = 'black'
+              size = "small"
+            />
+          }
+          <TouchableHighlight
+            onPress={() => navigation.navigate('PlannedTrips')}
+            underlayColor='transparent'
+            style={styles.plannedtripscontainer}
+          >
+            <View>
+              <Text style={styles.plannedtrips}>View planned trips</Text>
+            </View>
+          </TouchableHighlight>
         </View>
-      </TouchableHighlight>
+      </TouchableWithoutFeedback>
     </Background>
   )
 };
