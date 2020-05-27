@@ -30,10 +30,6 @@ module.exports = {
     url: "http://open.mapquestapi.com/geocoding/v1/address",
     key: process.env.MAPQUEST_KEY
   },
-  pixabay: {
-    url: "https://pixabay.com/api",
-    key: process.env.PIXABAY_KEY
-  },
   serpwow: {
     url: "https://api.serpwow.com/live/search",
     api_key: process.env.SERPWOW_KEY,
