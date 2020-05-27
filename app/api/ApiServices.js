@@ -1,9 +1,9 @@
 import axios from "axios";
 import qs from "qs";
 
-// const API_URL = "http://localhost:3000"
-const API_URL = "http://192.168.1.74:3000"
+const API_URL = "http://localhost:3000"
 
+// Makes an API request to fetch weather information
 const getWeather = async (city, startDate, endDate) => {
   const query = {
     city: city,
@@ -14,6 +14,7 @@ const getWeather = async (city, startDate, endDate) => {
   return await axios.get(`${API_URL}/weather?${qs.stringify(query)}`);
 };
 
+// Makes an API request to fetch restaurants information
 const getRestaurants = async (city, offset, sort = "", order = "") => {
   const query = {
     city: city,
@@ -26,6 +27,7 @@ const getRestaurants = async (city, offset, sort = "", order = "") => {
   return await axios.get(`${API_URL}/restaurants?${qs.stringify(query)}`);
 }
 
+// Makes an API request to fetch shops information
 const getShops = async (city, offset) => {
   const query = {
     city: city,
@@ -35,6 +37,7 @@ const getShops = async (city, offset) => {
   return await axios.get(`${API_URL}/shops?${qs.stringify(query)}`);
 };
 
+// Makes an API request to fetch points of interest information
 const getPOIs = async (city, offset, filters) => {
   const query = {
     city: city,
@@ -45,6 +48,7 @@ const getPOIs = async (city, offset, filters) => {
   return await axios.get(`${API_URL}/pois?${qs.stringify(query)}`);
 };
 
+// Makes an API request to fetch hotels information
 const getHotels = async (city, radius, ratings = "", priceRange = "", sort = "") => {
   const query = {
     city: city,
@@ -58,6 +62,7 @@ const getHotels = async (city, radius, ratings = "", priceRange = "", sort = "")
   return await axios.get(`${API_URL}/hotels?${qs.stringify(query)}`);
 };
 
+// Makes an API request to fetch location by city name information
 const getLocation = async (city) => {
   const query = {
     city: city
@@ -66,6 +71,7 @@ const getLocation = async (city) => {
   return await axios.get(`${API_URL}/location/city?${qs.stringify(query)}`);
 }
 
+// Makes an API request to fetch location by coordinates information
 const getLocationByCoordinates = async (lat, long) => {
   const query = {
     lat: lat,
@@ -75,14 +81,7 @@ const getLocationByCoordinates = async (lat, long) => {
   return await axios.get(`${API_URL}/location/latlon?${qs.stringify(query)}`);
 }
 
-const getCityPhoto = async (city) => {
-  const query = {
-    q: city
-  }
-
-  return await axios.get(`${API_URL}/image?${qs.stringify(query)}`);
-}
-
+// Makes an API request to fetch a image by providing a query information
 const getImage = async (q) => {
   const query = {
     q: q
@@ -99,6 +98,5 @@ export const ApiServices = {
   getHotels,
   getLocation,
   getLocationByCoordinates,
-  getCityPhoto,
   getImage
 };
