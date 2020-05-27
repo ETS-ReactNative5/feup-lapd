@@ -5,9 +5,6 @@ import {
   StyleSheet,
   Dimensions,
   View,
-  Animated,
-  Easing,
-  Platform,
   TouchableHighlight,
   ScrollView,
   AsyncStorage
@@ -17,7 +14,7 @@ import { Utils } from '../utils/Utils';
 
 import Background from '../components/Background';
 import TripPlanUnit from '../components/units/TripPlanUnit';
-import SortableList from 'react-native-sortable-list';
+// import SortableList from 'react-native-sortable-list';
 
 const styles = StyleSheet.create({
   container: {
@@ -52,21 +49,6 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingHorizontal: 20
   },
-  row: {
-    ...Platform.select({
-      ios: {
-        shadowColor: 'rgba(0,0,0,0.2)',
-        shadowOpacity: 1,
-        shadowOffset: {height: 2, width: 2},
-        shadowRadius: 2,
-      },
-
-      android: {
-        elevation: 0,
-        marginHorizontal: 30,
-      },
-    })
-  },
   scrollview: {
     flexGrow: 1
   },
@@ -87,67 +69,9 @@ const styles = StyleSheet.create({
   }
 });
 
-const Row = (props) => {
-
-  const _active = new Animated.Value(0);
-
-  const _style = {
-    ...Platform.select({
-      ios: {
-        transform: [{
-          scale: _active.interpolate({
-            inputRange: [0, 1],
-            outputRange: [1, 1.1],
-          }),
-        }],
-        shadowRadius: _active.interpolate({
-          inputRange: [0, 1],
-          outputRange: [2, 10],
-        }),
-      },
-      android: {
-        transform: [{
-          scale: _active.interpolate({
-            inputRange: [0, 1],
-            outputRange: [1, 1.07],
-          }),
-        }],
-        elevation: _active.interpolate({
-          inputRange: [0, 1],
-          outputRange: [2, 6],
-        }),
-      },
-    })
-  };
-
-  useEffect(() => {
-    Animated.timing(_active, {
-      duration: 300,
-      easing: Easing.bounce,
-      toValue: Number(props.active),
-    }).start();
-  }, [props])
-
-  return (
-    <Animated.View style={[
-      styles.row,
-      _style,
-    ]}>
-        <TripPlanUnit
-          name={props.data.name}
-          photo={props.data.photo}
-          alert={props.data.alert}
-          itemName={props.data.itemName}
-          delete={props.data.delete}
-        />
-    </Animated.View>
-  );
-}
-
 const TripPlan = ({navigation}) => {
 
   const [placesData, setPlacesData] = useState(null)
-  const [scroll, setScroll] = useState(true);
   const [update, setUpdate] = useState(false);
 
   const handleDelete = () => {
@@ -166,13 +90,13 @@ const TripPlan = ({navigation}) => {
 
         let placesList = Utils.getPlanDates(new Date(GLOBAL.startDate), new Date(GLOBAL.endDate))
         const places = await AsyncStorage.multiGet(tripKeys);
+        places.sort((a, b) => (JSON.parse(a[1]).addedAt < JSON.parse(b[1]).addedAt) ? -1 : 1)
         places.forEach(place => {
           const placeJSON = JSON.parse(place[1])
           placeJSON['delete'] = handleDelete
           // placeJSON['alert'] = true
           placesList[placeJSON.date] = [...placesList[placeJSON.date], placeJSON]
         });
-
         setPlacesData(placesList)
       } catch (error) {
         console.error(error)
@@ -180,18 +104,11 @@ const TripPlan = ({navigation}) => {
     }
 
     getAllPlaces()
-
   }, [update]);
-
-  const _renderRow = ({data, active}) => {
-    return <Row data={data} active={active} />
-  }
 
   const handleMapPress = (places) => {
     navigation.navigate('TripMap', {places: places})
   }
-
-  // TODO: Save order of plans for each day
 
   return (
     <Background>
@@ -199,7 +116,7 @@ const TripPlan = ({navigation}) => {
         <View style={styles.titlecontainer}>
           <Text style={styles.title}>Trip Plan</Text>
         </View>
-        <ScrollView contentContainerStyle={styles.scrollview} scrollEnabled={scroll}>
+        <ScrollView contentContainerStyle={styles.scrollview} >
           {placesData !== null && Object.keys(placesData).map(key => {
             return(
             <>
@@ -221,16 +138,21 @@ const TripPlan = ({navigation}) => {
                   </TouchableHighlight>
                 }
               </View>
-              {placesData[key].length > 0 &&
-                <SortableList
-                  contentContainerStyle={styles.contentContainer}
-                  data={placesData[key]}
-                  renderRow={_renderRow}
-                  onActivateRow={() => setScroll(false)}
-                  onReleaseRow={() => setScroll(true)}
-                  onChangeOrder={(order) => {console.log(order)}}
-                />
-              }
+              <View style={styles.contentContainer}>
+                {placesData[key].length > 0 &&
+                  placesData[key].map(place => {
+                    return (
+                      <TripPlanUnit
+                        name={place.name}
+                        photo={place.photo}
+                        alert={place.alert}
+                        itemName={place.itemName}
+                        delete={place.delete}
+                      />
+                    )
+                  })
+                }
+              </View>
               {placesData[key].length === 0 &&
                 <View style={styles.noplanview}>
                   <Text style={styles.noplan}>No plans for this day</Text>

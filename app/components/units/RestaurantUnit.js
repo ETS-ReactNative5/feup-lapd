@@ -211,7 +211,8 @@ const RestaurantUnit = (props) => {
         itemName: itemName,
         date: Utils.formatDate(selectedDate),
         lat: props.lat,
-        long: props.long
+        long: props.long,
+        addedAt: new Date()
       }));
       setSelected(true)
     } catch (error) {

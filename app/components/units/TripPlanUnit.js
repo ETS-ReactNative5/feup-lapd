@@ -95,7 +95,7 @@ const TripPlanUnit = (props) => {
     <View style={styles.container}>
       <View style={styles.button}>
         <Image
-          source={props.photo !== null ? { uri: props.photo, }: require('../../assets/no_image.png')}
+          source={props.photo !== null ? { uri: props.photo, } : require('../../assets/no_image.png')}
           resizeMode="cover"
           style={styles.photo}
         />

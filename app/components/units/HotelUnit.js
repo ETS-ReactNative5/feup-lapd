@@ -206,12 +206,13 @@ const HotelUnit = (props) => {
   const saveItem = async (selectedDate) => {
     try {
       await AsyncStorage.setItem(itemName, JSON.stringify({
-        photo: props.photo,
+        photo: photos !== null && photos.length > 0 ? photos[0].image : null,
         name: props.name,
         itemName: itemName,
         date: Utils.formatDate(selectedDate),
         lat: props.lat,
-        long: props.long
+        long: props.long,
+        addedAt: new Date()
       }));
       setSelected(true)
     } catch (error) {
