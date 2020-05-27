@@ -3,6 +3,7 @@ const qs = require('querystring');
 var openweathermap = require("../config/config.js").openweathermap;
 var { getCountryName } = require("../utils/utils");
 
+// Make request to OpenWeatherMap API for forecast and return response
 exports.getForecast = async (city) => {
   const data = {
     q: city,
@@ -13,6 +14,7 @@ exports.getForecast = async (city) => {
   return await axios.get(`${openweathermap.url}/forecast?${qs.stringify(data)}`)
 }
 
+// Make request to OpenWeatherMap API for locations and return response
 exports.getLocationCity = async (city) => {
   const data = {
     q: city,

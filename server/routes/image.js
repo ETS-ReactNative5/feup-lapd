@@ -19,7 +19,7 @@ router.get("/", async function (req, res) {
         })
 });
 
-
+// Validate get images request
 validateRequest = (res, query) => {
     if (query.q === undefined) {
         res.status(400).send({

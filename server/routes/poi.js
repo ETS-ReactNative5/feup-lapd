@@ -16,6 +16,7 @@ router.get("/", async function(req, res) {
     })
 });
 
+// Validate get points of interest request
 validatePOIsRequest = (res, query) => {
   if(query.city === undefined || query.offset === undefined){
     res.status(400).send({

@@ -7,6 +7,7 @@ const limit = 50;         //max limit value
 const v = 20190425;       //hardcoded value present in Foursquare documentation
 const number_items = 20;  //number of item each request returns
 
+// Get data to be requested to Foursquare API
 const getRequestData = (city, category_id) => {
   return {
     client_id: foursquare.client_id,
@@ -19,6 +20,7 @@ const getRequestData = (city, category_id) => {
   }
 }
 
+// Get filename of request saved in local storage
 const getFilename = (type, city, offset, filters = "") => {
   const data = {
     city: city,
@@ -29,6 +31,7 @@ const getFilename = (type, city, offset, filters = "") => {
   return `${type}?${qs.stringify(data)}`
 }
 
+// Make request to Foursquare API to get a photo for a venue
 const getPhoto = async (venue_id) => {
   const data = {
     client_id: foursquare.client_id,
@@ -51,6 +54,7 @@ const getPhoto = async (venue_id) => {
   return null
 }
 
+// Make request to Foursquare API for shops and return response
 exports.getShops = async (city, offset) => {
   filename = getFilename('shops', city, offset)
   storedResponse = dataStorage.getItem(filename)
@@ -86,6 +90,7 @@ exports.getShops = async (city, offset) => {
   }
 }
 
+// Make request to Foursquare API for points of interest and return response
 exports.getPOIs = async (city, offset, filters) => {
   filename = getFilename('pois', city, offset, filters)
   storedResponse = dataStorage.getItem(filename)

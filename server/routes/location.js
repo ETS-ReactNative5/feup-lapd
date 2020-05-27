@@ -19,6 +19,7 @@ router.get("/city", async function (req, res) {
         })
 });
 
+// Validate get location request
 validateCityRequest = (res, query) => {
     if (query.city === undefined) {
         res.status(400).send({

@@ -3,6 +3,7 @@ const qs = require('querystring');
 var zomato = require("../config/config.js").zomato;
 var dataStorage = require("../utils/data_storage");
 
+// Get filename of request saved in local storage
 const getRestaurantsFilename = (city, offset, sort = "", order = "") => {
   const data = {
     city: city,
@@ -14,6 +15,7 @@ const getRestaurantsFilename = (city, offset, sort = "", order = "") => {
   return `restaurants?${qs.stringify(data)}`
 }
 
+// Make request to Zomato API and return response
 exports.getRestaurants = async (city, offset, sort, order) => {
   filename = getRestaurantsFilename(city, offset, sort, order)
   storedResponse = dataStorage.getItem(filename)

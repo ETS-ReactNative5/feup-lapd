@@ -3,6 +3,7 @@ const qs = require('querystring');
 var serpwow = require("../config/config.js").serpwow;
 var dataStorage = require("../utils/data_storage");
 
+// Get filename of request saved in local storage
 const getFilename = (place_image) => {
   	const data = {
   		place_image: place_image
@@ -11,7 +12,7 @@ const getFilename = (place_image) => {
   	return `images?${qs.stringify(data)}`
 }
 
-
+// Make request to SerpWow API and return response
 exports.getSerpImage = async (q) => {
 	filename = getFilename(q)
 	storedResponse = dataStorage.getItem(filename)

@@ -31,6 +31,7 @@ router.get("/", async function(req, res) {
     })
 });
 
+// Validate get hotels request
 validateHotelsRequest = (res, query) => {
   if(query.city === undefined || query.radius === undefined){
     res.status(400).send({

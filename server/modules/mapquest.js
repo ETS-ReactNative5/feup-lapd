@@ -2,6 +2,7 @@ const axios = require('axios')
 const qs = require('querystring');
 var mapquest = require("../config/config.js").mapquest;
 
+// Make request to MapQuest API and return response
 exports.getLatLon = async (location) => {
   const data = {
     location: location,

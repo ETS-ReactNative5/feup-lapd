@@ -20,6 +20,7 @@ router.get("/", async function(req, res) {
     })
 });
 
+// Validate get restaurants request
 validateRestaurantsRequest = (res, query) => {
   if(query.city === undefined || query.offset === undefined){
     res.status(400).send({

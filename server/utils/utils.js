@@ -246,6 +246,7 @@ const isoCountries = {
     'ZW': 'Zimbabwe'
 };
 
+// Get country name from country code
 exports.getCountryName = (countryCode) => {
     if (isoCountries.hasOwnProperty(countryCode)) {
         return isoCountries[countryCode];

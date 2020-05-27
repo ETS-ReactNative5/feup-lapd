@@ -4,6 +4,7 @@ var tokenStorage = require("../utils/token_storage");
 var dataStorage = require("../utils/data_storage");
 var amadeus = require("../config/config.js").amadeus;
 
+// Fetch Amadeu API token
 const fetchToken = async () => {
   const requestBody = {
     grant_type: amadeus.grant_type,
@@ -26,11 +27,13 @@ const fetchToken = async () => {
     })
 };
 
+// Saves Amadeus API token in local storage
 const setToken = res => {
   tokenStorage.setItem("amadeus_token", res.token_type + " " + res.access_token);
   tokenStorage.setItem("amadeus_token_expires", new Date().getTime() + parseInt(res.expires_in) * 1000);
 };
 
+// Get Amadeus API token from local storage
 const getToken = async () => {
   if (tokenStorage.length === 0 || new Date(parseInt(tokenStorage.getItem("amadeus_token_expires"))) <= new Date()){
     await fetchToken();
@@ -39,6 +42,7 @@ const getToken = async () => {
   return tokenStorage.getItem("amadeus_token");
 };
 
+// Get filename of request saved in local storage
 const getFilename = (latitude, longitude, radius, sort = "", ratings = "", priceRange = "") => {
   const data = {
     latitude: latitude,
@@ -52,6 +56,7 @@ const getFilename = (latitude, longitude, radius, sort = "", ratings = "", price
   return `hotels?${qs.stringify(data)}`
 }
 
+// Make request to Amadeus API and return response
 exports.getHotels = async (latitude, longitude, radius, sort, ratings, priceRange) => {
   filename = getFilename(latitude, longitude, radius, sort, ratings, priceRange)
   storedResponse = dataStorage.getItem(filename)

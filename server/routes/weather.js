@@ -58,6 +58,7 @@ router.get("/", async function(req, res) {
     })
 });
 
+// Validate get weather request
 validateWeatherRequest = (res, query) => {
   if(query.city === undefined){
     res.status(400).send({
