@@ -78,9 +78,6 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingTop: 20,
   },
-  list: {
-    flexGrow: 1,
-  },
   noplan: {
     fontWeight: 'bold',
   },
@@ -89,23 +86,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   }
 });
-
-// const data = {
-//   0: {
-//     photo: 'https://www.vilagale.com/media/1231487/slider_vgportoribeira.jpg?quality=89',
-//     name: 'Ribeira',
-//     alert: true
-//   },
-//   1: {
-//     photo: 'https://media-manager.noticiasaominuto.com/1920/naom_5b9bc00a43bfc.jpg',
-//     name: 'Avenida dos Aliados',
-//   },
-//   2: {
-//     photo: 'https://www.comerciocomhistoria.gov.pt/wp-content/uploads/import/listings/3351_imagem2.jpg',
-//     name: 'Livraria Lello',
-//     alert: true
-//   }
-// };
 
 const Row = (props) => {
 
@@ -189,6 +169,7 @@ const TripPlan = ({navigation}) => {
         places.forEach(place => {
           const placeJSON = JSON.parse(place[1])
           placeJSON['delete'] = handleDelete
+          // placeJSON['alert'] = true
           placesList[placeJSON.date] = [...placesList[placeJSON.date], placeJSON]
         });
 
@@ -242,12 +223,12 @@ const TripPlan = ({navigation}) => {
               </View>
               {placesData[key].length > 0 &&
                 <SortableList
-                  style={styles.list}
                   contentContainerStyle={styles.contentContainer}
                   data={placesData[key]}
                   renderRow={_renderRow}
                   onActivateRow={() => setScroll(false)}
                   onReleaseRow={() => setScroll(true)}
+                  onChangeOrder={(order) => {console.log(order)}}
                 />
               }
               {placesData[key].length === 0 &&

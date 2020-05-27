@@ -73,7 +73,7 @@ const Hotels = () => {
   }
 
   useEffect(() => {
-    ApiServices.getHotels(GLOBAL.city, radius).then((response) => {
+    ApiServices.getHotels(GLOBAL.city, radius, ratings, priceRange, sort).then((response) => {
       setHotels(response.data.data)
     }).catch((error) => {
       setHotels([])
