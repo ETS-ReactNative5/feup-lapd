@@ -1,7 +1,7 @@
 GLOBAL = require('../../config/Global');
 import React, { useState, useEffect, useRef } from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity, TouchableHighlight, AsyncStorage} from 'react-native';
-import { Icon } from 'react-native-elements'
+import { StyleSheet, Text, View, Image, TouchableOpacity, TouchableHighlight, AsyncStorage } from 'react-native';
+import { Icon, Divider } from 'react-native-elements'
 import DatePicker from '../DatePicker';
 import { Utils } from '../../utils/Utils';
 import OverlayCard from '../OverlayCard';
@@ -89,7 +89,38 @@ const styles = StyleSheet.create({
     color: '#FB7E0A',
     fontSize: 11,
     fontWeight: "400",
-  }
+  },
+  detailsImage: {
+    width: '100%',
+    height: '50%',
+    borderRadius: 20,
+    overflow: 'hidden',
+  },
+  detailsHeader: {
+    flexDirection: 'row',
+    width: '100%',
+    marginBottom: 3,
+  },
+  detailsName: {
+    fontWeight: 'bold',
+    fontSize: 25,
+    marginRight: 2,
+    flex: 1,
+  },
+  detailsContent: {
+    marginTop: 5,
+    marginBottom: 5
+  },
+  detailsAddress: {
+    color: 'grey',
+    fontSize: 13
+  },
+  detailsFooter: {
+    marginTop: 5,
+    marginBottom: 5,
+    justifyContent: 'flex-end',
+    flex: 1,
+  },
 });
 
 const RestaurantUnit = (props) => {
@@ -109,21 +140,21 @@ const RestaurantUnit = (props) => {
     setShow(!show)
   }
 
-  const getRating = () => {
+  const getRating = (size = 13) => {
     let stars = []
     for (let i = 1; i < 6; i++) {
-      if(i <= Math.floor(props.rating)){
+      if (i <= Math.floor(props.rating)) {
         stars.push(<Icon
           name={'ios-star'}
-          size={13}
+          size={size}
           color="#F1C644"
           type="ionicon"
           key={`star_${i}`}
         />)
-      } else if((parseFloat(props.rating)-i) >= -0.5){
+      } else if ((parseFloat(props.rating) - i) >= -0.5) {
         stars.push(<Icon
           name={'ios-star-half'}
-          size={13}
+          size={size}
           color="#F1C644"
           type="ionicon"
           key={`star_${i}`}
@@ -131,7 +162,7 @@ const RestaurantUnit = (props) => {
       } else {
         stars.push(<Icon
           name={'ios-star-outline'}
-          size={13}
+          size={size}
           color="#F1C644"
           type="ionicon"
           key={`star_${i}`}
@@ -156,7 +187,7 @@ const RestaurantUnit = (props) => {
   }, [])
 
   const handleSelectPress = async () => {
-    if(selected){
+    if (selected) {
       try {
         await AsyncStorage.removeItem(itemName);
         setSelected(false)
@@ -188,7 +219,7 @@ const RestaurantUnit = (props) => {
     <View style={styles.container}>
       <TouchableOpacity style={styles.button} activeOpacity={0.8} onPress={handleRestaurantPress}>
         <Image
-          source={props.photo !== null && props.photo !== "" ? { uri: props.photo, }: require('../../assets/no_image.png')}
+          source={props.photo !== null && props.photo !== "" ? { uri: props.photo, } : require('../../assets/no_image.png')}
           resizeMode="cover"
           style={styles.photo}
         />
@@ -209,35 +240,65 @@ const RestaurantUnit = (props) => {
           <TouchableHighlight
             onPress={handleSelectPress}
             underlayColor='transparent'
-            >
-              <View>
-                {!selected &&
-                  <Icon
-                    iconStyle={styles.icon}
-                    name="plus"
-                    size={25}
-                    color="#BD0B0B"
-                    type="evilicon"
-                  />
-                }
-                {selected &&
-                  <Icon
-                    iconStyle={styles.icon}
-                    name="check"
-                    size={25}
-                    color="#2FA511"
-                    type="evilicon"
-                  />
-                }
-              </View>
+          >
+            <View>
+              {!selected &&
+                <Icon
+                  iconStyle={styles.icon}
+                  name="plus"
+                  size={25}
+                  color="#BD0B0B"
+                  type="evilicon"
+                />
+              }
+              {selected &&
+                <Icon
+                  iconStyle={styles.icon}
+                  name="check"
+                  size={25}
+                  color="#2FA511"
+                  type="evilicon"
+                />
+              }
+            </View>
           </TouchableHighlight>
         </View>
       </TouchableOpacity>
-      <DatePicker ref={childRef} saveItem={saveItem}/>
-      <OverlayCard width="85%" height="60%" visible={show} toogleOverlay={handleOverlay}>
-        <Text>Hello from Overlay2!</Text>
+      <DatePicker ref={childRef} saveItem={saveItem} />
+      <OverlayCard width="85%" height="80%" visible={show} toogleOverlay={handleOverlay}>
+        <View style={{ height: "100%" }}>
+          <Image
+            source={props.photo !== null && props.photo !== "" ? { uri: props.photo, } : require('../../assets/no_image.png')}
+            resizeMode="cover"
+            style={styles.detailsImage}
+          />
+          <View style={styles.detailsHeader}>
+            <Text style={styles.detailsName}>{props.name}</Text>
+            <View>
+              <View style={{ flexDirection: 'row' }} >
+                <Text numberOfLines={1} style={[styles.ratingnumber, { fontSize: 15 }]}>{props.rating}</Text>
+                <View style={styles.rating}>
+                  {getRating(15)}
+                </View>
+              </View>
+              <Text numberOfLines={1} style={[styles.price, { fontSize: 13 }]}>Price: {props.price}€</Text>
+            </View>
+          </View>
+          <Divider />
+          <View style={styles.detailsContent}>
+            <Text>{props.establishment} - {props.cuisines}</Text>
+            <Text style={styles.detailsAddress}>{props.address}</Text>
+          </View>
+          <View style={styles.detailsFooter}>
+            <Divider />
+            <Text style={{ fontSize: 13 }}>Phone number:</Text>
+            <Text style={{ fontSize: 10 }}>{props.phone}</Text>
+            <Text style={{ fontSize: 13 }}>Schedule:</Text>
+            <Text style={{ fontSize: 10 }}>{props.timings}</Text>
+          </View>
+        </View>
       </OverlayCard>
-    </View>
+    </View >
   )
 };
 

@@ -158,6 +158,10 @@ const Restaurants = () => {
                   photo={restaurant.thumb}
                   lat={parseFloat(restaurant.location.latitude)}
                   long={parseFloat(restaurant.location.longitude)}
+                  establishment={restaurant.establishment}
+                  cuisines={restaurant.cuisines}
+                  timings={restaurant.timings}
+                  phone={restaurant.phone_numbers}
                 />
               )
             })}
